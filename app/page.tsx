@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const CSCTravelsLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,18 +36,33 @@ const CSCTravelsLanding = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    setFormStatus('sending');
-    
-    // EmailJS integration would go here
-    // For now, simulating submission
-    setTimeout(() => {
-      setFormStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setTimeout(() => setFormStatus(''), 3000);
-    }, 1500);
-  };
+  const handleSubmit = async (e: any) => {
+  e.preventDefault();
+  setFormStatus('sending');
+
+  try {
+    const result = await emailjs.send(
+      process.env.SERVICE_ID!,
+      process.env.TEMPLATE_ID!,
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      },
+      process.env.YOUR_PUBLIC_KEY
+    );
+
+    console.log(result.text);
+    setFormStatus('success');
+    setFormData({ name: '', email: '', phone: '', message: '' });
+
+    setTimeout(() => setFormStatus(''), 3000);
+  } catch (error) {
+    console.error('EmailJS Error:', error);
+    setFormStatus('error');
+  }
+};
 
   const cars = [
     { name: 'Hyundai Aura', type: 'Sedan', seats: '4+1' },
