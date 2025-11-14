@@ -179,7 +179,7 @@ const CSCTravelsLanding = () => {
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-3 animate-fade-left">
               <div className="w-14 h-14  rounded-full overflow-hidden">
-                <Image src="/logo.jpg" alt="CSC Travels Logo" width={100} height={100} className="w-full h-full object-cover" />
+                <Image src="/logo2.jpg" alt="CSC Travels Logo" width={100} height={100} className="w-full h-full object-cover" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold gradient-text">CSC Travels</h1>
@@ -629,7 +629,7 @@ const CSCTravelsLanding = () => {
             <div className="animate-on-scroll">
               <div className="flex items-center space-x-3 mb-4">
                  <div className="w-14 h-14  rounded-full overflow-hidden">
-                <Image src="/logo.jpg" alt="CSC Travels Logo" width={100} height={100} className="w-full h-full object-cover" />
+                <Image src="/logo2.jpg" alt="CSC Travels Logo" width={100} height={100} className="w-full h-full object-cover" />
               </div>
                 <h3 className="text-xl font-bold">CSC Travels</h3>
               </div>
