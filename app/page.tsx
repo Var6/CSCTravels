@@ -1,8 +1,10 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, JSX } from 'react';
 import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
+import Link from 'next/link';
+import Floating from '@/components/floating';
 
 const CSCTravelsLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,9 +77,9 @@ const CSCTravelsLanding = () => {
   };
 
   const vehicles = [
-    { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='aura car' height={100} width={100} />, desc: 'Premium sedans for comfortable rides', seats: '4+1', color: 'from-blue-500 to-blue-600' },
+    { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='aura car' height={100} width={100} />, desc: 'Premium sedans for comfortable rides', seats: '4+1', color: 'from-orange-500 to-orange-600' },
     { name: 'AC Buses', icon: <Image src='/bus.png' alt='aura car' height={100} width={100} />, desc: 'Spacious buses for group travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
-    { name: 'Travelers', icon: <Image src='/new.png' alt='aura car' height={100} width={100} />, desc: 'Perfect for family trips', seats: '8-14', color: 'from-blue-600 to-orange-500' },
+    { name: 'Travelers', icon: <Image src='/new.png' alt='aura car' height={100} width={100} />, desc: 'Perfect for family trips', seats: '8-14', color: 'from-orange-600 to-orange-500' },
   ];
 
   const services = [
@@ -141,14 +143,26 @@ const CSCTravelsLanding = () => {
         .animate-scale { animation: scaleIn 0.6s ease-out forwards; opacity: 0; }
         .animate-float { animation: float 6s ease-in-out infinite; }
         .gradient-text { 
-          background: linear-gradient(135deg, #3b82f6 0%, #f97316 100%); 
-          -webkit-background-clip: text; 
-          -webkit-text-fill-color: transparent; 
-          background-clip: text; 
-        }
-        .gradient-bg { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #f97316 100%); }
+            background: linear-gradient(
+            135deg,
+            #ff7a18 0%,
+            #ff5f03 50%,
+            #ff3b00 100%
+      );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+}
+        .gradient-bg { background: linear-gradient(
+            135deg, 
+            #ffb144 0%,
+            #ff8603 50%,
+            #cd6c02 100% 
+            ); }
         .gradient-hover { 
-          background: linear-gradient(135deg, #3b82f6 0%, #f97316 100%); 
+          background: linear-gradient(
+            #ff8603 0%,
+            #cd6c02 100% ); 
           background-size: 200% 200%;
           transition: all 0.3s ease;
         }
@@ -189,29 +203,30 @@ const CSCTravelsLanding = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-blue-600 transition-all font-medium relative group">
+              <a href="#home" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
                 Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href="#services" className="text-gray-700 hover:text-blue-600 transition-all font-medium relative group">
+              <a href="#services" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
                 Services
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href="#fleet" className="text-gray-700 hover:text-blue-600 transition-all font-medium relative group">
+              <a href="#fleet" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
                 Fleet
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-all font-medium relative group">
+              <a href="#contact" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
                 Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
               <a href="tel:+919873101537" className="gradient-hover text-white px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-2xl">
                 Book Now
               </a>
+            <span><a href='https://citizencooperative.in/' target="_blank" > <Image alt='citizen logo' src="/Citilogo.png" width={50} height={40}></Image></a> </span>
             </div>
 
             {/* Mobile Menu Button */}
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-gray-700 hover:text-blue-600 transition">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-gray-700 hover:text-orange-600 transition">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
@@ -221,10 +236,10 @@ const CSCTravelsLanding = () => {
         {isMenuOpen && (
           <div className="md:hidden glass-effect border-t animate-in">
             <div className="px-4 py-4 space-y-3">
-              <a href="#home" className="block py-2 text-gray-700 hover:text-blue-600 hover:translate-x-2 transition-all">Home</a>
-              <a href="#services" className="block py-2 text-gray-700 hover:text-blue-600 hover:translate-x-2 transition-all">Services</a>
-              <a href="#fleet" className="block py-2 text-gray-700 hover:text-blue-600 hover:translate-x-2 transition-all">Fleet</a>
-              <a href="#contact" className="block py-2 text-gray-700 hover:text-blue-600 hover:translate-x-2 transition-all">Contact</a>
+              <a href="#home" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Home</a>
+              <a href="#services" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Services</a>
+              <a href="#fleet" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Fleet</a>
+              <a href="#contact" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Contact</a>
               <a href="tel:+919873101537" className="block gradient-bg text-white px-6 py-3 rounded-full text-center font-medium shadow-lg">
                 Book Now
               </a>
@@ -234,18 +249,18 @@ const CSCTravelsLanding = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-orange-50">
+      <section id="home" className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50">
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '4s'}}></div>
+          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="animate-on-scroll animate-fade-left">
-                <span className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                <span className="inline-block bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
                   🚗 Premium Travel Partner in Patna
                 </span>
               </div>
@@ -266,7 +281,7 @@ const CSCTravelsLanding = () => {
                   Get Started
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <a href="tel:+919873101537" className="bg-white border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 shadow-lg transition-all flex items-center group">
+                <a href="tel:+919873101537" className="bg-white border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 shadow-lg transition-all flex items-center group">
                   <Phone className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                   Call Now
                 </a>
@@ -275,7 +290,7 @@ const CSCTravelsLanding = () => {
               <div className="flex items-center gap-8 pt-4 animate-on-scroll animate-fade-left delay-4">
                 <div className="flex -space-x-2">
                   {[1,2,3,4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-orange-400 border-2 border-white"></div>
+                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-400 border-2 border-white"></div>
                   ))}
                 </div>
                 <div>
@@ -295,6 +310,7 @@ const CSCTravelsLanding = () => {
                     <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" style={{stopColor: '#3b82f6'}} />
                       <stop offset="100%" style={{stopColor: '#f97316'}} />
+
                     </linearGradient>
                     <filter id="shadow">
                       <feDropShadow dx="0" dy="10" stdDeviation="15" floodColor="#3b82f6" floodOpacity="0.3"/>
@@ -321,32 +337,29 @@ const CSCTravelsLanding = () => {
                   <rect x="410" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
                 </svg>
               </div>
+              </div>
               
               {/* Floating badges */}
-              <div className="absolute top-10 -left-4 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">100% Safe</p>
-                    <p className="text-xs text-gray-600">GPS Tracked</p>
-                  </div>
-                </div>
+              <div>
+
+              <div className="fixed z-1 bottom-100 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '2s'}}>
+               <Floating icon={ <Clock className="w-6 h-6 text-orange-600" />} text1="24/7 Service" text2="Always Available" />
+              </div>
+
+              <div className="fixed z-1 bottom-75 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
+               <Floating icon={<Shield className="w-6 h-6 text-orange-600" />} text1="100% Safe & Secure" text2="Safest" />
+              </div>
+                <div className="fixed z-1 bottom-75 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
+               <Floating icon={<MapPin className="w-6 h-6 text-orange-600" />} text1="100% Safe & Secure" text2="Safest" />
               </div>
               
-              <div className="absolute bottom-10 -right-4 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '2s'}}>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-orange-600" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">24/7 Service</p>
-                    <p className="text-xs text-gray-600">Always Available</p>
-                  </div>
-                </div>
+              
+
+
+
+
               </div>
-            </div>
+           
           </div>
         </div>
       </section>
@@ -370,10 +383,10 @@ const CSCTravelsLanding = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-24 bg-gradient-to-b from-white to-blue-50">
+      <section id="services" className="py-24 bg-gradient-to-b from-white to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-on-scroll">
-            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">Our Services</span>
+            <span className="text-orange-600 font-semibold text-sm uppercase tracking-wider">Our Services</span>
             <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4">
              <span className='text-outline'>Choose Your
               </span>  <span className="gradient-text">Perfect Ride</span>
@@ -387,13 +400,13 @@ const CSCTravelsLanding = () => {
             {services.map((service, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-blue-200"
+                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
                 <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">{service.title}</h3>
                 <p className="text-gray-600 mb-6">{service.desc}</p>
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
@@ -427,17 +440,17 @@ const CSCTravelsLanding = () => {
             {vehicles.map((vehicle, idx) => (
               <div 
                 key={idx} 
-                className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-blue-100"
+                className="bg-gradient-to-br from-white to-orange-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
                 style={{animationDelay: `${idx * 0.15}s`}}
               >
                 <div className={`w-full h-48 bg-gradient-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg`}>
                   {vehicle.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-2 group-hover:text-blue-600 text-orange-500 transition-colors">{vehicle.name}</h3>
+                <h3 className="text-2xl font-bold mb-2 group-hover:text-orange-600 text-orange-500 transition-colors">{vehicle.name}</h3>
                 <p className="text-gray-600 mb-4">{vehicle.desc}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   <span className="text-sm text-gray-500">Capacity</span>
-                  <span className="font-semibold text-blue-600">{vehicle.seats} Seats</span>
+                  <span className="font-semibold text-orange-600">{vehicle.seats} Seats</span>
                 </div>
               </div>
             ))}
@@ -448,7 +461,7 @@ const CSCTravelsLanding = () => {
             {features.map((feature, idx) => (
               <div 
                 key={idx} 
-                className="text-center p-6 bg-gradient-to-br from-blue-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
+                className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
                 style={{animationDelay: `${idx * 0.1}s`}}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 gradient-bg rounded-2xl text-white mb-4">
@@ -492,7 +505,7 @@ const CSCTravelsLanding = () => {
                     </div>
                     <div className="text-white">
                       <h4 className="font-semibold text-lg mb-1">Phone</h4>
-                      <a href="tel:+919873101537" className="hover:text-blue-200 transition text-lg">+91 98731 01537</a>
+                      <a href="tel:+919873101537" className="hover:text-orange-200 transition text-lg">+91 98731 01537</a>
                     </div>
                   </div>
                   
@@ -502,7 +515,7 @@ const CSCTravelsLanding = () => {
                     </div>
                     <div className="text-white">
                       <h4 className="font-semibold text-lg mb-1">Email</h4>
-                      <a href="mailto:bookings@csctravels.com" className="hover:text-blue-200 transition">bookings@csctravels.com</a>
+                      <a href="mailto:bookings@csctravels.com" className="hover:text-orange-200 transition">bookings@csctravels.com</a>
                     </div>
                   </div>
                   
@@ -552,7 +565,7 @@ const CSCTravelsLanding = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       required
-                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-black"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all text-black"
                     />
                   </div>
                   <div>
@@ -562,7 +575,7 @@ const CSCTravelsLanding = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       required
-                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all"
                     />
                   </div>
                   <div>
@@ -572,7 +585,7 @@ const CSCTravelsLanding = () => {
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       required
-                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all"
                     />
                   </div>
                   <div>
@@ -582,7 +595,7 @@ const CSCTravelsLanding = () => {
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       required
                       rows={5}
-                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all resize-none"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all resize-none"
                     ></textarea>
                   </div>
                   <button
@@ -635,10 +648,10 @@ const CSCTravelsLanding = () => {
               </div>
               <p className="text-gray-400 mb-4">Your trusted travel partner in Patna for premium car, bus, and traveler services.</p>
               <div className="flex space-x-3">
-                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all">
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-all">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 </a>
-                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-400 transition-all">
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-400 transition-all">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                 </a>
                 <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-pink-600 transition-all">
@@ -671,7 +684,7 @@ const CSCTravelsLanding = () => {
               <h4 className="font-semibold text-lg mb-4">Contact Info</h4>
               <ul className="space-y-3 text-gray-400">
                 <li className="flex items-start">
-                  <MapPin className="w-5 h-5 mr-2 mt-1 flex-shrink-0 text-blue-500" />
+                  <MapPin className="w-5 h-5 mr-2 mt-1 flex-shrink-0 text-orange-500" />
                   <span>Patna, Bihar, India</span>
                 </li>
                 <li className="flex items-start">
@@ -679,7 +692,7 @@ const CSCTravelsLanding = () => {
                   <a href="tel:+919873101537" className="hover:text-white transition">+91 98731 01537</a>
                 </li>
                 <li className="flex items-start">
-                  <Mail className="w-5 h-5 mr-2 mt-1 flex-shrink-0 text-blue-500" />
+                  <Mail className="w-5 h-5 mr-2 mt-1 flex-shrink-0 text-orange-500" />
                   <a href="mailto:bookings@csctravels.com" className="hover:text-white transition">bookings@csctravels.com</a>
                 </li>
               </ul>
