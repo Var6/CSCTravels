@@ -1,10 +1,11 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
 import Floating from '@/components/floating';
+import CarModel from '@/components/carmodel';
 
 const CSCTravelsLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -256,23 +257,23 @@ const CSCTravelsLanding = () => {
           <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '4s'}}></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="animate-on-scroll animate-fade-left">
-                <span className="inline-block bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center z-50">
+            <div className="space-y-6 z-50">
+              <div className="animate-on-scroll animate-fade-left z-50">
+                <span className="inline-block z-50 bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4 bg-clip-text">
                   🚗 Premium Travel Partner in Patna
                 </span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-on-scroll animate-fade-left delay-1">
-               <span className='text-outline'>Travel in</span>  <br/>
-               <span className="gradient-text">Comfort</span>
-               <span className='text-outline'> & </span>  
-               <span className="gradient-text">Style</span>
+              <h1 className="text-5xl z-70  md:text-6xl lg:text-7xl font-bold leading-tight animate-on-scroll animate-fade-left delay-1">
+               <span className='text-outline z-70'>Travel in</span>  <br/>
+               <span className="gradient-text z-70">Comfort</span>
+               <span className='text-outline z-70'> & </span>  
+               <span className="gradient-text z-70">Style</span>
               </h1>
               
-              <p className="text-xl text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2">
+              <p className="text-xl bg-white bg-opacity-5  text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2 padding-2">
                 Experience premium travel services with our fleet of cars, buses, and travelers. Safe, reliable, and available 24/7 across Patna and beyond.
               </p>
               
@@ -287,8 +288,8 @@ const CSCTravelsLanding = () => {
                 </a>
               </div>
 
-              <div className="flex items-center gap-8 pt-4 animate-on-scroll animate-fade-left delay-4">
-                <div className="flex -space-x-2">
+              <div className="flex items-center gap-8 pt-4 animate-on-scroll animate-fade-left delay-4 ">
+                <div className="flex -space-x-2 ">
                   {[1,2,3,4].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-400 border-2 border-white"></div>
                   ))}
@@ -304,6 +305,7 @@ const CSCTravelsLanding = () => {
             
             <div className="relative animate-on-scroll animate-fade-right">
               <div className="relative animate-float">
+                <CarModel />
                 <div className="absolute inset-0 gradient-bg opacity-20 blur-3xl rounded-full"></div>
                 <svg viewBox="0 0 500 400" className="w-full relative z-10">
                   <defs>
@@ -318,17 +320,7 @@ const CSCTravelsLanding = () => {
                   </defs>
                   
                   {/* Car */}
-                  <g filter="url(#shadow)">
-                    <path d="M120 200 L150 170 L220 155 L280 155 L340 170 L370 200 L370 230 L345 245 L320 245 L305 230 L195 230 L180 245 L155 245 L135 230 L120 230 Z" 
-                          fill="url(#carGradient)" />
-                    <rect x="165" y="175" width="60" height="45" rx="4" fill="#e0f2fe" opacity="0.8" />
-                    <rect x="235" y="175" width="80" height="45" rx="4" fill="#e0f2fe" opacity="0.8" />
-                    <circle cx="180" cy="245" r="20" fill="#1e293b" />
-                    <circle cx="180" cy="245" r="10" fill="#94a3b8" />
-                    <circle cx="310" cy="245" r="20" fill="#1e293b" />
-                    <circle cx="310" cy="245" r="10" fill="#94a3b8" />
-                    <ellipse cx="245" cy="190" rx="8" ry="6" fill="#fbbf24" opacity="0.8" />
-                  </g>
+                  
                   
                   {/* Road lines */}
                   <rect x="50" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
@@ -340,26 +332,19 @@ const CSCTravelsLanding = () => {
               </div>
               
               {/* Floating badges */}
-              <div>
-
-              <div className="fixed z-1 bottom-100 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '2s'}}>
+              <div className="fixed z-20 bottom-100 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '2s'}}>
                <Floating icon={ <Clock className="w-6 h-6 text-orange-600" />} text1="24/7 Service" text2="Always Available" />
               </div>
 
-              <div className="fixed z-1 bottom-75 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
+              <div className="fixed z-20 bottom-75 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
                <Floating icon={<Shield className="w-6 h-6 text-orange-600" />} text1="100% Safe & Secure" text2="Safest" />
               </div>
-                <div className="fixed z-1 bottom-75 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
-               <Floating icon={<MapPin className="w-6 h-6 text-orange-600" />} text1="100% Safe & Secure" text2="Safest" />
+              <div className="fixed z-20 bottom-75 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
+               <Floating icon={<MapPin className="w-6 h-6 text-orange-600 z-5"  />} text1="100% Safe & Secure" text2="Safest" />
               </div>
-              
-              
-
-
-
-
-              </div>
-           
+              <div className="fixed z-20 bottom-100 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
+               <Floating icon={<IndianRupee className="w-6 h-6 text-orange-600" />} text1="Affordable rate" text2="Pocket Friendly" />
+              </div>  
           </div>
         </div>
       </section>
@@ -367,15 +352,15 @@ const CSCTravelsLanding = () => {
       {/* Stats Section */}
       <section className="py-16 gradient-bg relative overflow-hidden">
         <div className="absolute inset-0 shimmer"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center text-white animate-on-scroll animate-scale" style={{animationDelay: `${idx * 0.1}s`}}>
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
+              <div key={idx} className="text-center text-white animate-on-scroll animate-scale z-30" style={{animationDelay: `${idx * 0.1}s`}}>
+                <div className="inline-flex z-50 items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
                   {stat.icon}
                 </div>
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="text-lg opacity-90">{stat.label}</div>
+                <div className="text-4xl md:text-5xl font-bold text-orange-700 mb-2 z-30">{stat.number}</div>
+                <div className="text-lg opacity-90 z-30 text-orange-700">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -419,7 +404,25 @@ const CSCTravelsLanding = () => {
               </div>
             ))}
           </div>
+          
+                    {/* Features Grid */}
+          <div className="grid md:grid-cols-4 gap-6 mt-7">
+            {features.map((feature, idx) => (
+              <div 
+                key={idx} 
+                className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
+                style={{animationDelay: `${idx * 0.1}s`}}
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 gradient-bg rounded-2xl text-white mb-4">
+                  {feature.icon}
+                </div>
+                <h4 className="font-bold text-gray-900 mb-2">{feature.title}</h4>
+                <p className="text-sm text-gray-600">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
+        
       </section>
 
       {/* Fleet Section */}
@@ -456,22 +459,7 @@ const CSCTravelsLanding = () => {
             ))}
           </div>
 
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-4 gap-6">
-            {features.map((feature, idx) => (
-              <div 
-                key={idx} 
-                className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
-                style={{animationDelay: `${idx * 0.1}s`}}
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 gradient-bg rounded-2xl text-white mb-4">
-                  {feature.icon}
-                </div>
-                <h4 className="font-bold text-gray-900 mb-2">{feature.title}</h4>
-                <p className="text-sm text-gray-600">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
+
         </div>
       </section>
 
@@ -495,7 +483,7 @@ const CSCTravelsLanding = () => {
 
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-8 animate-on-scroll animate-fade-left">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                 <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
                 
                 <div className="space-y-6">
@@ -646,7 +634,7 @@ const CSCTravelsLanding = () => {
               </div>
                 <h3 className="text-xl font-bold">CSC Travels</h3>
               </div>
-              <p className="text-gray-400 mb-4">Your trusted travel partner in Patna for premium car, bus, and traveler services.</p>
+              <p className="text-gray-400 mb-4">1st floor, Shanti Devi Nivas, near Sichai bhawan, Anishabad Patna, Bihar 800002</p>
               <div className="flex space-x-3">
                 <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-all">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
