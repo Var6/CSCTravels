@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bike, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -79,13 +79,13 @@ const CSCTravelsLanding = () => {
 
   const vehicles = [
     { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='aura car' height={100} width={100} />, desc: 'Premium sedans for comfortable rides', seats: '4+1', color: 'from-orange-500 to-orange-600' },
-    { name: 'AC Buses', icon: <Image src='/bus.png' alt='aura car' height={100} width={100} />, desc: 'Spacious buses for group travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
+    { name: 'Econommic Bike', icon: <Image src='/bike.png' alt='aura car' height={100} width={100} />, desc: 'Spacious buses for group travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
     { name: 'Travelers', icon: <Image src='/new.png' alt='aura car' height={100} width={100} />, desc: 'Perfect for family trips', seats: '8-14', color: 'from-orange-600 to-orange-500' },
   ];
 
   const services = [
     { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for all occasions', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
-    { icon: <Bus className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['AC Buses', 'Tourist Buses', '20-50 Seater', 'Long Distance'] },
+    { icon: <Bike className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['Rental Bike', 'Hire and Puchase', '20-50 Seater', 'Long Distance'] },
     { icon: <Users className="w-10 h-10" />, title: 'Travelers', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
   ];
 
@@ -662,7 +662,7 @@ const CSCTravelsLanding = () => {
               <h4 className="font-semibold text-lg mb-4">Our Services</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>Car Rentals</li>
-                <li>Bus Services</li>
+                <li>Bike Rentals</li>
                 <li>Traveler Bookings</li>
                 <li>Airport Transfers</li>
               </ul>
