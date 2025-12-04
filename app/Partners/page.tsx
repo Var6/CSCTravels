@@ -1,26 +1,20 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { MovingBorder } from "@/components/ui/moving-border";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 const partners = [
-    {
-        name: "Citizen Cooperative",
-        description: "Empowering citizens through cooperative banking and financial services.",
-        url: "https://citizencooperative.in",
-        color: "bg-blue-600",
-    },
-    {
+       {
         name: "Citizen Jaivik",
         description: "Delivering fresh, organic food and vegetables directly to your doorstep.",
         url: "#",
         color: "bg-green-600",
     },
-    {
-        name: "Citizen IMF",
-        description: "Comprehensive insurance solutions for your peace of mind.",
-        url: "#",
-        color: "bg-purple-600",
+     {
+        name: "Citizen Housing",
+        description: "Empowering citizens through cooperative banking and financial services.",
+        url: "https://citizenhousing.in",
+        color: "bg-blue-600",
     },
     {
         name: "Citizen IMF",
@@ -28,6 +22,7 @@ const partners = [
         url: "#",
         color: "bg-purple-600",
     },
+ 
 ];
 
 export default function Partners() {
@@ -48,14 +43,10 @@ export default function Partners() {
 
                 {/* --- STATIC CARD WITH MOVING BORDER --- */}
 
-                <div className="relative w-[600px] mx-auto mb-20">
+                <div className="relative w-[600px] mx-auto mb-5">
                     
                     {/* MOVING BORDER (absolute overlay) */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <MovingBorder duration={8000} rx="5%" ry="5%">
-                            <div className="h-10 w-10 bg-[linear-gradient(#0ea5e9_40%,transparent_60%)] opacity-70" />
-                        </MovingBorder>
-                    </div>
+                    <BackgroundGradient>
 
                     {/* CARD */}
                     <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg border-5 border-blue-300">
@@ -65,7 +56,7 @@ export default function Partners() {
                                 width={120}
                                 src="/Citilogo.png"
                                 alt="Citi Logo"
-                            />
+                                />
                             <span className="text-black text-2xl font-bold">
                                 Citizen Savings & Credit Co-operative Society
                             </span>
@@ -81,11 +72,12 @@ export default function Partners() {
                                 href="https://citizencooperative.in"
                                 target="_blank"
                                 className="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all"
-                            >
+                                >
                                 Visit Website <ArrowRight size={18} />
                             </Link>
                         </div>
                     </div>
+                                </BackgroundGradient>
                 </div>
 
                 {/* PARTNERS SECTION */}
