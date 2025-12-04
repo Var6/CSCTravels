@@ -6,9 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Floating from '@/components/floating';
 import CarModel from '@/components/carmodel';
+import Partners from './Partners/page';
+
 
 const CSCTravelsLanding = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const [scrollY, setScrollY] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [formStatus, setFormStatus] = useState('');
@@ -188,66 +190,7 @@ const CSCTravelsLanding = () => {
         .animate-on-scroll { opacity: 0; }
       `}</style>
 
-      {/* Navbar */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrollY > 50 ? 'glass-effect shadow-xl' : 'bg-white/80 backdrop-blur-sm'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-3 animate-fade-left">
-              <div className="w-14 h-14  rounded-full overflow-hidden">
-                <Image src="/logo2.jpg" alt="CSC Travels Logo" width={100} height={100} className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold gradient-text">CSC Travels</h1>
-                <p className="text-xs text-gray-600">Premium Travel Services</p>
-              </div>
-            </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
-                Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#services" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
-                Services
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#fleet" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
-                Fleet
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="#contact" className="text-gray-700 hover:text-orange-600 transition-all font-medium relative group">
-                Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-              <a href="tel:+919873101537" className="gradient-hover text-white px-6 py-3 rounded-full font-medium shadow-lg hover:shadow-2xl">
-                Book Now
-              </a>
-            <span><a href='https://citizencooperative.in/' target="_blank" > <Image alt='citizen logo' src="/Citilogo.png" width={50} height={40}></Image></a> </span>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-gray-700 hover:text-orange-600 transition">
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden glass-effect border-t animate-in">
-            <div className="px-4 py-4 space-y-3">
-              <a href="#home" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Home</a>
-              <a href="#services" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Services</a>
-              <a href="#fleet" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Fleet</a>
-              <a href="#contact" className="block py-2 text-gray-700 hover:text-orange-600 hover:translate-x-2 transition-all">Contact</a>
-              <a href="tel:+919873101537" className="block gradient-bg text-white px-6 py-3 rounded-full text-center font-medium shadow-lg">
-                Book Now
-              </a>
-            </div>
-          </div>
-        )}
-      </nav>
+   
 
       {/* Hero Section */}
       <section id="home" className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50">

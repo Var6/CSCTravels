@@ -15,7 +15,7 @@ const Floating = ({icon,text1,text2}:any) => {
         </div>
         </div>
     </div>
-  )
+  ) 
 }
 
 export default Floating

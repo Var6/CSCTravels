@@ -22,9 +22,9 @@ function CarModel() {
 }
 export default function CarCanvas() {
   return (
-    <div className='relative border-2 border-black'>23
+    <div className='relative border-2   w-full'>
     <div className="absolute right-0 top-0 w-[650px] h-[550px] z-10 pointer-events-auto">
-      <Canvas 
+      <Canvas
         camera={{ position: [6, 2, 6], fov: 50 }}
         style={{ touchAction: 'none' }}
       >
