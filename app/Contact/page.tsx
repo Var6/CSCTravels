@@ -13,7 +13,7 @@ export default function ContactPage() {
             Contact CSC Travels
           </h1>
           <p className="text-gray-600 max-w-xl mx-auto">
-            Have a question or want to book a trip? We’d love to hear from you.
+            Have a question or want to book a trip? We&apos;d love to hear from you.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Email</p>
                 <p className="text-gray-600">
-                  info@csctravels.com
+                  booking@csctravels.com
                 </p>
               </div>
             </div>
@@ -46,9 +46,10 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Office Address</p>
                 <p className="text-gray-600 leading-relaxed">
+                  Santi Devi Nivas Near Sichai Bhawan<br/>
                   CSC Travels<br />
                   Patna, Bihar<br />
-                  India – 800001
+                  India - 800001
                 </p>
               </div>
             </div>
@@ -58,7 +59,7 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Working Hours</p>
                 <p className="text-gray-600">
-                  Mon – Sat: 9:00 AM – 8:00 PM
+                  Wedneday - Monday: 10:00 AM - 6:00 PM
                 </p>
               </div>
             </div>

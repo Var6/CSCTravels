@@ -61,7 +61,7 @@ const Navbar = () => {
               <span className={underline}></span>
             </Link>
 
-            <Link href="/services" className={linkStyle}>
+            <Link href="/Services" className={linkStyle}>
               Services
               <span className={underline}></span>
             </Link>

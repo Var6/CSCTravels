@@ -5,7 +5,7 @@ const Floating = ({icon,text1,text2}:any) => {
 
   return (
     <div>
-    <div className="flex items-center bg-white gap-3 z-5">
+    <div className="flex items-center bg-white gap-3 z-5 w-60">
         <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
          {icon}
         </div>
