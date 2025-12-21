@@ -4,10 +4,10 @@ import Image from 'next/image'
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-gray-900 text-white py-16 z-80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-80">
         
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-4 gap-8 mb-12 z-80">
           
           {/* Logo + About */}
           <div>

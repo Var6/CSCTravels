@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Floating from '@/components/floating';
 import CarModel from '@/components/carmodel';
 import Partners from './Partners/page';
+import Stats from '@/components/Stats';
 
 
 const CSCTravelsLanding = () => {
@@ -98,13 +99,7 @@ const CSCTravelsLanding = () => {
     { icon: <Star className="w-8 h-8" />, title: 'Best Rates', desc: 'Affordable pricing guaranteed' },
   ];
 
-  const stats = [
-    { number: '500+', label: 'Happy Clients', icon: <Users className="w-6 h-6" /> },
-    { number: '15+', label: 'Vehicles', icon: <Car className="w-6 h-6" /> },
-    { number: '24/7', label: 'Service', icon: <Clock className="w-6 h-6" /> },
-    { number: '100%', label: 'Satisfaction', icon: <Star className="w-6 h-6" /> },
-  ];
-
+  
   return (
     <div className="min-h-screen bg-white">
       <style>{`
@@ -181,7 +176,8 @@ const CSCTravelsLanding = () => {
           border: 1px solid rgba(255, 255, 255, 0.3);
         }
         .card-hover {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.3s cubic-bezier(0.4, 0 
+          , 0.2, 1);
         }
         .card-hover:hover {
           transform: translateY(-8px) scale(1.02);
@@ -293,25 +289,10 @@ const CSCTravelsLanding = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 gradient-bg relative overflow-hidden">
-        <div className="absolute inset-0 shimmer"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="text-center text-white animate-on-scroll animate-scale z-30" style={{animationDelay: `${idx * 0.1}s`}}>
-                <div className="inline-flex z-50 items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
-                  {stat.icon}
-                </div>
-                <div className="text-4xl md:text-5xl font-bold text-orange-700 mb-2 z-30">{stat.number}</div>
-                <div className="text-lg opacity-90 z-30 text-orange-700">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <Stats/>
 
       {/* Services Section */}
-      <section id="services" className="py-24 bg-gradient-to-b from-white to-orange-50">
+      <section id="services" className="py-24 bg-linear-to-b from-white to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-on-scroll">
             <span className="text-orange-600 font-semibold text-sm uppercase tracking-wider">Our Services</span>
@@ -324,17 +305,17 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 text-orange-500 gap-8">
+          <div className="grid md:grid-cols-3 text-orange-500 gap-8 z-50">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
+                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200 z-50"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
-                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 z-50">
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">{service.title}</h3>
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors z-50">{service.title}</h3>
                 <p className="text-gray-600 mb-6">{service.desc}</p>
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
@@ -353,7 +334,7 @@ const CSCTravelsLanding = () => {
             {features.map((feature, idx) => (
               <div 
                 key={idx} 
-                className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
+                className="text-center p-6 bg-linear-to-br from-orange-50 to-orange-50 rounded-2xl hover:shadow-lg transition-all duration-300 animate-on-scroll"
                 style={{animationDelay: `${idx * 0.1}s`}}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 gradient-bg rounded-2xl text-white mb-4">
@@ -427,34 +408,34 @@ const CSCTravelsLanding = () => {
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-8 animate-on-scroll animate-fade-left">
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
-                <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
+                <h3 className="text-2xl font-bold text-black mb-6">Contact Information</h3>
                 
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <Phone className="w-6 h-6" />
                     </div>
-                    <div className="text-white">
+                    <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Phone</h4>
                       <a href="tel:+919873101537" className="hover:text-orange-200 transition text-lg">+91 98731 01537</a>
                     </div>
                   </div>
                   
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <Mail className="w-6 h-6" />
                     </div>
-                    <div className="text-white">
+                    <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Email</h4>
                       <a href="mailto:bookings@csctravels.com" className="hover:text-orange-200 transition">bookings@csctravels.com</a>
                     </div>
                   </div>
                   
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <MapPin className="w-6 h-6" />
                     </div>
-                    <div className="text-white">
+                    <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Location</h4>
                       <p>Patna, Bihar, India</p>
                     </div>
@@ -463,8 +444,8 @@ const CSCTravelsLanding = () => {
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                <h3 className="text-2xl font-bold text-white mb-4">Why Choose Us?</h3>
-                <ul className="space-y-3 text-white">
+                <h3 className="text-2xl font-bold text-black mb-4">Why Choose Us?</h3>
+                <ul className="space-y-3 text-black">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
                     <span>Professional & experienced drivers</span>

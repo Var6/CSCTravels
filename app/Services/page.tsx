@@ -45,9 +45,9 @@ export default function ServicePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white mt-8">
+    <div className="min-h-screen bg-white mt-24">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-24 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl font-bold mb-4">Premium Taxi Service</h1>
           <p className="text-xl opacity-90">Comfortable, Reliable & Affordable Rides</p>

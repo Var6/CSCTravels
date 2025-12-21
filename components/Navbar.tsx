@@ -29,7 +29,7 @@ const Navbar = () => {
     "absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300";
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all ${navClasses}`}>
+    <nav className={`fixed top-8 w-full z-50 transition-all ${navClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
 
