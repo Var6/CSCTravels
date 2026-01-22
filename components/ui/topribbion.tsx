@@ -10,10 +10,10 @@ const Topribbion = () => {
           <div className="flex items-center gap-2">
             <Mail size={16} />
             <a 
-              href="mailto:Bookings@csctravel.com" 
+              href="mailto:Booking@csctravel.com" 
               className="text-sm hover:opacity-80 transition-opacity"
             >
-              Bookings@csctravel.com
+              Booking@csctravel.com
             </a>
           </div>
 

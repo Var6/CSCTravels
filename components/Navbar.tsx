@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import TopRibbon from "./topheader";
+import Topribbion from "./ui/topribbion";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,6 +32,7 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all ${navClasses}`}>
+      <Topribbion />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
 
@@ -59,6 +61,10 @@ const Navbar = () => {
 
             <Link href="/" className={linkStyle}>
               Home
+              <span className={underline}></span>
+            </Link>
+             <Link href="/About" className={linkStyle}>
+              About
               <span className={underline}></span>
             </Link>
 
@@ -91,7 +97,7 @@ const Navbar = () => {
               className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200"
             >
               <Image
-                src="/Citilogo.png"
+                src="/finalcitilogo.png"
                 alt="Citizen Logo"
                 width={50}
                 height={50}

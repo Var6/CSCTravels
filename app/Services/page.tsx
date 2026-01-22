@@ -251,7 +251,7 @@ export default function ServicePage() {
         {/* Comparison with Ola/Uber */}
         <section className="mb-16">
           <h2 className="text-4xl font-bold text-orange-600 mb-8 border-b-4 border-orange-600 pb-3 inline-block">
-            Compare with Ola/Uber Hourly Packages
+            Comparision with other's Hourly Packages
           </h2>
           
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl mt-8 overflow-x-auto">
@@ -260,7 +260,7 @@ export default function ServicePage() {
                 <tr className="bg-orange-600 text-white">
                   <th className="p-4 text-left rounded-tl-lg">Duration</th>
                   <th className="p-4 text-left">Distance</th>
-                  <th className="p-4 text-left rounded-tr-lg">Ola/Uber Price</th>
+                  <th className="p-4 text-left rounded-tr-lg">Local Priceing</th>
                 </tr>
               </thead>
               <tbody>

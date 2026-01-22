@@ -427,7 +427,7 @@ const CSCTravelsLanding = () => {
                     </div>
                     <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Email</h4>
-                      <a href="mailto:bookings@csctravels.com" className="hover:text-orange-200 transition">bookings@csctravels.com</a>
+                      <a href="mailto:booking@csctravels.com" className="hover:text-orange-200 transition">booking@csctravels.com</a>
                     </div>
                   </div>
                   
