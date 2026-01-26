@@ -36,7 +36,7 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Email</p>
                 <p className="text-gray-600">
-                  booking@csctravels.com
+                  bookings@csctravels.com
                 </p>
               </div>
             </div>
