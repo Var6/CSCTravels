@@ -32,7 +32,9 @@ const Footer = () => {
       
       {/* Facebook */}
       <a
-        href="#"
+        href="https://facebook.com"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Facebook"
         className="w-10 h-10 rounded-lg flex items-center justify-center 
                    bg-[#1877F2]/90 hover:bg-[#1877F2] 
@@ -44,7 +46,9 @@ const Footer = () => {
 
       {/* Twitter / X */}
       <a
-        href="#"
+        href="https://twitter.com"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Twitter"
         className="w-10 h-10 rounded-lg flex items-center justify-center 
                    bg-[#1DA1F2]/90 hover:bg-[#1DA1F2] 
@@ -56,10 +60,12 @@ const Footer = () => {
 
       {/* Instagram */}
       <a
-        href="#"
+        href="https://instagram.com"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Instagram"
         className="w-10 h-10 rounded-lg flex items-center justify-center 
-                   bg-gradient-to-tr from-pink-500 via-purple-500 to-orange-400
+             bg-linear-to-tr from-pink-500 via-purple-500 to-orange-400
                    hover:from-pink-600 hover:via-purple-600 hover:to-orange-500
                    text-white transition-all duration-300 
                    hover:scale-110 shadow-lg"

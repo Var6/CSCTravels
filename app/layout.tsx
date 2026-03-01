@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Topribbion from "@/components/ui/topribbion";
 
+const siteUrl = "https://csctravels.com";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -16,7 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://csctravels.com"), // Update if domain is different
+  metadataBase: new URL(siteUrl),
+  applicationName: "CSC Travels",
+  referrer: "origin-when-cross-origin",
   title: {
     default: "CSC Travels | Cab Service in Patna",
     template: "%s | CSC Travels",
@@ -56,20 +60,20 @@ export const metadata: Metadata = {
   publisher: "CSC Travels",
 
   alternates: {
-    canonical: "https://csctravels.com",
+    canonical: siteUrl,
   },
 
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://csctravels.com",
+    url: siteUrl,
     siteName: "CSC Travels",
     title: "CSC Travels | Best Cab Service in Patna",
     description:
       "Book reliable cab, car rental, and bus rental services in Patna. 24/7 member support, airport rides, and affordable pricing.",
     images: [
       {
-        url: "/logo.jpg", // your logo in public folder
+        url: "/logo.png", // your logo in public folder
         width: 800,
         height: 800,
         alt: "CSC Travels Logo",
@@ -81,7 +85,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "CSC Travels | Cab Service in Patna",
     description: "Affordable and reliable cab service in Patna.",
-    images: ["/logo.jpg"],
+    images: ["/logo.png"],
   },
 
   robots: {
@@ -95,11 +99,63 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/logo.jpg",
-    apple: "/logo.jpg",
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+
+  formatDetection: {
+    email: true,
+    address: true,
+    telephone: true,
+  },
+
+  other: {
+    "ai-content-policy": "index,follow",
   },
 
   category: "transportation",
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  name: "CSC Travels Services Pvt. Ltd.",
+  url: siteUrl,
+  image: `${siteUrl}/logo.png`,
+  telephone: "+91-98731-01537",
+  email: "booking@csctravels.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Shanti Devi Nivas, near Sichai Bhawan, Anishabad",
+    addressLocality: "Patna",
+    addressRegion: "Bihar",
+    postalCode: "800002",
+    addressCountry: "IN",
+  },
+  areaServed: ["Patna", "Bihar", "India"],
+  priceRange: "₹₹",
+  sameAs: [
+    "https://facebook.com",
+    "https://twitter.com",
+    "https://instagram.com",
+    "https://linkedin.com",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "CSC Travels",
+  url: siteUrl,
+  inLanguage: "en-IN",
+  potentialAction: {
+    "@type": "CommunicateAction",
+    target: [
+      "tel:+919873101537",
+      "mailto:booking@csctravels.com",
+      `${siteUrl}/Contact`,
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -112,6 +168,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <Topribbion/>
         <Navbar/>
         {children}

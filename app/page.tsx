@@ -189,7 +189,7 @@ const CSCTravelsLanding = () => {
    
 
       {/* Hero Section */}
-      <section id="home" className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50">
+      <section id="home" className="relative pt-32 pb-20 overflow-hidden bg-linear-to-br from-orange-50 via-white to-orange-50">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
@@ -230,7 +230,7 @@ const CSCTravelsLanding = () => {
               <div className="flex items-center gap-8 pt-4 animate-on-scroll animate-fade-left delay-4 ">
                 <div className="flex -space-x-2 ">
                   {[1,2,3,4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-400 border-2 border-white"></div>
+                    <div key={i} className="w-10 h-10 rounded-full bg-linear-to-br from-orange-400 to-orange-400 border-2 border-white"></div>
                   ))}
                 </div>
                 <div>
@@ -305,22 +305,22 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 text-orange-500 gap-8 z-50">
+          <div className="grid md:grid-cols-3 text-orange-500 gap-8">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200 z-50"
+                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
-                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 z-50">
+                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors z-50">{service.title}</h3>
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">{service.title}</h3>
                 <p className="text-gray-600 mb-6">{service.desc}</p>
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-green-500 mr-3 shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -367,10 +367,10 @@ const CSCTravelsLanding = () => {
             {vehicles.map((vehicle, idx) => (
               <div 
                 key={idx} 
-                className="bg-gradient-to-br from-white to-orange-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
+                className="bg-linear-to-br from-white to-orange-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
                 style={{animationDelay: `${idx * 0.15}s`}}
               >
-                <div className={`w-full h-48 bg-gradient-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg`}>
+                <div className={`w-full h-48 bg-linear-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg`}>
                   {vehicle.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-2 group-hover:text-orange-600 text-orange-500 transition-colors">{vehicle.name}</h3>
@@ -447,19 +447,19 @@ const CSCTravelsLanding = () => {
                 <h3 className="text-2xl font-bold text-black mb-4">Why Choose Us?</h3>
                 <ul className="space-y-3 text-black">
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 mr-3 shrink-0" />
                     <span>Professional & experienced drivers</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 mr-3 shrink-0" />
                     <span>Well-maintained & clean vehicles</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 mr-3 shrink-0" />
                     <span>Affordable & transparent pricing</span>
                   </li>
                   <li className="flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 mr-3 shrink-0" />
                     <span>24/7 customer support</span>
                   </li>
                 </ul>

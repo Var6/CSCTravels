@@ -31,7 +31,7 @@ const Navbar = () => {
     "absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300";
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all ${navClasses}`}>
+    <nav className={`fixed top-0 w-full z-100 transition-all ${navClasses}`}>
       <Topribbion />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
@@ -40,7 +40,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-3">
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-orange-500">
               <Image
-                src="/logo2.jpg"
+                src="/logo2.png"
                 alt="CSC Travels Logo"
                 width={100}
                 height={100}
@@ -49,7 +49,7 @@ const Navbar = () => {
             </div>
 
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-2xl font-bold bg-linear-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
                 CSC Travels
               </h1>
               <p className="text-xs text-gray-600">Premium Travel Services</p>
