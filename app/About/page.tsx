@@ -1,5 +1,10 @@
 import React from 'react';
 import { Car, Users, Shield, Clock, Award, Heart, Target, MapPin, Phone, Mail, CheckCircle, Star, TrendingUp } from 'lucide-react';
+import { Timeline } from '@/components/ui/timeline';
+type TimelineEntry = {
+  title: string;
+  content: React.ReactNode;
+};
 
 export default function AboutUsPage() {
   const stats = [
@@ -35,15 +40,73 @@ export default function AboutUsPage() {
       gradient: 'from-green-500 to-emerald-500'
     }
   ];
-
-  const milestones = [
-    { year: '2017', event: 'CSC Travels Founded', desc: 'Started with a vision to revolutionize travel in Patna' },
-    { year: '2019', event: 'Fleet Expansion', desc: 'Added 10+ vehicles to serve more customers' },
-    { year: '2021', event: 'Digital Transformation', desc: 'Launched online booking platform' },
-    { year: '2023', event: '500+ Happy Customers', desc: 'Reached milestone of serving 500+ satisfied clients' },
-    { year: '2025', event: 'Premium Services', desc: 'Introduced luxury vehicles and enhanced customer experience' }
-  ];
-
+const data = [
+  {
+    title: "2017",
+    content: (
+      <div>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <strong>CSC Travels Founded</strong>
+        </p>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          Started with a vision to revolutionize travel services in Patna.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "2019",
+    content: (
+      <div>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <strong>Fleet Expansion</strong>
+        </p>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          Added 10+ vehicles to serve more customers across Bihar.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "2021",
+    content: (
+      <div>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <strong>Digital Transformation</strong>
+        </p>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          Launched our online booking platform for faster reservations.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "2023",
+    content: (
+      <div>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <strong>500+ Happy Customers</strong>
+        </p>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          Successfully served more than 500 satisfied clients.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "2025",
+    content: (
+      <div>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300">
+          <strong>Premium Services Launch</strong>
+        </p>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          Introduced luxury vehicles and enhanced customer travel experience.
+        </p>
+      </div>
+    ),
+  },
+];
   const team = [
     { name: 'Professional Drivers', count: '20+', desc: 'Verified & experienced' },
     { name: 'Support Staff', count: '10+', desc: 'Available 24/7' },
@@ -177,39 +240,21 @@ export default function AboutUsPage() {
           </div>
         </div>
       </div>
+{/* Our Journey Timeline */}
+<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
-      {/* Our Journey Timeline */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Journey</h2>
-          <p className="text-xl text-gray-600">Key milestones that shaped CSC Travels</p>
-        </div>
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-orange-500 to-orange-300 hidden md:block"></div>
-          
-          <div className="space-y-12">
-            {milestones.map((milestone, idx) => (
-              <div
-                key={idx}
-                className={`flex items-center gap-8 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-              >
-                <div className={`flex-1 ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                  <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all">
-                    <div className="text-orange-600 font-bold text-2xl mb-2">{milestone.year}</div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{milestone.event}</h3>
-                    <p className="text-gray-600">{milestone.desc}</p>
-                  </div>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-lg relative z-10 hidden md:flex">
-                  <Star className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1 hidden md:block"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+  <div className="mb-16 text-center">
+    <h2 className="text-4xl font-bold text-gray-900">
+      Our Journey
+    </h2>
+    <p className="mt-4 text-lg text-gray-600">
+      Key milestones that shaped CSC Travels
+    </p>
+  </div>
+
+  <Timeline data={data} />
+
+</div>
 
       {/* Our Team */}
       <div className="bg-gradient-to-br from-orange-600 to-orange-500 py-20">

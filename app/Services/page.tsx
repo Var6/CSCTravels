@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 
 const marketRates = [
   { service: 'CSC Travels', city: '₹20/KM', outstation: '₹12/KM', notes: 'Transparent fixed rate' },
-  { service: 'Ola', city: '₹20–₹25/KM', outstation: '₹12–₹14/KM', notes: 'Surge pricing extra' },
-  { service: 'Uber', city: '₹20–₹26/KM', outstation: '₹12–₹15/KM', notes: 'Demand-based rate changes' },
-  { service: 'Rapido (Car)', city: '₹20–₹22/KM', outstation: 'Limited availability', notes: 'Mostly city rides' }
+  { service: 'National Competetor', city: '₹20–₹25/KM', outstation: '₹12–₹14/KM', notes: 'Surge pricing extra' },
+  { service: 'International Competetor', city: '₹20–₹26/KM', outstation: '₹12–₹15/KM', notes: 'Demand-based rate changes' },
+  { service: 'local Competetor (Car)', city: '₹20–₹22/KM', outstation: 'Limited availability', notes: 'Mostly city rides' }
 ];
 
 export default function ServicePage() {
@@ -137,7 +137,7 @@ export default function ServicePage() {
 
           <section className="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden">
             <div className="px-6 py-4 bg-orange-100/70 border-b border-orange-200">
-              <h2 className="text-xl md:text-2xl font-bold text-orange-700">3) Night Stay & 4) 8-Hour Vehicle Booking</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-orange-700">3) Night Stay & 8-Hour Vehicle Booking</h2>
             </div>
             <div className="p-6 space-y-5 text-gray-700">
               <div className="rounded-xl bg-orange-50 p-4 border border-orange-100">

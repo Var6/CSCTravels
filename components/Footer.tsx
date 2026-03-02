@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-18 h-14 rounded-full overflow-hidden">
                 <Image 
-                  src="/logo2.jpg" 
+                  src="/logo2.png" 
                   alt="CSC Travels Logo" 
                   width={150} 
                   height={100} 
