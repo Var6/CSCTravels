@@ -13,7 +13,7 @@ const TopRibbon = () => {
   return (
     <div className="relative w-full z-50">
       {/* Background Gradient & Border */}
-      <div className="w-full bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 text-white shadow-md border-b border-orange-400/30">
+      <div className="w-full bg-linear-to-r from-orange-700 via-orange-600 to-orange-500 text-white shadow-md border-b border-orange-400/30">
         
         {/* Container */}
         <div className="container mx-auto px-4 h-auto sm:h-10 flex flex-col sm:flex-row justify-between items-center py-2 sm:py-0">
@@ -33,7 +33,7 @@ const TopRibbon = () => {
             </a>
 
             {/* Vertical Separator (Hidden on mobile) */}
-            <span className="hidden sm:block h-3 w-[1px] bg-orange-400/50"></span>
+            <span className="hidden sm:block h-3 w-px bg-orange-400/50"></span>
 
             {/* Email */}
             <a 

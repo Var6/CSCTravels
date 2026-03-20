@@ -1,150 +1,102 @@
 import Link from "next/link";
-import { ArrowRight, Building2, MapPin, Phone, Mail } from "lucide-react";
 import Image from "next/image";
+import { ArrowUpRight, MapPin, Phone, Mail } from "lucide-react";
 
 const partners = [
-    {
-        name: "Citizen Cooperative",
-        description:
-            "Trusted cooperative financial services with deposits, savings, and loan solutions for individuals and groups.",
-        line: "Your trusted cooperative partner for growth and financial security.",
-        url: "https://citizencooperative.in",
-        logo: "/finalcitilogo.png",
-        address: "1st Floor, Shanti Devi Nivas, Near Sichai Bhavan, Patna",
-        contact: "0612-2255447 • info@citizencooperative.in",
-        accent: "from-orange-500 to-orange-600",
-    },
-    {
-        name: "Citizen Housing",
-        description:
-            "Verified property discovery and end-to-end real estate assistance including buy/sell, legal support, and consultation.",
-        line: "Your trusted partner in finding the perfect home across India.",
-        url: "https://citizenhousing.in",
-        logo: "/Citilogo.png",
-        address: "1st Floor, Shanti Devi Nivas, Near Sichai Bhavan, Patna",
-        contact: "+91 90310 07097 • sales@citizenimf.com",
-        accent: "from-sky-500 to-blue-600",
-    },
-    {
-        name: "Citizen Jaivik",
-        description:
-            "Community-first daily essentials and wellness-focused offerings designed to support healthier, quality living.",
-        line: "Fresh choices, trusted network, better lifestyle for cooperative families.",
-        url: "",
-        logo: "/Citilogo.png",
-        address: "Citizen ecosystem support center, Patna, Bihar",
-        contact: "Website update in progress",
-        accent: "from-emerald-500 to-green-600",
-    },
-    {
-        name: "Citizen IMF",
-        description:
-            "Financial and support services focused on convenience, guidance, and strong member relationships.",
-        line: "Reliable support for day-to-day financial planning and service needs.",
-        url: "",
-        logo: "/Citilogo.png",
-        address: "Citizen ecosystem support center, Patna, Bihar",
-        contact: "Digital profile update in progress",
-        accent: "from-violet-500 to-purple-600",
-    },
+  {
+    name: "Citizen Cooperative",
+    description: "Cooperative finance network supporting member-first savings and loan services.",
+    line: "Financial trust infrastructure for citizen communities.",
+    url: "https://citizencooperative.in",
+    logo: "/finalcitilogo.png",
+    contact: "0612-2255447",
+    email: "info@citizencooperative.in",
+    accent: "bg-[#2563eb]",
+  },
+  {
+    name: "Citizen Housing",
+    description: "Property discovery and support for verified residential and commercial options.",
+    line: "Housing pathways with cooperative guidance.",
+    url: "https://citizenhousing.in",
+    logo: "/Citilogo.png",
+    contact: "+91 90310 07097",
+    email: "sales@citizenimf.com",
+    accent: "bg-[#d97706]",
+  },
+  {
+    name: "Citizen Jaivik",
+    description: "Organic farm-to-fork vegetable platform delivering chemical-free produce across Patna with eco-conscious packaging.",
+    line: "100% organic freshness delivered to your doorstep.",
+    url: "https://www.citizenjaivik.com",
+    logo: "/Citilogo.png",
+    contact: "+91 98765 43210",
+    email: "jaivik@citizenagriculture.in",
+    accent: "bg-[#15803d]",
+  },
+  {
+    name: "Citizen IMF",
+    description: "Insurance marketplace focused on policy comparison, claim support, and fast activation across health, life, motor, and travel categories.",
+    line: "Your trusted insurance partner with 24/7 support.",
+    url: "https://citizenimf.com",
+    logo: "/Citilogo.png",
+    contact: "+91 90310 07097",
+    email: "hello@citizenimf.com",
+    accent: "bg-[#1e40af]",
+  },
 ];
 
-export default function Partners() {
-    return (
-        <main className="min-h-screen bg-linear-to-b from-orange-50 via-white to-orange-50">
-            <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="text-center mb-14">
-                    <p className="text-sm font-semibold tracking-[0.2em] uppercase text-orange-600 mb-3">Partner Network</p>
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">Trusted Institutions Powering CSC Travels</h1>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                        We collaborate with reputed Citizen-group organizations to deliver dependable travel, housing, and member-focused support services.
-                    </p>
+export default function PartnersPage() {
+  return (
+    <main className="pt-32 px-4 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl rounded-3xl bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-6 py-14 text-white sm:px-10">
+        <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-100">Partner Ecosystem</p>
+        <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight sm:text-5xl">
+          Institutions that strengthen the CSC mobility network
+        </h1>
+        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-amber-50 sm:text-base">
+          We collaborate with trusted Citizen-group institutions to create a dependable and integrated service environment.
+        </p>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-7xl gap-6 md:grid-cols-2">
+        {partners.map((partner) => (
+          <article key={partner.name} className="surface overflow-hidden rounded-3xl">
+            <div className={`h-2 ${partner.accent}`} />
+            <div className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-[#e9dbc2] bg-white">
+                  <Image src={partner.logo} alt={partner.name} width={56} height={56} className="h-full w-full object-contain" />
                 </div>
-
-                <div className="bg-white border border-orange-100 rounded-3xl shadow-xl p-6 md:p-8 mb-12">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center overflow-hidden">
-                                <Image src="/finalcitilogo.png" alt="Citizen Cooperative Logo" width={72} height={72} className="object-contain" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Citizen Savings & Credit Cooperative Society</h2>
-                                <p className="text-gray-600 mt-1">Cooperative made easy, more secure, and more personal.</p>
-                            </div>
-                        </div>
-
-                        <Link
-                            href="https://citizencooperative.in"
-                            target="_blank"
-                            className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
-                        >
-                            Visit Main Cooperative
-                            <ArrowRight size={18} />
-                        </Link>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-4 mt-6 text-sm">
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><MapPin size={16} className="text-orange-600" />Address</p>
-                            <p className="text-gray-600 mt-1">1st Floor, Shanti Devi Nivas, Near Sichai Bhavan, Patna</p>
-                        </div>
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><Phone size={16} className="text-orange-600" />Contact</p>
-                            <p className="text-gray-600 mt-1">0612-2255447</p>
-                        </div>
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><Mail size={16} className="text-orange-600" />Email</p>
-                            <p className="text-gray-600 mt-1">info@citizencooperative.in</p>
-                        </div>
-                    </div>
+                <div>
+                  <h2 className="text-2xl font-black text-slate-900">{partner.name}</h2>
+                  <p className="mt-1 text-sm font-semibold text-slate-600">{partner.line}</p>
                 </div>
+              </div>
 
-                <div className="grid gap-8 md:grid-cols-2">
-                    {partners.map((partner) => (
-                        <article key={partner.name} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all">
-                            <div className={`h-2 bg-linear-to-r ${partner.accent}`} />
+              <p className="mt-5 text-sm leading-relaxed text-slate-600">{partner.description}</p>
 
-                            <div className="p-6 md:p-7">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden shrink-0">
-                                        <Image src={partner.logo} alt={`${partner.name} logo`} width={50} height={50} className="object-contain" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-gray-900">{partner.name}</h3>
-                                        <p className="text-orange-600 font-medium mt-1">{partner.line}</p>
-                                    </div>
-                                </div>
+              <div className="mt-5 space-y-2 text-sm text-slate-700">
+                <p className="flex items-center gap-2"><MapPin className="h-4 w-4 text-[#2563eb]" /> Patna, Bihar</p>
+                <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#2563eb]" /> {partner.contact}</p>
+                <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-[#2563eb]" /> {partner.email}</p>
+              </div>
 
-                                <p className="text-gray-600 mt-5 leading-relaxed">{partner.description}</p>
-
-                                <div className="mt-5 space-y-2 text-sm">
-                                    <p className="text-gray-700 flex items-start gap-2">
-                                        <MapPin size={16} className="text-orange-600 mt-0.5" />
-                                        <span>{partner.address}</span>
-                                    </p>
-                                    <p className="text-gray-700 flex items-start gap-2">
-                                        <Building2 size={16} className="text-orange-600 mt-0.5" />
-                                        <span>{partner.contact}</span>
-                                    </p>
-                                </div>
-
-                                {partner.url ? (
-                                    <Link
-                                        href={partner.url}
-                                        target="_blank"
-                                        className="mt-6 inline-flex items-center gap-2 text-orange-600 font-semibold hover:gap-3 transition-all"
-                                    >
-                                        Visit Website
-                                        <ArrowRight size={18} />
-                                    </Link>
-                                ) : (
-                                    <p className="mt-6 text-sm font-semibold text-gray-500">Official website link will be updated soon.</p>
-                                )}
-                            </div>
-                        </article>
-                    ))}
-                </div>
-            </section>
-        </main>
-    );
+              {partner.url ? (
+                <Link
+                  href={partner.url}
+                  target="_blank"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#2563eb] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#1d4ed8]"
+                >
+                  Visit Website
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              ) : (
+                <p className="mt-6 text-sm font-semibold text-slate-500">Official website link will be updated soon.</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </section>
+    </main>
+  );
 }
