@@ -1,11 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <LoginInner />
+    </Suspense>
+  );
+}
+
+function LoginInner() {
   const router = useRouter();
   const search = useSearchParams();
   const redirect = search.get('redirect') || '/admin';
