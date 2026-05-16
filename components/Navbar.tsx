@@ -83,12 +83,12 @@ const Navbar = () => {
               <span className={underline}></span>
             </Link>
 
-            <a
-              href="tel:+919873101537"
+            <Link
+              href="/Booking"
               className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transition-all"
             >
               Book Now
-            </a>
+            </Link>
 
             {/* CITI LOGO – CIRCLE */}
             <a
@@ -161,12 +161,13 @@ const Navbar = () => {
               Contact
             </Link>
 
-            <a
-              href="tel:+919873101537"
+            <Link
+              href="/Booking"
+              onClick={() => setIsMenuOpen(false)}
               className="block bg-orange-500 text-white px-6 py-3 rounded-full text-center font-medium shadow-lg"
             >
               Book Now
-            </a>
+            </Link>
 
           </div>
         </div>

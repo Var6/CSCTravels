@@ -29,6 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://csctravels.com/Booking",
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
       url: "https://csctravels.com/Partners",
       lastModified: now,
       changeFrequency: "monthly",

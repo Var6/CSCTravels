@@ -217,10 +217,10 @@ const CSCTravelsLanding = () => {
               </p>
               
               <div className="flex flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
-                <a href="#contact" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center group">
-                  Get Started
+                <Link href="/Booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center group">
+                  Book a Ride
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
                 <a href="tel:+919873101537" className="bg-white border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 shadow-lg transition-all flex items-center group">
                   <Phone className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                   Call Now
