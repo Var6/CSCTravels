@@ -1,17 +1,17 @@
 import React from 'react'
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bike, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
+import { Car, Users, Shield, Clock, Bus, Star, Award, CheckCircle } from 'lucide-react';
 const Service = () => {
-    
+
     const features = [
         { icon: <Shield className="w-8 h-8" />, title: '100% Safe', desc: 'GPS tracked & insured vehicles' },
         { icon: <Clock className="w-8 h-8" />, title: '24/7 Available', desc: 'Round the clock service' },
         { icon: <Award className="w-8 h-8" />, title: 'Experienced Drivers', desc: 'Professional & verified' },
         { icon: <Star className="w-8 h-8" />, title: 'Best Rates', desc: 'Affordable pricing guaranteed' },
       ];
-    
+
       const services = [
-        { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for all occasions', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
-        { icon: <Bike className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['Rental Bike', 'Hire and Puchase', '20-50 Seater', 'Long Distance'] },
+        { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for every occasion', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
+        { icon: <Bus className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['20-50 Seater Coaches', 'Corporate & School Hire', 'Tour Packages', 'Long Distance Travel'] },
         { icon: <Users className="w-10 h-10" />, title: 'Travelers', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
       ];
   return (
@@ -28,7 +28,7 @@ const Service = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 text-orange-500 gap-8 z-50">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 text-orange-500 gap-6 md:gap-8 z-50">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
@@ -53,7 +53,7 @@ const Service = () => {
           </div>
           
                     {/* Features Grid */}
-          <div className="grid md:grid-cols-4 gap-6 mt-7">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-10">
             {features.map((feature, idx) => (
               <div 
                 key={idx} 

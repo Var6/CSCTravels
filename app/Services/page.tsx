@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 
 const marketRates = [
   { service: 'CSC Travels', city: '₹20/KM', outstation: '₹12/KM', notes: 'Transparent fixed rate' },
-  { service: 'National Competetor', city: '₹20–₹25/KM', outstation: '₹12–₹14/KM', notes: 'Surge pricing extra' },
-  { service: 'International Competetor', city: '₹20–₹26/KM', outstation: '₹12–₹15/KM', notes: 'Demand-based rate changes' },
-  { service: 'local Competetor (Car)', city: '₹20–₹22/KM', outstation: 'Limited availability', notes: 'Mostly city rides' }
+  { service: 'National Competitor', city: '₹20–₹25/KM', outstation: '₹12–₹14/KM', notes: 'Surge pricing extra' },
+  { service: 'International Competitor', city: '₹20–₹26/KM', outstation: '₹12–₹15/KM', notes: 'Demand-based rate changes' },
+  { service: 'Local Competitor (Car)', city: '₹20–₹22/KM', outstation: 'Limited availability', notes: 'Mostly city rides' }
 ];
 
 export default function ServicePage() {

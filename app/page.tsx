@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bike, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -81,14 +81,14 @@ const CSCTravelsLanding = () => {
   };
 
   const vehicles = [
-    { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='aura car' height={100} width={100} />, desc: 'Premium sedans for comfortable rides', seats: '4+1', color: 'from-orange-500 to-orange-600' },
-    { name: 'Econommic Bike', icon: <Image src='/bike.png' alt='aura car' height={100} width={100} />, desc: 'Spacious buses for group travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
-    { name: 'Travelers', icon: <Image src='/new.png' alt='aura car' height={100} width={100} />, desc: 'Perfect for family trips', seats: '8-14', color: 'from-orange-600 to-orange-500' },
+    { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='Luxury sedan' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Premium sedans for comfortable city and outstation rides', seats: '4+1', color: 'from-orange-500 to-orange-600' },
+    { name: 'Buses & Coaches', icon: <Image src='/bus.png' alt='Bus for group travel' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Spacious buses ideal for group tours and long-distance travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
+    { name: 'Travelers', icon: <Image src='/new.png' alt='Tempo traveller' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Roomy tempo travellers perfect for family trips and small groups', seats: '8-14', color: 'from-orange-600 to-orange-500' },
   ];
 
   const services = [
-    { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for all occasions', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
-    { icon: <Bike className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['Rental Bike', 'Hire and Puchase', '20-50 Seater', 'Long Distance'] },
+    { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for every occasion', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
+    { icon: <Bus className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['20-50 Seater Coaches', 'Corporate & School Hire', 'Tour Packages', 'Long Distance Travel'] },
     { icon: <Users className="w-10 h-10" />, title: 'Travelers', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
   ];
 
@@ -205,14 +205,14 @@ const CSCTravelsLanding = () => {
                 </span>
               </div>
               
-              <h1 className="text-5xl z-70  md:text-6xl lg:text-7xl font-bold leading-tight animate-on-scroll animate-fade-left delay-1">
+              <h1 className="text-4xl sm:text-5xl z-70 md:text-6xl lg:text-7xl font-bold leading-tight animate-on-scroll animate-fade-left delay-1">
                <span className='text-outline z-70'>Travel in</span>  <br/>
                <span className="gradient-text z-70">Comfort</span>
                <span className='text-outline z-70'> & </span>  
                <span className="gradient-text z-70">Style</span>
               </h1>
               
-              <p className="text-xl bg-white bg-opacity-5  text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2 padding-2">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2">
                 Experience premium travel services with our fleet of cars, buses, and travelers. Safe, reliable, and available 24/7 across Patna and beyond.
               </p>
               
@@ -243,47 +243,36 @@ const CSCTravelsLanding = () => {
             </div>
             
             <div className="relative animate-on-scroll animate-fade-right">
-              <div className="relative animate-float">
+              <div className="relative h-[420px] sm:h-[480px] lg:h-[550px]">
                 <CarModel />
-                <div className="absolute inset-0 gradient-bg opacity-20 blur-3xl rounded-full"></div>
-                <svg viewBox="0 0 500 400" className="w-full relative z-10">
-                  <defs>
-                    <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{stopColor: '#3b82f6'}} />
-                      <stop offset="100%" style={{stopColor: '#f97316'}} />
+                <div className="absolute inset-0 gradient-bg opacity-20 blur-3xl rounded-full -z-10"></div>
+              </div>
+            </div>
+          </div>
 
-                    </linearGradient>
-                    <filter id="shadow">
-                      <feDropShadow dx="0" dy="10" stdDeviation="15" floodColor="#3b82f6" floodOpacity="0.3"/>
-                    </filter>
-                  </defs>
-                  
-                  {/* Car */}
-                  
-                  
-                  {/* Road lines */}
-                  <rect x="50" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
-                  <rect x="170" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
-                  <rect x="290" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
-                  <rect x="410" y="270" width="80" height="4" rx="2" fill="#cbd5e1" opacity="0.5" />
-                </svg>
-              </div>
-              </div>
-              
-              {/* Floating badges */}
-              <div className="fixed z-20 bottom-100 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '2s'}}>
-               <Floating icon={ <Clock className="w-6 h-6 text-orange-600" />} text1="24/7 Service" text2="Always Available" />
-              </div>
-
-              <div className="fixed z-20 bottom-75 right-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
-               <Floating icon={<Shield className="w-6 h-6 text-orange-600" />} text1="100% Safe & Secure" text2="Safest" />
-              </div>
-              <div className="fixed z-20 bottom-75 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
-               <Floating icon={<MapPin className="w-6 h-6 text-orange-600 z-5"  />} text1="100% Safe & Secure" text2="Safest" />
-              </div>
-              <div className="fixed z-20 bottom-100 left-4 border-2 border-orange-500 bg-white rounded-2xl shadow-xl p-4 animate-float" style={{animationDelay: '1s'}}>
-               <Floating icon={<IndianRupee className="w-6 h-6 text-orange-600" />} text1="Affordable rate" text2="Pocket Friendly" />
-              </div>  
+          {/* Trust badges */}
+          <div className="mt-14 sm:mt-16 animate-on-scroll">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 bg-white/70 backdrop-blur-md border border-orange-100 rounded-3xl p-4 sm:p-6 shadow-xl">
+              {[
+                { icon: <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-white" />, title: '24/7 Service', sub: 'Always available' },
+                { icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />, title: 'Safe & Secure', sub: 'GPS-tracked rides' },
+                { icon: <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />, title: 'Patna & Beyond', sub: 'City + outstation' },
+                { icon: <IndianRupee className="w-5 h-5 sm:w-6 sm:h-6 text-white" />, title: 'Affordable Rates', sub: 'No surge pricing' },
+              ].map((badge, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl hover:bg-orange-50 transition-colors"
+                >
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl gradient-bg flex items-center justify-center shrink-0 shadow-md">
+                    {badge.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-bold text-gray-900 text-sm sm:text-base leading-tight">{badge.title}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-tight mt-0.5">{badge.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -305,7 +294,7 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 text-orange-500 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 text-orange-500 gap-6 md:gap-8">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
@@ -330,7 +319,7 @@ const CSCTravelsLanding = () => {
           </div>
           
                     {/* Features Grid */}
-          <div className="grid md:grid-cols-4 gap-6 mt-7">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-10">
             {features.map((feature, idx) => (
               <div 
                 key={idx} 
@@ -363,14 +352,14 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
             {vehicles.map((vehicle, idx) => (
-              <div 
-                key={idx} 
-                className="bg-linear-to-br from-white to-orange-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
+              <div
+                key={idx}
+                className="bg-linear-to-br from-white to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
                 style={{animationDelay: `${idx * 0.15}s`}}
               >
-                <div className={`w-full h-48 bg-linear-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg`}>
+                <div className={`w-full h-44 sm:h-48 bg-linear-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg overflow-hidden p-4`}>
                   {vehicle.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-2 group-hover:text-orange-600 text-orange-500 transition-colors">{vehicle.name}</h3>
@@ -405,8 +394,8 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-8 animate-on-scroll animate-fade-left">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+            <div className="space-y-6 md:space-y-8 animate-on-scroll animate-fade-left">
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                 <h3 className="text-2xl font-bold text-black mb-6">Contact Information</h3>
                 

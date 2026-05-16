@@ -19,8 +19,8 @@ const Stats = () => {
                 <div className="inline-flex z-50 items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
                   {stat.icon}
                 </div>
-                <div className="text-4xl md:text-5xl font-bold text-orange-700 mb-2 z-30">{stat.number}</div>
-                <div className="text-lg opacity-90 z-30 text-orange-700">{stat.label}</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 z-30 drop-shadow">{stat.number}</div>
+                <div className="text-base md:text-lg text-white/95 z-30">{stat.label}</div>
               </div>
             ))}
           </div>

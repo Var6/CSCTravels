@@ -22,8 +22,7 @@ function CarModel() {
 }
 export default function CarCanvas() {
   return (
-    <div className='relative border-2   w-full'>
-    <div className="absolute right-0 top-0 w-[650px] h-[550px] z-10 pointer-events-auto">
+    <div className="relative w-full h-full min-h-[360px]">
       <Canvas
         camera={{ position: [6, 2, 6], fov: 50 }}
         style={{ touchAction: 'none' }}
@@ -31,7 +30,7 @@ export default function CarCanvas() {
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 5, 5]} intensity={1.5} />
         <CarModel />
-        <OrbitControls 
+        <OrbitControls
           autoRotate={true}
           autoRotateSpeed={2}
           enableZoom={false}
@@ -40,7 +39,6 @@ export default function CarCanvas() {
           maxPolarAngle={Math.PI / 2}
         />
       </Canvas>
-    </div>
     </div>
   )
 }

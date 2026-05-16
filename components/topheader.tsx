@@ -22,28 +22,28 @@ const TopRibbon = () => {
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-4 text-[11px] sm:text-xs font-medium tracking-wide">
             
             {/* Phone */}
-            <a 
-              href="tel:+919876543210" 
+            <a
+              href="tel:+919873101537"
               className="flex items-center gap-2 hover:text-orange-100 transition-colors duration-200 group"
             >
               <div className="p-1 bg-white/10 rounded-full group-hover:bg-white/20 transition-all">
                 <Phone className="w-3 h-3" />
               </div>
-              <span>+91 98765 43210</span>
+              <span>+91 98731 01537</span>
             </a>
 
             {/* Vertical Separator (Hidden on mobile) */}
             <span className="hidden sm:block h-3 w-[1px] bg-orange-400/50"></span>
 
             {/* Email */}
-            <a 
-              href="mailto:info@citizencooperative.com" 
+            <a
+              href="mailto:booking@csctravels.com"
               className="flex items-center gap-2 hover:text-orange-100 transition-colors duration-200 group"
             >
               <div className="p-1 bg-white/10 rounded-full group-hover:bg-white/20 transition-all">
                 <Mail className="w-3 h-3" />
               </div>
-              <span>info@citizencooperative.com</span>
+              <span>booking@csctravels.com</span>
             </a>
           </div>
 

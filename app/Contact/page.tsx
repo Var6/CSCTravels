@@ -46,10 +46,10 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Office Address</p>
                 <p className="text-gray-600 leading-relaxed">
-                  Santi Devi Nivas Near Sichai Bhawan<br/>
                   CSC Travels<br />
-                  Patna, Bihar<br />
-                  India - 800001
+                  1st Floor, Shanti Devi Nivas,<br />
+                  Near Sichai Bhawan, Anishabad<br />
+                  Patna, Bihar, India &mdash; 800002
                 </p>
               </div>
             </div>
@@ -59,8 +59,9 @@ export default function ContactPage() {
               <div>
                 <p className="font-semibold text-gray-800">Working Hours</p>
                 <p className="text-gray-600">
-                  Wedneday - Monday: 10:00 AM - 6:00 PM
+                  Wednesday &ndash; Monday: 10:00 AM &ndash; 6:00 PM
                 </p>
+                <p className="text-xs text-gray-500 mt-1">Closed on Tuesdays</p>
               </div>
             </div>
           </div>
@@ -119,7 +120,7 @@ export default function ContactPage() {
 
           <div className="w-full h-80 border border-gray-200 rounded-xl overflow-hidden">
             <iframe
-              src="https://www.google.com/maps?q=Patna+Bihar&output=embed"
+              src="https://www.google.com/maps?q=Shanti+Devi+Nivas+Anishabad+Patna&output=embed"
               width="100%"
               height="100%"
               loading="lazy"

@@ -130,7 +130,15 @@ const Navbar = () => {
             </Link>
 
             <Link
-              href="/services"
+              href="/About"
+              onClick={() => setIsMenuOpen(false)}
+              className="block py-2 text-gray-700 hover:text-orange-600"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/Services"
               onClick={() => setIsMenuOpen(false)}
               className="block py-2 text-gray-700 hover:text-orange-600"
             >
@@ -138,7 +146,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              href="/partners"
+              href="/Partners"
               onClick={() => setIsMenuOpen(false)}
               className="block py-2 text-gray-700 hover:text-orange-600"
             >
@@ -146,7 +154,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              href="/contact"
+              href="/Contact"
               onClick={() => setIsMenuOpen(false)}
               className="block py-2 text-gray-700 hover:text-orange-600"
             >
