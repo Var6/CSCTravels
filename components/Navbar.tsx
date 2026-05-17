@@ -11,11 +11,9 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  // Handle scroll
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -58,39 +56,30 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center space-x-8">
-
             <Link href="/" className={linkStyle}>
-              Home
-              <span className={underline}></span>
+              Home<span className={underline}></span>
             </Link>
-             <Link href="/About" className={linkStyle}>
-              About
-              <span className={underline}></span>
+            <Link href="/About" className={linkStyle}>
+              About<span className={underline}></span>
             </Link>
-
             <Link href="/Services" className={linkStyle}>
-              Services
-              <span className={underline}></span>
+              Services<span className={underline}></span>
             </Link>
-
             <Link href="/Partners" className={linkStyle}>
-              Partners
-              <span className={underline}></span>
+              Partners<span className={underline}></span>
             </Link>
-
             <Link href="/Contact" className={linkStyle}>
-              Contact
-              <span className={underline}></span>
+              Contact<span className={underline}></span>
             </Link>
 
             <Link
-              href="/Booking"
+              href="/booking"
               className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transition-all"
             >
               Book Now
             </Link>
 
-            {/* CITI LOGO – CIRCLE */}
+            {/* CITI LOGO */}
             <a
               href="https://citizencooperative.in/"
               target="_blank"
@@ -120,59 +109,22 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-md border-t">
           <div className="px-6 py-6 space-y-4">
+            <Link href="/" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Home</Link>
+            <Link href="/About" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">About</Link>
+            <Link href="/Services" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Services</Link>
+            <Link href="/Partners" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Partners</Link>
+            <Link href="/Contact" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Contact</Link>
 
             <Link
-              href="/"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-orange-600"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/About"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-orange-600"
-            >
-              About
-            </Link>
-
-            <Link
-              href="/Services"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-orange-600"
-            >
-              Services
-            </Link>
-
-            <Link
-              href="/Partners"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-orange-600"
-            >
-              Partners
-            </Link>
-
-            <Link
-              href="/Contact"
-              onClick={() => setIsMenuOpen(false)}
-              className="block py-2 text-gray-700 hover:text-orange-600"
-            >
-              Contact
-            </Link>
-
-            <Link
-              href="/Booking"
+              href="/booking"
               onClick={() => setIsMenuOpen(false)}
               className="block bg-orange-500 text-white px-6 py-3 rounded-full text-center font-medium shadow-lg"
             >
               Book Now
             </Link>
-
           </div>
         </div>
       )}
-
     </nav>
   );
 };
