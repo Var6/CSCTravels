@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Topribbion from "@/components/ui/topribbion";
 
 const siteUrl = "https://csctravels.com";
 
@@ -176,10 +173,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <Topribbion/>
-        <Navbar/>
         {children}
-        <Footer/>
       </body>
     </html>
   );
