@@ -217,7 +217,7 @@ const CSCTravelsLanding = () => {
               </p>
               
               <div className="flex flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
-                <Link href="/Booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center group">
+                <Link href="/booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center group">
                   Book a Ride
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
