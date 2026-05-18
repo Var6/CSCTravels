@@ -1,6 +1,21 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
+import { jwtVerify } from 'jose'
 import { corsHeaders } from '@/lib/auth'
+
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'csctravels-secret-change-in-production'
+)
+
+async function readAdmin(req: NextRequest): Promise<boolean> {
+  const token = req.cookies.get('token')?.value
+  if (!token) return false
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET)
+    return payload.role === 'admin'
+  } catch {
+    return false
+  }
+}
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl
@@ -17,48 +32,29 @@ export async function middleware(request: NextRequest) {
     return res
   }
 
-  // ── Supabase session refresh + admin route guard ──────────────────────
-  let response = NextResponse.next({ request })
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          response = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          )
-        },
-      },
-    }
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-
+  // ── Admin gate (JWT, role=admin) ─────────────────────────────────────
   const isAdminRoute = url.pathname.startsWith('/admin')
   const isAdminLogin = url.pathname === '/admin/login'
 
-  if (isAdminRoute && !isAdminLogin && !user) {
-    const loginUrl = url.clone()
-    loginUrl.pathname = '/admin/login'
-    loginUrl.searchParams.set('redirect', url.pathname)
-    return NextResponse.redirect(loginUrl)
+  if (isAdminRoute) {
+    const isAdmin = await readAdmin(request)
+
+    if (!isAdminLogin && !isAdmin) {
+      const loginUrl = url.clone()
+      loginUrl.pathname = '/admin/login'
+      loginUrl.searchParams.set('redirect', url.pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+
+    if (isAdminLogin && isAdmin) {
+      const dashUrl = url.clone()
+      dashUrl.pathname = '/admin'
+      dashUrl.search = ''
+      return NextResponse.redirect(dashUrl)
+    }
   }
 
-  if (isAdminLogin && user) {
-    const dashUrl = url.clone()
-    dashUrl.pathname = '/admin'
-    dashUrl.search = ''
-    return NextResponse.redirect(dashUrl)
-  }
-
-  return response
+  return NextResponse.next()
 }
 
 export const config = {

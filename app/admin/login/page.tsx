@@ -1,55 +1,69 @@
-'use client';
+'use client'
 
-import { Suspense, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
-import { Lock, Mail, AlertCircle } from 'lucide-react';
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Lock, Mail, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
   return (
     <Suspense fallback={<div className="min-h-screen" />}>
       <LoginInner />
     </Suspense>
-  );
+  )
 }
 
 function LoginInner() {
-  const router = useRouter();
-  const search = useSearchParams();
-  const redirect = search.get('redirect') || '/admin';
+  const router = useRouter()
+  const search = useSearchParams()
+  const redirect = search.get('redirect') || '/admin'
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
-    const supabase = createSupabaseBrowserClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: email.trim(), password }),
+      })
+      const data = await res.json()
 
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
+      if (!data.success) {
+        setError(data.message || 'Login failed')
+        setLoading(false)
+        return
+      }
+      if (data.user?.role !== 'admin') {
+        setError('This account is not an admin. Contact the owner to grant access.')
+        setLoading(false)
+        return
+      }
+
+      router.replace(redirect)
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Network error')
+      setLoading(false)
     }
-
-    router.replace(redirect);
-    router.refresh();
   }
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-orange-50 via-white to-orange-50">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 border border-orange-100">
         <div className="text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl gradient-bg mx-auto flex items-center justify-center text-white mb-3">
+          <div className="w-14 h-14 rounded-2xl bg-gray-900 mx-auto flex items-center justify-center text-white mb-3">
             <Lock className="w-7 h-7" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Admin Sign In</h1>
-          <p className="text-sm text-gray-600 mt-1">CSC Travels booking dashboard</p>
+          <p className="text-sm text-gray-600 mt-1">CSC Travels dispatch dashboard</p>
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">
@@ -89,12 +103,12 @@ function LoginInner() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full gradient-bg text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all disabled:opacity-50"
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-xl font-semibold shadow-lg transition-all disabled:opacity-50"
           >
             {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
       </div>
     </main>
-  );
+  )
 }
