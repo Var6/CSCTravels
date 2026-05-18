@@ -1,7 +1,7 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
-import User from '@/lib/models/User'
-import { signToken, jsonResponse, errorResponse, corsHeaders } from '@/lib/auth'
+import Customer from '@/lib/models/Customer'
+import { signToken, comparePassword, corsHeaders, errorResponse } from '@/lib/auth'
 
 export async function OPTIONS() {
   return new Response(null, { status: 204, headers: corsHeaders() })
@@ -10,47 +10,48 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
   try {
     await connectDB()
-
     const body = await req.json()
-    const { identifier, password } = body // identifier = email or phone
+    // Support: { identifier, password }, { email, password }, or { phone, password }.
+    const password = String(body.password ?? '')
+    const raw = String(body.identifier ?? body.email ?? body.phone ?? '').trim()
+    if (!raw || !password) return errorResponse('Identifier and password are required')
 
-    if (!identifier || !password) {
-      return errorResponse('Email/phone and password are required')
-    }
+    const query = /@/.test(raw)
+      ? { email: raw.toLowerCase() }
+      : { phone: raw.replace(/\s+/g, '') }
 
-    const isEmail = identifier.includes('@')
-    const query = isEmail ? { email: identifier.toLowerCase() } : { phone: identifier }
+    const customer = await Customer.findOne(query).select('+passwordHash')
+    if (!customer || !customer.passwordHash) return errorResponse('Invalid credentials', 401)
 
-    const user = await User.findOne(query).select('+password')
-    if (!user) {
-      return errorResponse('Invalid credentials', 401)
-    }
+    const ok = await comparePassword(password, customer.passwordHash)
+    if (!ok) return errorResponse('Invalid credentials', 401)
+    if (customer.status !== 'active') return errorResponse('Account is not active', 403)
 
-    if (!user.isActive) {
-      return errorResponse('Account is deactivated. Contact support.', 403)
-    }
+    const token = signToken({
+      customerId: customer._id!.toString(),
+      role: 'customer',
+      ...(customer.companyId ? { companyId: customer.companyId.toString() } : {}),
+    })
 
-    const isMatch = await user.comparePassword(password)
-    if (!isMatch) {
-      return errorResponse('Invalid credentials', 401)
-    }
-
-    const token = signToken({ userId: user._id.toString(), role: user.role })
-
-    return jsonResponse({
+    const res = NextResponse.json({
       success: true,
-      message: 'Login successful',
       token,
       user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        isActive: user.isActive,
-        isVerified: user.isVerified,
+        _id: customer._id,
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email,
+        role: 'customer',
       },
+    }, { headers: corsHeaders() })
+    res.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
     })
+    return res
   } catch (err) {
     console.error('[login]', err)
     return errorResponse('Server error', 500)

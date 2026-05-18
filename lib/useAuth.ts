@@ -5,11 +5,9 @@ import { useState, useEffect, useCallback } from 'react'
 export interface AuthUser {
   _id: string
   name: string
-  email: string
+  email?: string
   phone: string
-  role: 'user' | 'driver' | 'admin'
-  isActive: boolean
-  isVerified: boolean
+  role: 'customer'
 }
 
 const TOKEN_KEY = 'csc_token'

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
-import Ride from '@/lib/models/Ride'
+import Trip from '@/lib/models/Trip'
 import { getAuthUser, jsonResponse, errorResponse, corsHeaders } from '@/lib/auth'
 
 export async function OPTIONS() {
@@ -15,25 +15,19 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     await connectDB()
     const { id } = await params
     const body = await req.json().catch(() => ({}))
-    const { reason } = body
+    const reason = body?.reason ? String(body.reason) : 'Cancelled by customer'
 
-    const ride = await Ride.findById(id)
-    if (!ride) return errorResponse('Ride not found', 404)
+    const trip = await Trip.findById(id)
+    if (!trip) return errorResponse('Ride not found', 404)
+    if (trip.customer.id.toString() !== auth.customerId) return errorResponse('Forbidden', 403)
+    if (['completed', 'cancelled'].includes(trip.status))
+      return errorResponse(`Cannot cancel a ${trip.status} ride`)
 
-    // User can cancel their own ride; driver/admin can cancel any
-    if (auth.role === 'user' && ride.userId.toString() !== auth.userId) {
-      return errorResponse('Forbidden', 403)
-    }
+    trip.status = 'cancelled'
+    trip.notes = trip.notes ? `${trip.notes}\nCancel reason: ${reason}` : `Cancel reason: ${reason}`
+    await trip.save()
 
-    if (['completed', 'cancelled'].includes(ride.status)) {
-      return errorResponse(`Cannot cancel a ${ride.status} ride`)
-    }
-
-    ride.status = 'cancelled'
-    ride.cancelReason = reason || 'Cancelled by user'
-    await ride.save()
-
-    return jsonResponse({ success: true, message: 'Ride cancelled', ride })
+    return jsonResponse({ success: true, message: 'Ride cancelled' })
   } catch (err) {
     console.error('[ride cancel]', err)
     return errorResponse('Server error', 500)

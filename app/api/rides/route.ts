@@ -1,18 +1,54 @@
 import { NextRequest } from 'next/server'
+import mongoose from 'mongoose'
 import { connectDB } from '@/lib/mongodb'
-import Ride, { calculateFare, generateOtp } from '@/lib/models/Ride'
+import Customer from '@/lib/models/Customer'
+import Trip from '@/lib/models/Trip'
+import { calculateFare } from '@/lib/fareUtils'
 import { getAuthUser, jsonResponse, errorResponse, corsHeaders } from '@/lib/auth'
 
 export async function OPTIONS() {
   return new Response(null, { status: 204, headers: corsHeaders() })
 }
 
-// GET /api/rides — list rides for the authenticated user (or all for admin/driver)
+function generateOtp(): string {
+  return Math.floor(1000 + Math.random() * 9000).toString()
+}
+
+// Map a Trip document to the wire shape the existing Booking UI expects.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toRide(t: any) {
+  return {
+    _id: t._id,
+    tripNumber: t.tripNumber,
+    pickup: { address: t.route?.pickup ?? '' },
+    dropoff: { address: t.route?.dropoff ?? '' },
+    vehicleType: 'cab',
+    status: t.status === 'ongoing' ? 'in_progress'
+          : t.status === 'pending' ? 'pending'
+          : t.status,
+    fare: t.charges?.totalFare ?? 0,
+    distance: t.odometer?.totalKm ?? t.charges?.distanceCost
+                ? Math.round(((t.charges?.distanceCost ?? 0) / Math.max(1, t.charges?.costPerKm ?? 20)) * 10) / 10
+                : 0,
+    otp: t.otp ?? '',
+    paymentMode: t.payment?.method ?? 'cash',
+    paymentStatus: t.payment?.status ?? 'pending',
+    scheduledAt: t.timing?.tripDate,
+    createdAt: t.createdAt,
+    driver: t.driver?.driverId ? {
+      name: t.driver.name,
+      phone: t.driver.phone,
+      vehicleNumber: t.vehicle?.plate,
+      vehicleModel:  t.vehicle?.model,
+    } : null,
+  }
+}
+
+// GET /api/rides — list rides for the signed-in customer
 export async function GET(req: NextRequest) {
   try {
     const auth = getAuthUser(req)
     if (!auth) return errorResponse('Unauthorized', 401)
-
     await connectDB()
 
     const { searchParams } = new URL(req.url)
@@ -21,24 +57,17 @@ export async function GET(req: NextRequest) {
     const limit  = Math.min(50, parseInt(searchParams.get('limit') || '10'))
     const skip   = (page - 1) * limit
 
-    const filter: Record<string, unknown> = {}
-    if (auth.role === 'user')   filter.userId   = auth.userId
-    if (auth.role === 'driver') filter.driverId = auth.userId
-    if (status) filter.status = status
+    const filter: Record<string, unknown> = { 'customer.id': auth.customerId }
+    if (status) filter.status = status === 'in_progress' ? 'ongoing' : status
 
-    const [rides, total] = await Promise.all([
-      Ride.find(filter)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .populate('userId',   'name phone')
-        .populate('driverId', 'vehicleNumber vehicleModel'),
-      Ride.countDocuments(filter),
+    const [trips, total] = await Promise.all([
+      Trip.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+      Trip.countDocuments(filter),
     ])
 
     return jsonResponse({
       success: true,
-      rides,
+      rides: trips.map(toRide),
       pagination: { page, limit, total, pages: Math.ceil(total / limit) },
     })
   } catch (err) {
@@ -47,17 +76,15 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST /api/rides — request a new ride
+// POST /api/rides — customer requests a new ride (writes a pending Trip)
 export async function POST(req: NextRequest) {
   try {
     const auth = getAuthUser(req)
     if (!auth) return errorResponse('Unauthorized', 401)
-    if (auth.role === 'driver') return errorResponse('Drivers cannot book rides', 403)
-
     await connectDB()
 
     const body = await req.json()
-    const { pickup, dropoff, tripType = 'one_way', paymentMode, scheduledAt } = body
+    const { pickup, dropoff, tripType = 'one_way', paymentMode = 'cash', scheduledAt } = body
 
     if (!pickup?.address  || pickup?.lat  == null || pickup?.lng  == null)
       return errorResponse('Valid pickup location is required')
@@ -66,7 +93,10 @@ export async function POST(req: NextRequest) {
     if (!['one_way', 'round_trip'].includes(tripType))
       return errorResponse('tripType must be one_way or round_trip')
 
-    // Haversine distance (one-way, in km)
+    const customer = await Customer.findById(auth.customerId)
+    if (!customer) return errorResponse('Customer not found', 404)
+
+    // Haversine (one-way km, rounded to 0.1)
     const R    = 6371
     const dLat = ((dropoff.lat - pickup.lat) * Math.PI) / 180
     const dLng = ((dropoff.lng - pickup.lng) * Math.PI) / 180
@@ -76,28 +106,46 @@ export async function POST(req: NextRequest) {
       Math.cos((dropoff.lat * Math.PI) / 180) *
       Math.sin(dLng / 2) ** 2
     const oneWayKm = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10
+    const breakdown = calculateFare(oneWayKm, tripType)
 
-    const breakdown        = calculateFare(oneWayKm, tripType)
-    const estimatedDuration = Math.round((oneWayKm / 30) * 60) // 30 km/h avg
+    const companyIdRaw = auth.companyId ?? process.env.PUBLIC_COMPANY_ID
+    if (!companyIdRaw) {
+      return errorResponse(
+        'PUBLIC_COMPANY_ID env var not set — cannot create a tenanted booking.',
+        500,
+      )
+    }
 
-    const ride = await Ride.create({
-      userId: auth.userId,
-      pickup,
-      dropoff,
-      vehicleType:    'cab',
-      tripType,
-      distance:       oneWayKm,
-      fare:           breakdown.totalFare,
-      fareBreakdown:  breakdown,
-      duration:       estimatedDuration,
-      otp:            generateOtp(),
-      paymentMode:    paymentMode || 'cash',
-      ...(scheduledAt && { scheduledAt: new Date(scheduledAt) }),
+    const pickupAt = scheduledAt ? new Date(scheduledAt) : new Date()
+    const otp = generateOtp()
+
+    const trip = await Trip.create({
+      companyId: new mongoose.Types.ObjectId(companyIdRaw),
+      customer: { id: customer._id, name: customer.name, phone: customer.phone },
+      route: { pickup: pickup.address, dropoff: dropoff.address },
+      timing: {
+        tripDate:  pickupAt,
+        startTime: pickupAt.toISOString().slice(11, 16), // "HH:MM"
+      },
+      charges: {
+        costPerKm:    breakdown.ratePerKm,
+        distanceCost: breakdown.baseFare,
+        subtotal:     breakdown.totalFare,
+        totalFare:    breakdown.totalFare,
+      },
+      payment: { method: paymentMode, status: 'pending' },
+      status:  'pending',
+      otp,
+      notes: body.notes ? String(body.notes) : undefined,
     })
 
-    return jsonResponse({ success: true, message: 'Ride requested successfully', ride }, 201)
+    return jsonResponse({
+      success: true,
+      message: 'Ride requested successfully',
+      ride: { ...toRide(trip.toObject()), distance: oneWayKm, otp },
+    }, 201)
   } catch (err) {
     console.error('[rides POST]', err)
-    return errorResponse('Server error', 500)
+    return errorResponse(err instanceof Error ? err.message : 'Server error', 500)
   }
 }
