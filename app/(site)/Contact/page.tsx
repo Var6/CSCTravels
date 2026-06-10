@@ -9,7 +9,7 @@ export default function ContactPage() {
 
         {/* HEADER */}
         <div className="text-center space-y-3">
-          <h1 className="text-3xl md:text-4xl font-bold text-orange-600">
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mt-8">
             Contact CSC Travels
           </h1>
           <p className="text-gray-600 max-w-xl mx-auto">
