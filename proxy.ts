@@ -4,7 +4,7 @@ import { corsHeaders } from '@/lib/auth'
 // Public website middleware. The admin dashboard now lives at
 // app.csctravels.com (CSCBilling) — there is no /admin here anymore.
 // We only handle CORS for the public /api/* routes (used by mobile clients).
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const url = request.nextUrl
 
   if (url.pathname.startsWith('/api/')) {
