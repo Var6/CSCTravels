@@ -14,7 +14,8 @@ import {
   Mail, ShieldCheck, type LucideIcon,
 } from 'lucide-react'
 import { useAuth } from '@/lib/useAuth'
-import { calculateFare, type TripType, type FareBreakdown } from '@/lib/fareUtils'
+import { calculateFare, toTripKind, availableVehicles, type TripType, type FareBreakdown } from '@/lib/fareUtils'
+import { DEFAULT_RATES, type RateCard, type RiderTier, type VehicleClass } from '@/lib/rateCard'
 
 const RideMap = dynamic(() => import('@/components/RideMap'), {
   ssr: false,
@@ -144,6 +145,11 @@ export default function BookingPage() {
   const [routeGeo,     setRouteGeo]     = useState<[number,number][] | null>(null)
   const [routeInfo,    setRouteInfo]    = useState<{ distance: number; duration: number } | null>(null)
   const [tripType,     setTripType]     = useState<TripType>('one_way')
+  // Live fare structure, published by CSCBilling. Starts from the bundled copy
+  // so the first paint has prices, then swaps to the live card.
+  const [rates,        setRates]        = useState<RateCard>(DEFAULT_RATES)
+  const [riderTier,    setRiderTier]    = useState<RiderTier>('public')
+  const [vehicle,      setVehicle]      = useState<VehicleClass>('hatchback')
   const [payMode,      setPayMode]      = useState<'cash'|'online'>('cash')
   const [loadingRoute, setLoadingRoute] = useState(false)
   const [gpsLoading,   setGpsLoading]   = useState(false)
@@ -231,9 +237,24 @@ export default function BookingPage() {
     )
   }
 
+  useEffect(() => {
+    let alive = true
+    fetch('/api/rates')
+      .then(r => r.json())
+      .then(d => { if (alive && d?.rates) setRates(d.rates) })
+      .catch(() => { /* bundled defaults already in state */ })
+    return () => { alive = false }
+  }, [])
+
   /* book */
+  // Outstation is a fact about the destination, not a choice — mirrors what
+  // the server derives, so the quote and the bill agree.
+  const outstation = !!dropoff && Math.abs(dropoff.lat - 25.5941) + Math.abs(dropoff.lng - 85.1376) > 0.3
+  const tripKind = toTripKind(tripType, outstation)
+  const vehicleChoices = rates.vehicles.filter(v => availableVehicles(rates, tripKind).includes(v.id))
+
   const fareBreakdown: FareBreakdown | null = routeInfo
-    ? calculateFare(routeInfo.distance, tripType)
+    ? calculateFare(rates, { oneWayKm: routeInfo.distance, tripKind, vehicle, tier: riderTier })
     : null
 
   async function handleBook() {
@@ -242,7 +263,7 @@ export default function BookingPage() {
     try {
       const res  = await authFetch('/api/rides', {
         method: 'POST',
-        body: JSON.stringify({ pickup, dropoff, vehicleType: 'cab', tripType, paymentMode: payMode }),
+        body: JSON.stringify({ pickup, dropoff, tripType, tripKind, vehicle, riderTier, paymentMode: payMode }),
       })
       const data = await res.json()
       if (!data.success) { setBookErr(data.message || 'Booking failed'); return }
@@ -485,6 +506,54 @@ export default function BookingPage() {
                       </div>
                     )}
 
+                    {/* Fare category — the member/employee benefit circular */}
+                    <div className="space-y-1.5">
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-gray-400">Fare category</p>
+                      <div className="flex gap-1.5">
+                        {(Object.keys(rates.discounts) as RiderTier[]).map(t => {
+                          const cfg = rates.discounts[t]
+                          const on  = riderTier === t
+                          return (
+                            <button key={t} onClick={() => setRiderTier(t)}
+                              className={`flex-1 py-2 px-1 rounded-lg border-2 text-center transition ${
+                                on ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-gray-300'
+                              }`}>
+                              <span className="block text-[11px] font-bold text-gray-800 truncate">{cfg.label}</span>
+                              <span className={`block text-[10px] font-bold ${cfg.pct > 0 ? 'text-green-600' : 'text-gray-400'}`}>
+                                {cfg.pct > 0 ? `${cfg.pct}% off` : 'No discount'}
+                              </span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                      {rates.discounts[riderTier].proof && (
+                        <p className="text-[10px] text-gray-400">{rates.discounts[riderTier].proof}.</p>
+                      )}
+                    </div>
+
+                    {/* Vehicle — outstation is priced per class, city is a flat rate */}
+                    {outstation && vehicleChoices.length > 1 && (
+                      <div className="space-y-1.5">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-gray-400">Vehicle</p>
+                        <div className="flex gap-1.5">
+                          {vehicleChoices.map(v => {
+                            const on = vehicle === v.id
+                            return (
+                              <button key={v.id} onClick={() => setVehicle(v.id)}
+                                className={`flex-1 py-2 px-1 rounded-lg border-2 text-center transition ${
+                                  on ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-gray-300'
+                                }`}>
+                                <span className="block text-[11px] font-bold text-gray-800">{v.label}</span>
+                                <span className="block text-[10px] text-gray-400">
+                                  ₹{rates.outstation.perKm[v.id]}/km
+                                </span>
+                              </button>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Fare card */}
                     <div className="bg-gray-900 text-white rounded-2xl px-5 py-4 space-y-3">
                       <div className="flex items-center gap-3">
@@ -505,18 +574,34 @@ export default function BookingPage() {
                       </div>
                       {fareBreakdown && (
                         <div className="border-t border-gray-700 pt-3 space-y-1.5 text-xs">
-                          <FareRow label={`₹${fareBreakdown.ratePerKm}/km × ${fareBreakdown.chargedKm} km`} value={`₹${fareBreakdown.baseFare}`} />
-                          {fareBreakdown.fuelCharge > 0 && (
-                            <FareRow icon={<Fuel size={10}/>} label="Fuel surcharge (>40 km)" value={`₹${fareBreakdown.fuelCharge}`} highlight />
+                          {/* Every line of the circular, spelled out — a one-way
+                              city ride bills the outbound leg and the empty
+                              return separately, so showing one blended number
+                              would look like an unexplained markup. */}
+                          {fareBreakdown.baseLines.map((l, i) => (
+                            <FareRow key={i} label={l.detail ? `${l.label} · ${l.detail}` : l.label} value={`₹${l.amount}`} />
+                          ))}
+                          {fareBreakdown.minimumApplied && (
+                            <FareRow label="Minimum fare applied" value={`₹${fareBreakdown.baseFare}`} />
                           )}
+                          {fareBreakdown.discountAmount > 0 && (
+                            <FareRow
+                              icon={<ShieldCheck size={10}/>}
+                              label={`${fareBreakdown.discountLabel} · ${fareBreakdown.discountPct}% off base fare`}
+                              value={`− ₹${fareBreakdown.discountAmount}`}
+                              highlight
+                            />
+                          )}
+                          {fareBreakdown.extraLines.map((l, i) => (
+                            <FareRow key={`x${i}`} label={l.detail ? `${l.label} · ${l.detail}` : l.label} value={`₹${l.amount}`} />
+                          ))}
                           <div className="flex justify-between font-bold text-white border-t border-gray-700 pt-1.5 mt-1">
                             <span>Total</span>
                             <span className="text-orange-400 flex items-center gap-0.5"><IndianRupee size={11}/>{fareBreakdown.totalFare}</span>
                           </div>
                           <p className="text-gray-500 text-[10px] pt-0.5">
-                            {fareBreakdown.ratePerKm === 20
-                              ? tripType === 'round_trip' ? 'Standard rate · under 80 km round trip' : 'Standard rate · under 40 km'
-                              : tripType === 'round_trip' ? 'Long-distance rate · over 80 km round trip' : 'Long-distance rate · over 40 km'}
+                            Estimated on {fareBreakdown.oneWayKm} km road distance. Toll and parking are
+                            billed separately on actuals. Rate card {rates.version}.
                           </p>
                         </div>
                       )}

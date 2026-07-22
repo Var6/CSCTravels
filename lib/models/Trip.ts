@@ -1,8 +1,9 @@
 // MIRROR of CSCBilling/models/Trip.ts (must stay in sync; both apps reach the
 // same MongoDB `trips` collection).
 import mongoose, { Schema, model, models, type Model } from 'mongoose'
+import { geoPoint } from './geo'
 
-export type TripStatus = 'pending' | 'ongoing' | 'completed' | 'cancelled'
+export type TripStatus = 'pending' | 'accepted' | 'ongoing' | 'completed' | 'cancelled'
 export type PayMethod  = 'cash' | 'upi' | 'card' | 'wallet'
 export type PayStatus  = 'pending' | 'paid'
 
@@ -15,7 +16,27 @@ export interface ITrip {
   driver:   { driverId?: mongoose.Types.ObjectId; name?: string; phone?: string }
   vehicle:  { vehicleId?: mongoose.Types.ObjectId; plate?: string; model?: string; company?: string }
 
-  route:    { pickup: string; dropoff: string }
+  route: {
+    pickup: string; dropoff: string
+    /** GeoJSON [lng, lat]. Required for the ride to enter driver dispatch. */
+    pickupPoint?: { type: 'Point'; coordinates: [number, number] }
+    dropPoint?:   { type: 'Point'; coordinates: [number, number] }
+    estimatedKm?: number
+  }
+  source?: 'app' | 'offline' | 'staff' | 'web'
+  dispatch?: {
+    offeredTo?: mongoose.Types.ObjectId[]
+    offerWave?: number
+    offerExpiresAt?: Date | null
+    declinedBy?: mongoose.Types.ObjectId[]
+    acceptedAt?: Date | null
+  }
+  pricing?: {
+    tripKind?: string
+    riderTier?: 'public' | 'member' | 'official'
+    rateVersion?: string
+    estimatedFare?: number
+  }
   timing:   { tripDate: Date; startTime: string; endTime?: string }
   odometer: { start?: number; end?: number; totalKm?: number }
 
@@ -66,6 +87,35 @@ const TripSchema = new Schema<ITrip>(
     route: {
       pickup:  { type: String, required: true },
       dropoff: { type: String, required: true },
+      // Coordinates are what let a web booking reach a driver. Without them the
+      // trip is created but never enters dispatch and staff must assign it.
+      pickupPoint: geoPoint(),
+      dropPoint:   geoPoint(),
+      estimatedKm: { type: Number, default: 0 },
+    },
+
+    // Where the booking came from. "web" is this site.
+    source: {
+      type: String,
+      enum: ['app', 'offline', 'staff', 'web'],
+      default: 'web',
+    },
+
+    // Nearest-driver-first dispatch state — see lib/dispatch.ts.
+    dispatch: {
+      offeredTo:      [{ type: Schema.Types.ObjectId, ref: 'Driver' }],
+      offerWave:      { type: Number, default: 0 },
+      offerExpiresAt: { type: Date, default: null },
+      declinedBy:     [{ type: Schema.Types.ObjectId, ref: 'Driver' }],
+      acceptedAt:     { type: Date, default: null },
+    },
+
+    // Pricing context, so a bill can be traced to the rate card that made it.
+    pricing: {
+      tripKind:      { type: String },
+      riderTier:     { type: String, enum: ['public', 'member', 'official'], default: 'public' },
+      rateVersion:   { type: String },
+      estimatedFare: { type: Number, default: 0 },
     },
     timing: {
       tripDate:  { type: Date, required: true },
@@ -98,7 +148,7 @@ const TripSchema = new Schema<ITrip>(
 
     status: {
       type: String,
-      enum: ['pending', 'ongoing', 'completed', 'cancelled'],
+      enum: ['pending', 'accepted', 'ongoing', 'completed', 'cancelled'],
       default: 'pending',
     },
     otp:   { type: String },

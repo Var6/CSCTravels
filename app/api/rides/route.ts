@@ -3,7 +3,9 @@ import mongoose from 'mongoose'
 import { connectDB } from '@/lib/mongodb'
 import Customer from '@/lib/models/Customer'
 import Trip from '@/lib/models/Trip'
-import { calculateFare } from '@/lib/fareUtils'
+import { calculateFare, toTripKind, type TripKind } from '@/lib/fareUtils'
+import { getRateCard, type RiderTier, type VehicleClass } from '@/lib/rateCard'
+import { routeBetween, haversineKm, looksOutstation } from '@/lib/geoServices'
 import { getAuthUser, jsonResponse, errorResponse, corsHeaders } from '@/lib/auth'
 
 export async function OPTIONS() {
@@ -23,8 +25,9 @@ function toRide(t: any) {
     pickup: { address: t.route?.pickup ?? '' },
     dropoff: { address: t.route?.dropoff ?? '' },
     vehicleType: 'cab',
-    status: t.status === 'ongoing' ? 'in_progress'
-          : t.status === 'pending' ? 'pending'
+    status: t.status === 'ongoing'  ? 'in_progress'
+          : t.status === 'accepted' ? 'accepted'
+          : t.status === 'pending'  ? 'pending'
           : t.status,
     fare: t.charges?.totalFare ?? 0,
     distance: t.odometer?.totalKm ?? t.charges?.distanceCost
@@ -90,23 +93,40 @@ export async function POST(req: NextRequest) {
       return errorResponse('Valid pickup location is required')
     if (!dropoff?.address || dropoff?.lat == null || dropoff?.lng == null)
       return errorResponse('Valid dropoff location is required')
-    if (!['one_way', 'round_trip'].includes(tripType))
-      return errorResponse('tripType must be one_way or round_trip')
 
     const customer = await Customer.findById(auth.customerId)
     if (!customer) return errorResponse('Customer not found', 404)
 
-    // Haversine (one-way km, rounded to 0.1)
-    const R    = 6371
-    const dLat = ((dropoff.lat - pickup.lat) * Math.PI) / 180
-    const dLng = ((dropoff.lng - pickup.lng) * Math.PI) / 180
-    const a    =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos((pickup.lat  * Math.PI) / 180) *
-      Math.cos((dropoff.lat * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2
-    const oneWayKm = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10
-    const breakdown = calculateFare(oneWayKm, tripType)
+    const from = { lat: Number(pickup.lat),  lng: Number(pickup.lng)  }
+    const to   = { lat: Number(dropoff.lat), lng: Number(dropoff.lng) }
+
+    /*
+     * Bill on ROAD distance, recomputed here.
+     *
+     * This previously used a straight-line haversine while the booking page
+     * quoted the customer an OSRM road distance — so the price shown and the
+     * price charged disagreed by 20-40% on every city ride. Recomputing here
+     * rather than trusting body.distanceKm keeps the server authoritative
+     * without reintroducing that gap.
+     */
+    const routed = await routeBetween(from, to)
+    const oneWayKm = routed?.distanceKm ?? haversineKm(from, to)
+    if (!routed) {
+      console.warn('[rides] routing unavailable, fell back to straight-line distance')
+    }
+
+    // The customer picks a trip type; whether it is an outstation run is a fact
+    // about the destination, so it is derived rather than trusted from input.
+    const outstation = looksOutstation(to)
+    const tripKind: TripKind = body.tripKind ?? toTripKind(tripType, outstation)
+
+    const rates = await getRateCard()
+    const breakdown = calculateFare(rates, {
+      oneWayKm,
+      tripKind,
+      vehicle: (body.vehicle as VehicleClass) ?? 'hatchback',
+      tier: (body.riderTier as RiderTier) ?? 'public',
+    })
 
     const companyIdRaw = auth.companyId ?? process.env.PUBLIC_COMPANY_ID
     if (!companyIdRaw) {
@@ -121,17 +141,35 @@ export async function POST(req: NextRequest) {
 
     const trip = await Trip.create({
       companyId: new mongoose.Types.ObjectId(companyIdRaw),
+      source: 'web',
       customer: { id: customer._id, name: customer.name, phone: customer.phone },
-      route: { pickup: pickup.address, dropoff: dropoff.address },
+      route: {
+        pickup: pickup.address,
+        dropoff: dropoff.address,
+        // Storing coordinates is what lets a web booking reach a driver:
+        // CSCBilling's dispatch sweep picks up any pending trip that has a
+        // pickupPoint and offers it to the nearest on-duty drivers. Without
+        // these the booking is still created, but staff must assign it by hand.
+        pickupPoint: { type: 'Point', coordinates: [from.lng, from.lat] },
+        dropPoint:   { type: 'Point', coordinates: [to.lng, to.lat] },
+        estimatedKm: oneWayKm,
+      },
       timing: {
         tripDate:  pickupAt,
         startTime: pickupAt.toISOString().slice(11, 16), // "HH:MM"
       },
       charges: {
-        costPerKm:    breakdown.ratePerKm,
+        costPerKm:    rates.city.perKm,
         distanceCost: breakdown.baseFare,
-        subtotal:     breakdown.totalFare,
+        discount:     breakdown.discountAmount,
+        subtotal:     breakdown.baseFare - breakdown.discountAmount,
         totalFare:    breakdown.totalFare,
+      },
+      pricing: {
+        tripKind,
+        riderTier:     (body.riderTier as RiderTier) ?? 'public',
+        rateVersion:   rates.version,
+        estimatedFare: breakdown.totalFare,
       },
       payment: { method: paymentMode, status: 'pending' },
       status:  'pending',
@@ -143,6 +181,7 @@ export async function POST(req: NextRequest) {
       success: true,
       message: 'Ride requested successfully',
       ride: { ...toRide(trip.toObject()), distance: oneWayKm, otp },
+      fare: breakdown,
     }, 201)
   } catch (err) {
     console.error('[rides POST]', err)
