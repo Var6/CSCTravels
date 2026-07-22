@@ -246,7 +246,25 @@ function InteractiveMap({
   return <div ref={holder} style={{ width: '100%', height: '100%' }} />
 }
 
+/**
+ * Trims Google's long formatted addresses to something readable.
+ * "Anisabad, Patna, Bihar 800002, India" -> "Anisabad, Patna"
+ */
+function shortAddress(address?: string | null): string {
+  if (!address) return ''
+  const parts = address.split(',').map((p) => p.trim()).filter(Boolean)
+  // Drop a trailing country and any "Bihar 800002" postcode fragment.
+  const trimmed = parts.filter(
+    (p, i) => !(i >= parts.length - 2 && (/^\d{5,6}$/.test(p) || /\d{5,6}$/.test(p) || /^india$/i.test(p))),
+  )
+  return (trimmed.length ? trimmed : parts).slice(0, 2).join(', ')
+}
+
 function StaticMap({ pickup, dropoff, routeCoords }: Props) {
+  // A broken image renders its alt text, which looked like stray prose on the
+  // page. Track the failure and show a proper placeholder instead.
+  const [failed, setFailed] = useState(false)
+
   const src = useMemo(() => {
     if (!pickup && !dropoff) return null
     const params = new URLSearchParams()
@@ -260,9 +278,25 @@ function StaticMap({ pickup, dropoff, routeCoords }: Props) {
 
   if (!src) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-neutral-100 text-neutral-500 text-sm">
-        Choose a pickup point to see it on the map
-      </div>
+      <Placeholder title="Choose a pickup point" detail="Your route will appear here." />
+    )
+  }
+
+  if (failed) {
+    /*
+     * Reached when Static Maps is not enabled on the server key (Google answers
+     * 403), which is a configuration problem rather than something the rider
+     * did. Say what is missing without dumping an error at them.
+     */
+    return (
+      <Placeholder
+        title={
+          pickup && dropoff
+            ? `${shortAddress(pickup.address)} → ${shortAddress(dropoff.address)}`
+            : shortAddress((pickup ?? dropoff)?.address) || 'Location selected'
+        }
+        detail="Map preview unavailable right now."
+      />
     )
   }
 
@@ -273,11 +307,21 @@ function StaticMap({ pickup, dropoff, routeCoords }: Props) {
         src={src}
         alt={
           pickup && dropoff
-            ? `Route from ${pickup.address} to ${dropoff.address}`
-            : `Map of ${(pickup ?? dropoff)?.address ?? 'the selected location'}`
+            ? `Route from ${shortAddress(pickup.address)} to ${shortAddress(dropoff.address)}`
+            : `Map of ${shortAddress((pickup ?? dropoff)?.address) || 'the selected location'}`
         }
+        onError={() => setFailed(true)}
         className="w-full h-full object-cover"
       />
+    </div>
+  )
+}
+
+function Placeholder({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-1 bg-neutral-100 px-6 text-center">
+      <p className="text-sm font-medium text-neutral-700">{title}</p>
+      <p className="text-xs text-neutral-500">{detail}</p>
     </div>
   )
 }
