@@ -56,6 +56,9 @@ export interface ITrip {
   status:  TripStatus
   otp?:    string                       // shared between customer + driver to confirm pickup
   notes?:  string
+  /** Which engine produced the billed distance: google, osrm or a straight line. */
+  distanceSource?: 'routes_api' | 'directions_legacy' | 'osrm' | 'haversine'
+  distanceKm?: number
   createdAt: Date
   updatedAt: Date
 }
@@ -100,6 +103,17 @@ const TripSchema = new Schema<ITrip>(
       enum: ['app', 'offline', 'staff', 'web'],
       default: 'web',
     },
+
+    /*
+     * Provenance of the billed distance. Google and OSRM disagree by enough
+     * to matter on a per-km fare, so a ride must record which one priced it.
+     */
+    distanceSource: {
+      type: String,
+      enum: ['routes_api', 'directions_legacy', 'osrm', 'haversine'],
+      default: null,
+    },
+    distanceKm: { type: Number, default: null },
 
     // Nearest-driver-first dispatch state — see lib/dispatch.ts.
     dispatch: {

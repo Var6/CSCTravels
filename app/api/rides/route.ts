@@ -111,8 +111,24 @@ export async function POST(req: NextRequest) {
      */
     const routed = await routeBetween(from, to)
     const oneWayKm = routed?.distanceKm ?? haversineKm(from, to)
+
+    /*
+     * Record which engine produced the distance this fare was billed on.
+     *
+     * routeBetween degrades silently: Google Routes -> legacy Directions ->
+     * OSRM -> straight line. Those disagree by enough to matter when the fare
+     * is per kilometre, and without this the books cannot tell a Google-priced
+     * ride from an OSRM-priced one after the fact. During a pilot that is the
+     * difference between usable pricing data and unusable pricing data.
+     */
+    const distanceSource = routed?.source ?? 'haversine'
     if (!routed) {
       console.warn('[rides] routing unavailable, fell back to straight-line distance')
+    } else if (routed.source === 'osrm') {
+      console.warn(
+        '[rides] priced on OSRM, not Google — enable the Routes API on the ' +
+        'Google Cloud project so fares match the quoted distance',
+      )
     }
 
     // The customer picks a trip type; whether it is an outstation run is a fact
@@ -142,6 +158,9 @@ export async function POST(req: NextRequest) {
     const trip = await Trip.create({
       companyId: new mongoose.Types.ObjectId(companyIdRaw),
       source: 'web',
+      // Provenance of the billed distance — see the note above.
+      distanceSource,
+      distanceKm: oneWayKm,
       customer: { id: customer._id, name: customer.name, phone: customer.phone },
       route: {
         pickup: pickup.address,
@@ -182,6 +201,7 @@ export async function POST(req: NextRequest) {
       message: 'Ride requested successfully',
       ride: { ...toRide(trip.toObject()), distance: oneWayKm, otp },
       fare: breakdown,
+      distanceSource,
     }, 201)
   } catch (err) {
     console.error('[rides POST]', err)
