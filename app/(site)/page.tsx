@@ -20,7 +20,7 @@ const CSCTravelsLanding = () => {
    * "500+ Happy Customers". If the fetch fails the page falls back to wording
    * that makes no numeric claim, rather than showing a made-up number.
    */
-  const [stats, setStats] = useState<{ ridesLabel: string; drivers: number; vehicles: number } | null>(null);
+  const [stats, setStats] = useState<{ ridesLabel: string; rides: number; drivers: number; vehicles: number } | null>(null);
   useEffect(() => {
     fetch('/api/stats')
       .then((r) => (r.ok ? r.json() : null))
@@ -257,7 +257,7 @@ const CSCTravelsLanding = () => {
                     {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
                   </div>
                   <p className="text-sm text-gray-600 mt-1">
-                    {stats
+                    {stats && stats.rides >= 100
                       ? `${stats.ridesLabel} rides driven in Patna`
                       : 'Driving Patna since 2025'}
                   </p>
