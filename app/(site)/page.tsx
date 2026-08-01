@@ -14,6 +14,19 @@ const CSCTravelsLanding = () => {
   
   const [scrollY, setScrollY] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+
+  /*
+   * Live figures from the operating database, replacing the invented
+   * "500+ Happy Customers". If the fetch fails the page falls back to wording
+   * that makes no numeric claim, rather than showing a made-up number.
+   */
+  const [stats, setStats] = useState<{ ridesLabel: string; drivers: number; vehicles: number } | null>(null);
+  useEffect(() => {
+    fetch('/api/stats')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { if (j && !j.error) setStats(j); })
+      .catch(() => {});
+  }, []);
   const [formStatus, setFormStatus] = useState('');
   const [activeService, setActiveService] = useState(0);
 
@@ -80,23 +93,29 @@ const CSCTravelsLanding = () => {
     }
   };
 
+  /*
+   * What we run versus what we arrange. The fleet is our own CNG cars — the
+   * ones the drivers take out every day. Buses and tempo travellers are real
+   * offerings but come through partner operators, and saying so plainly beats
+   * implying a coach yard we do not have.
+   */
   const vehicles = [
-    { name: 'Luxury Cars', icon: <Image src='/aura.avif' alt='Luxury sedan' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Premium sedans for comfortable city and outstation rides', seats: '4+1', color: 'from-orange-500 to-orange-600' },
-    { name: 'Buses & Coaches', icon: <Image src='/bus.png' alt='Bus for group travel' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Spacious buses ideal for group tours and long-distance travel', seats: '20-50', color: 'from-orange-500 to-orange-600' },
-    { name: 'Travelers', icon: <Image src='/new.png' alt='Tempo traveller' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Roomy tempo travellers perfect for family trips and small groups', seats: '8-14', color: 'from-orange-600 to-orange-500' },
+    { name: 'CNG Cars — Our Fleet', icon: <Image src='/aura.avif' alt='CNG sedan' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Our own well-maintained CNG hatchbacks and sedans — WagonR and Aura class — driven daily across Patna', seats: '4+1', color: 'from-orange-500 to-orange-600' },
+    { name: 'Tempo Travellers', icon: <Image src='/new.png' alt='Tempo traveller' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'For family trips and small groups — arranged on request through trusted partner operators', seats: '8-14', color: 'from-orange-600 to-orange-500' },
+    { name: 'Buses & Coaches', icon: <Image src='/bus.png' alt='Bus for group travel' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Group tours, weddings and corporate movements — booked through partner operators, managed by us end to end', seats: '20-50', color: 'from-orange-500 to-orange-600' },
   ];
 
   const services = [
-    { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for every occasion', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
-    { icon: <Bus className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['20-50 Seater Coaches', 'Corporate & School Hire', 'Tour Packages', 'Long Distance Travel'] },
-    { icon: <Users className="w-10 h-10" />, title: 'Travelers', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
+    { icon: <Car className="w-10 h-10" />, title: 'City Rides & Rentals', desc: 'Patna city rides and self-drive packages', features: ['Hyundai Aura & WagonR class', 'Hourly & daily packages', 'Airport & railway pickups', 'Transparent per-km fares'] },
+    { icon: <Users className="w-10 h-10" />, title: 'Outstation & Events', desc: 'Round trips and occasions we drive every month', features: ['Ranchi, Gaya, Jehanabad & more', 'Weddings & ceremonies', 'Multi-day exam & official duty', 'Corporate hire'] },
+    { icon: <Bus className="w-10 h-10" />, title: 'Group Travel', desc: 'Bigger vehicles, arranged on request', features: ['Tempo travellers (8–14)', 'Buses via partner operators', 'School & staff transport', 'One point of contact — us'] },
   ];
 
   const features = [
-    { icon: <Shield className="w-8 h-8" />, title: '100% Safe', desc: 'GPS tracked & insured vehicles' },
-    { icon: <Clock className="w-8 h-8" />, title: '24/7 Available', desc: 'Round the clock service' },
-    { icon: <Award className="w-8 h-8" />, title: 'Experienced Drivers', desc: 'Professional & verified' },
-    { icon: <Star className="w-8 h-8" />, title: 'Best Rates', desc: 'Affordable pricing guaranteed' },
+    { icon: <Shield className="w-8 h-8" />, title: 'Safe & Accountable', desc: 'Verified drivers, odometer-checked trips' },
+    { icon: <Clock className="w-8 h-8" />, title: 'Day & Night', desc: 'Day and night shifts, bookable anytime' },
+    { icon: <Award className="w-8 h-8" />, title: 'Our Own Drivers', desc: 'Salaried, not gig — the same faces every time' },
+    { icon: <Star className="w-8 h-8" />, title: 'Fair, Fixed Fares', desc: 'Published per-km rate card — no haggling' },
   ];
 
   
@@ -201,7 +220,7 @@ const CSCTravelsLanding = () => {
             <div className="space-y-6 z-50">
               <div className="animate-on-scroll animate-fade-left z-50">
                 <span className="inline-block z-50 bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4 bg-clip-text">
-                  🚗 Premium Travel Partner in Patna
+                  🚗 Patna's Own Cab & Rental Service
                 </span>
               </div>
               
@@ -213,7 +232,7 @@ const CSCTravelsLanding = () => {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2">
-                Experience premium travel services with our fleet of cars, buses, and travelers. Safe, reliable, and available 24/7 across Patna and beyond.
+                Patna's own cab and rental service — our fleet of well-maintained CNG cars for city rides, outstation trips and events, with group vehicles arranged on request.
               </p>
               
               <div className="flex flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
@@ -237,7 +256,11 @@ const CSCTravelsLanding = () => {
                   <div className="flex text-orange-500">
                     {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">500+ Happy Customers</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {stats
+                      ? `${stats.ridesLabel} rides driven in Patna`
+                      : 'Driving Patna since 2025'}
+                  </p>
                 </div>
               </div>
             </div>
