@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
 import Floating from '@/components/floating';
+import CarModel from '@/components/carmodel';
 import Partners from './Partners/page';
 import Stats from '@/components/Stats';
 
@@ -28,6 +29,9 @@ const CSCTravelsLanding = () => {
   }, []);
   const [formStatus, setFormStatus] = useState('');
   const [activeService, setActiveService] = useState(0);
+  const [rentalModal, setRentalModal] = useState<'car' | 'bike' | null>(null);
+  const [rentalForm, setRentalForm] = useState({ mobile: '', email: '' });
+  const [rentalStatus, setRentalStatus] = useState<'' | 'sending' | 'success' | 'error'>('');
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -89,6 +93,43 @@ const CSCTravelsLanding = () => {
       console.error('EmailJS Error:', error);
       setFormStatus('error');
       setTimeout(() => setFormStatus(''), 3000);
+    }
+  };
+
+  const handleRentalSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setRentalStatus('sending');
+
+    const kind = rentalModal === 'bike' ? 'Bike' : 'Car';
+    try {
+      // Delivered through the same EmailJS template as the contact form, so
+      // rental requests land in the same inbox as "Send Us a Message".
+      await emailjs.send(
+        'service_lvx7awe',
+        'template_a5l253f',
+        {
+          name: `${kind} rental request`,
+          email: rentalForm.email || 'Not provided',
+          phone: rentalForm.mobile,
+          message:
+            `New ${kind.toLowerCase()} rental request from the website.\n` +
+            `Mobile: ${rentalForm.mobile}` +
+            (rentalForm.email ? `\nEmail: ${rentalForm.email}` : '\nEmail: (not provided)'),
+        },
+        '8SKteo8GEKvXbMwvp'
+      );
+
+      setRentalStatus('success');
+      setRentalForm({ mobile: '', email: '' });
+      // Leave the confirmation up briefly, then close.
+      setTimeout(() => {
+        setRentalStatus('');
+        setRentalModal(null);
+      }, 3500);
+    } catch (error) {
+      console.error('Rental EmailJS Error:', error);
+      setRentalStatus('error');
+      setTimeout(() => setRentalStatus(''), 4000);
     }
   };
 
@@ -247,6 +288,19 @@ const CSCTravelsLanding = () => {
                 </a>
               </div>
 
+              <div className="flex flex-wrap gap-3 animate-on-scroll animate-fade-left delay-4">
+                {['Car Rental', 'Bike Rental'].map((label) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => setRentalModal(label === 'Car Rental' ? 'car' : 'bike')}
+                    className="bg-white text-orange-700 border border-orange-200 hover:border-orange-400 hover:bg-orange-50 px-5 py-3 rounded-full font-semibold shadow-sm transition-all"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
               <div className="flex items-center gap-8 pt-4 animate-on-scroll animate-fade-left delay-4 ">
                 <div className="flex -space-x-2 ">
                   {[1,2,3,4].map(i => (
@@ -267,16 +321,9 @@ const CSCTravelsLanding = () => {
             </div>
             
             <div className="relative animate-on-scroll animate-fade-right">
-              <div className="relative h-[420px] sm:h-[480px] lg:h-[550px] flex items-center justify-center">
+              <div className="relative h-[420px] sm:h-[480px] lg:h-[550px]">
+                <CarModel />
                 <div className="absolute inset-0 gradient-bg opacity-20 blur-3xl rounded-full -z-10"></div>
-                <Image
-                  src="/bike.png"
-                  alt="Honda Splendor bike rental hero image"
-                  width={900}
-                  height={720}
-                  priority
-                  className="relative z-10 object-contain h-full w-auto drop-shadow-[0_25px_60px_rgba(234,88,12,0.28)]"
-                />
               </div>
             </div>
           </div>
@@ -325,11 +372,11 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 text-orange-500 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-orange-500 gap-6 md:gap-8">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
+                className="h-full bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
                 <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
@@ -383,11 +430,11 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
             {vehicles.map((vehicle, idx) => (
               <div
                 key={idx}
-                className="bg-linear-to-br from-white to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
+                className="h-full bg-linear-to-br from-white to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
                 style={{animationDelay: `${idx * 0.15}s`}}
               >
                 <div className={`w-full h-44 sm:h-48 bg-linear-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg overflow-hidden p-4`}>
@@ -566,6 +613,89 @@ const CSCTravelsLanding = () => {
           </div>
         </div>
       </section>
+
+      {rentalModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-orange-100">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Book your rental {rentalModal}
+              </h3>
+              <button
+                type="button"
+                onClick={() => { setRentalModal(null); setRentalStatus(''); }}
+                className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+                aria-label="Close rental modal"
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={handleRentalSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="rental-mobile" className="block text-sm font-medium text-gray-700 mb-1">
+                  Mobile Number
+                </label>
+                <input
+                  id="rental-mobile"
+                  type="tel"
+                  value={rentalForm.mobile}
+                  onChange={(e) => setRentalForm({ ...rentalForm, mobile: e.target.value })}
+                  placeholder="Enter mobile number"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="rental-email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email ID <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <input
+                  id="rental-email"
+                  type="email"
+                  value={rentalForm.email}
+                  onChange={(e) => setRentalForm({ ...rentalForm, email: e.target.value })}
+                  placeholder="Enter email address (optional)"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={rentalStatus === 'sending'}
+                className="w-full gradient-hover text-white py-3 rounded-xl font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {rentalStatus === 'sending' ? 'Sending…' : 'Submit Request'}
+              </button>
+
+              {rentalStatus === 'success' && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl text-sm text-center">
+                  ✓ Request received! We'll connect with you shortly.
+                </div>
+              )}
+              {rentalStatus === 'error' && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl text-sm text-center">
+                  ✗ Could not send your request. Please call us instead.
+                </div>
+              )}
+            </form>
+
+            <div className="mt-5 pt-4 border-t border-gray-100 text-center">
+              <p className="text-sm text-gray-600">
+                For more assistance, feel free to call us
+              </p>
+              <a
+                href="tel:+919873101537"
+                className="mt-1 inline-flex items-center gap-2 font-semibold text-orange-600 hover:text-orange-700"
+              >
+                <Phone className="w-4 h-4" />
+                +91 98731 01537
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       
