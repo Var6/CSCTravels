@@ -1,11 +1,10 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee, Bike } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
 import Floating from '@/components/floating';
-import CarModel from '@/components/carmodel';
 import Partners from './Partners/page';
 import Stats from '@/components/Stats';
 
@@ -101,14 +100,16 @@ const CSCTravelsLanding = () => {
    */
   const vehicles = [
     { name: 'CNG Cars — Our Fleet', icon: <Image src='/aura.avif' alt='CNG sedan' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Our own well-maintained CNG hatchbacks and sedans — WagonR and Aura class — driven daily across Patna', seats: '4+1', color: 'from-orange-500 to-orange-600' },
-    { name: 'Tempo Travellers', icon: <Image src='/new.png' alt='Tempo traveller' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'For family trips and small groups — arranged on request through trusted partner operators', seats: '8-14', color: 'from-orange-600 to-orange-500' },
+    { name: 'Bike Rentals', icon: <Image src='/bike.png' alt='Honda Splendor bike rental' height={180} width={260} className='object-contain max-h-40 w-auto drop-shadow-xl' />, desc: 'Daily and long-term bike rentals for local commute, quick errands, and affordable city travel', seats: '1-2', color: 'from-slate-700 to-slate-900' },
+    { name: 'Traveller Rentals', icon: <Image src='/new.png' alt='Traveller rental van' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'For family trips and small groups — arranged on request through trusted partner operators', seats: '8-14', color: 'from-orange-600 to-orange-500' },
     { name: 'Buses & Coaches', icon: <Image src='/bus.png' alt='Bus for group travel' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Group tours, weddings and corporate movements — booked through partner operators, managed by us end to end', seats: '20-50', color: 'from-orange-500 to-orange-600' },
   ];
 
   const services = [
     { icon: <Car className="w-10 h-10" />, title: 'City Rides & Rentals', desc: 'Patna city rides and self-drive packages', features: ['Hyundai Aura & WagonR class', 'Hourly & daily packages', 'Airport & railway pickups', 'Transparent per-km fares'] },
+    { icon: <Bike className="w-10 h-10" />, title: 'Bike Rentals', desc: 'Honda Splendor and commuter bike rentals for smooth local travel', features: ['Daily & weekly plans', 'Affordable city commuting', 'Helmet support available', 'Perfect for solo riders'] },
     { icon: <Users className="w-10 h-10" />, title: 'Outstation & Events', desc: 'Round trips and occasions we drive every month', features: ['Ranchi, Gaya, Jehanabad & more', 'Weddings & ceremonies', 'Multi-day exam & official duty', 'Corporate hire'] },
-    { icon: <Bus className="w-10 h-10" />, title: 'Group Travel', desc: 'Bigger vehicles, arranged on request', features: ['Tempo travellers (8–14)', 'Buses via partner operators', 'School & staff transport', 'One point of contact — us'] },
+    { icon: <Bus className="w-10 h-10" />, title: 'Group Travel', desc: 'Bigger vehicles, arranged on request', features: ['Traveller bookings (8–14)', 'Buses via partner operators', 'School & staff transport', 'One point of contact — us'] },
   ];
 
   const features = [
@@ -266,9 +267,16 @@ const CSCTravelsLanding = () => {
             </div>
             
             <div className="relative animate-on-scroll animate-fade-right">
-              <div className="relative h-[420px] sm:h-[480px] lg:h-[550px]">
-                <CarModel />
+              <div className="relative h-[420px] sm:h-[480px] lg:h-[550px] flex items-center justify-center">
                 <div className="absolute inset-0 gradient-bg opacity-20 blur-3xl rounded-full -z-10"></div>
+                <Image
+                  src="/bike.png"
+                  alt="Honda Splendor bike rental hero image"
+                  width={900}
+                  height={720}
+                  priority
+                  className="relative z-10 object-contain h-full w-auto drop-shadow-[0_25px_60px_rgba(234,88,12,0.28)]"
+                />
               </div>
             </div>
           </div>

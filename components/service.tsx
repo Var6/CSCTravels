@@ -1,5 +1,5 @@
 import React from 'react'
-import { Car, Users, Shield, Clock, Bus, Star, Award, CheckCircle } from 'lucide-react';
+import { Car, Users, Shield, Clock, Bus, Star, Award, CheckCircle, Bike } from 'lucide-react';
 const Service = () => {
 
     const features = [
@@ -11,8 +11,9 @@ const Service = () => {
 
       const services = [
         { icon: <Car className="w-10 h-10" />, title: 'Car Rentals', desc: 'Premium cars for every occasion', features: ['Hyundai Aura', 'Maruti Swift', 'WagonR', 'Premium Sedans'] },
+        { icon: <Bike className="w-10 h-10" />, title: 'Bike Rentals', desc: 'Reliable and affordable two-wheelers for local travel', features: ['Honda Splendor', 'Daily & weekly plans', 'Helmet support', 'Quick city mobility'] },
         { icon: <Bus className="w-10 h-10" />, title: 'Bus Services', desc: 'Comfortable group transportation', features: ['20-50 Seater Coaches', 'Corporate & School Hire', 'Tour Packages', 'Long Distance Travel'] },
-        { icon: <Users className="w-10 h-10" />, title: 'Travelers', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
+        { icon: <Users className="w-10 h-10" />, title: 'Traveller Services', desc: 'Perfect for family & friends', features: ['8-14 Seater', 'AC Available', 'Luggage Space', 'Flexible Routes'] },
       ];
   return (
     <section id="services" className="py-24 bg-linear-to-b from-white to-orange-50">
@@ -43,7 +44,7 @@ const Service = () => {
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center text-gray-700">
-                      <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-green-500 mr-3 shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
