@@ -57,7 +57,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         {/* Bottom note */}
         <div className="relative z-10">
           <p className="text-orange-200 text-xs">
-            Serving Patna since 2019 · Part of Citizen Cooperative
+            Serving Patna since 2017 · Part of Citizen Cooperative
           </p>
         </div>
       </div>

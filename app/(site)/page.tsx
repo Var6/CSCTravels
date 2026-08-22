@@ -263,7 +263,7 @@ const CSCTravelsLanding = () => {
             <div className="space-y-6 z-50">
               <div className="animate-on-scroll animate-fade-left z-50">
                 <span className="inline-block z-50 bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold mb-4 bg-clip-text">
-                  🚗 Patna's Own Cab & Rental Service
+                  🚗 Patna's Own Cab, Rental & Taxi Service
                 </span>
               </div>
               
@@ -275,7 +275,7 @@ const CSCTravelsLanding = () => {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed animate-on-scroll animate-fade-left delay-2">
-                Patna's own cab and rental service — our fleet of well-maintained CNG cars for city rides, outstation trips and events, with group vehicles arranged on request.
+                Patna's own cab and rental service — car and bike rentals, on-demand city cabs, outstation taxis and accessible door-to-door travel, with group vehicles arranged on request.
               </p>
               
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
@@ -319,7 +319,7 @@ const CSCTravelsLanding = () => {
                   <p className="text-sm text-gray-600 mt-1">
                     {stats && stats.rides >= 100
                       ? `${stats.ridesLabel} rides driven in Patna`
-                      : 'Driving Patna since 2025'}
+                      : 'Driving Patna since 2017'}
                   </p>
                 </div>
               </div>
@@ -377,11 +377,11 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 text-orange-500 gap-6 md:gap-8">
+          <div className="flex flex-wrap justify-center gap-8 text-orange-500">
             {services.map((service, idx) => (
-              <div 
-                key={idx} 
-                className="h-full bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
+              <div
+                key={idx}
+                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.334rem)] bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
                 <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
