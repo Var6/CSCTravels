@@ -91,10 +91,11 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4 text-white">Our Services</h4>
             <ul className="space-y-2 text-gray-300">
-              <li>Car Rentals</li>
-              <li>Bike Rentals</li>
-              <li>Traveller Bookings</li>
-              <li>Airport Transfers</li>
+              <li>Car Rental</li>
+              <li>Bike Rental</li>
+              <li>Cab Service</li>
+              <li>Taxi Service</li>
+              <li>Assistive Services</li>
             </ul>
           </div>
 

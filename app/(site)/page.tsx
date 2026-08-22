@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Users, Shield, Clock, ChevronRight, Send, Bus, Plane, Star, Award, CheckCircle, IndianRupee, Bike } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, Accessibility, CarTaxiFront, Navigation } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -147,10 +147,11 @@ const CSCTravelsLanding = () => {
   ];
 
   const services = [
-    { icon: <Car className="w-10 h-10" />, title: 'City Rides & Rentals', desc: 'Patna city rides and self-drive packages', features: ['Hyundai Aura & WagonR class', 'Hourly & daily packages', 'Airport & railway pickups', 'Transparent per-km fares'] },
-    { icon: <Bike className="w-10 h-10" />, title: 'Bike Rentals', desc: 'Honda Splendor and commuter bike rentals for smooth local travel', features: ['Daily & weekly plans', 'Affordable city commuting', 'Helmet support available', 'Perfect for solo riders'] },
-    { icon: <Users className="w-10 h-10" />, title: 'Outstation & Events', desc: 'Round trips and occasions we drive every month', features: ['Ranchi, Gaya, Jehanabad & more', 'Weddings & ceremonies', 'Multi-day exam & official duty', 'Corporate hire'] },
-    { icon: <Bus className="w-10 h-10" />, title: 'Group Travel', desc: 'Bigger vehicles, arranged on request', features: ['Traveller bookings (8–14)', 'Buses via partner operators', 'School & staff transport', 'One point of contact — us'] },
+    { icon: <Car className="w-10 h-10" />, title: 'Car Rental', desc: 'Well-maintained CNG hatchbacks and sedans for city rides and self-drive packages', features: ['Hyundai Aura & WagonR class', 'Hourly, daily & weekly plans', 'With driver or self-drive', 'Transparent per-km fares'] },
+    { icon: <Bike className="w-10 h-10" />, title: 'Bike Rental', desc: 'Honda Splendor and commuter bikes for quick, affordable local travel', features: ['Daily & weekly plans', 'Helmet support available', 'Great for city errands', 'Perfect for solo riders'] },
+    { icon: <CarTaxiFront className="w-10 h-10" />, title: 'Cab Service', desc: 'On-demand city cabs across Patna, booked in minutes', features: ['Doorstep pickup', 'Airport & railway runs', 'Salaried, verified drivers', 'No surge pricing'] },
+    { icon: <Navigation className="w-10 h-10" />, title: 'Taxi Service', desc: 'Point-to-point and outstation taxis for longer journeys', features: ['Ranchi, Gaya, Jehanabad & more', 'One-way & round trips', 'Fixed ₹12/km outstation', 'Toll & parking billed clearly'] },
+    { icon: <Accessibility className="w-10 h-10" />, title: 'Assistive Services', desc: 'Accessible, door-to-door travel for elderly and differently-abled riders', features: ['Wheelchair-friendly vehicles', 'Hospital & medical trips', 'Trained, patient drivers', 'Door-to-door assistance'] },
   ];
 
   const features = [
@@ -277,25 +278,29 @@ const CSCTravelsLanding = () => {
                 Patna's own cab and rental service — our fleet of well-maintained CNG cars for city rides, outstation trips and events, with group vehicles arranged on request.
               </p>
               
-              <div className="flex flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
-                <Link href="/booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center group">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
+                <Link href="/booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center justify-center group w-full sm:w-auto">
                   Book a Ride
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <a href="tel:+919873101537" className="bg-white border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 shadow-lg transition-all flex items-center group">
+                <a href="tel:+919873101537" className="bg-white border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 shadow-lg transition-all flex items-center justify-center group w-full sm:w-auto">
                   <Phone className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                   Call Now
                 </a>
               </div>
 
-              <div className="flex flex-wrap gap-3 animate-on-scroll animate-fade-left delay-4">
-                {['Car Rental', 'Bike Rental'].map((label) => (
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 animate-on-scroll animate-fade-left delay-4">
+                {[
+                  { label: 'Car Rental', kind: 'car' as const, Icon: Car },
+                  { label: 'Bike Rental', kind: 'bike' as const, Icon: Bike },
+                ].map(({ label, kind, Icon }) => (
                   <button
                     key={label}
                     type="button"
-                    onClick={() => setRentalModal(label === 'Car Rental' ? 'car' : 'bike')}
-                    className="bg-white text-orange-700 border border-orange-200 hover:border-orange-400 hover:bg-orange-50 px-5 py-3 rounded-full font-semibold shadow-sm transition-all"
+                    onClick={() => setRentalModal(kind)}
+                    className="group flex items-center justify-center gap-2 w-full sm:w-auto bg-linear-to-r from-orange-100 to-amber-50 text-orange-700 border border-orange-300 hover:border-transparent hover:from-orange-500 hover:to-orange-600 hover:text-white px-6 py-3.5 rounded-full font-semibold shadow-sm hover:shadow-lg transition-all"
                   >
+                    <Icon className="w-5 h-5 transition-transform group-hover:scale-110" />
                     {label}
                   </button>
                 ))}
@@ -372,7 +377,7 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-orange-500 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 text-orange-500 gap-6 md:gap-8">
             {services.map((service, idx) => (
               <div 
                 key={idx} 
