@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { Phone, Mail, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Phone, Mail, Facebook, Instagram, Linkedin } from 'lucide-react';
+import XLogo from './XLogo';
 
 // 1. Define the types for the props here to fix the "any" error
 interface SocialLinkProps {
@@ -50,10 +51,10 @@ const TopRibbon = () => {
           {/* RIGHT SIDE: Social Media */}
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
             <div className="flex items-center gap-3">
-              <SocialLink href="https://facebook.com" icon={<Facebook className="w-3.5 h-3.5" />} label="Facebook" />
-              <SocialLink href="https://twitter.com" icon={<Twitter className="w-3.5 h-3.5" />} label="Twitter" />
-              <SocialLink href="https://instagram.com" icon={<Instagram className="w-3.5 h-3.5" />} label="Instagram" />
-              <SocialLink href="https://linkedin.com" icon={<Linkedin className="w-3.5 h-3.5" />} label="LinkedIn" />
+              <SocialLink href="https://www.facebook.com/share/18LUspKNQu/" icon={<Facebook className="w-3.5 h-3.5" />} label="Facebook" />
+              <SocialLink href="https://x.com/CscTravels43283" icon={<XLogo className="w-3.5 h-3.5" />} label="X" />
+              <SocialLink href="https://www.instagram.com/csc.travel" icon={<Instagram className="w-3.5 h-3.5" />} label="Instagram" />
+              <SocialLink href="https://www.linkedin.com/company/csc-travels/" icon={<Linkedin className="w-3.5 h-3.5" />} label="LinkedIn" />
             </div>
           </div>
           

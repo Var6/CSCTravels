@@ -132,10 +132,10 @@ const organizationSchema = {
   areaServed: ["Patna", "Bihar", "India"],
   priceRange: "₹₹",
   sameAs: [
-    "https://facebook.com",
-    "https://twitter.com",
-    "https://instagram.com",
-    "https://linkedin.com",
+    "https://www.facebook.com/share/18LUspKNQu/",
+    "https://x.com/CscTravels43283",
+    "https://www.instagram.com/csc.travel",
+    "https://www.linkedin.com/company/csc-travels/",
   ],
 };
 

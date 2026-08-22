@@ -1,6 +1,7 @@
 import React from 'react'
-import { Mail, Phone, MapPin,Facebook, Twitter, Instagram  } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react"
 import Image from 'next/image'
+import XLogo from './XLogo'
 
 const Footer = () => {
   return (
@@ -32,45 +33,59 @@ const Footer = () => {
       
       {/* Facebook */}
       <a
-        href="https://facebook.com"
+        href="https://www.facebook.com/share/18LUspKNQu/"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Facebook"
-        className="w-10 h-10 rounded-lg flex items-center justify-center 
-                   bg-[#1877F2]/90 hover:bg-[#1877F2] 
-                   text-white transition-all duration-300 
+        aria-label="CSC Travels on Facebook"
+        className="w-10 h-10 rounded-lg flex items-center justify-center
+                   bg-[#1877F2]/90 hover:bg-[#1877F2]
+                   text-white transition-all duration-300
                    hover:scale-110 shadow-lg"
       >
         <Facebook className="w-5 h-5" />
       </a>
 
-      {/* Twitter / X */}
+      {/* X (formerly Twitter) */}
       <a
-        href="https://twitter.com"
+        href="https://x.com/CscTravels43283"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Twitter"
-        className="w-10 h-10 rounded-lg flex items-center justify-center 
-                   bg-[#1DA1F2]/90 hover:bg-[#1DA1F2] 
-                   text-white transition-all duration-300 
+        aria-label="CSC Travels on X"
+        className="w-10 h-10 rounded-lg flex items-center justify-center
+                   bg-black/90 hover:bg-black
+                   text-white transition-all duration-300
                    hover:scale-110 shadow-lg"
       >
-        <Twitter className="w-5 h-5" />
+        <XLogo className="w-5 h-5" />
       </a>
 
       {/* Instagram */}
       <a
-        href="https://instagram.com"
+        href="https://www.instagram.com/csc.travel"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Instagram"
-        className="w-10 h-10 rounded-lg flex items-center justify-center 
+        aria-label="CSC Travels on Instagram"
+        className="w-10 h-10 rounded-lg flex items-center justify-center
              bg-linear-to-tr from-pink-500 via-purple-500 to-orange-400
                    hover:from-pink-600 hover:via-purple-600 hover:to-orange-500
-                   text-white transition-all duration-300 
+                   text-white transition-all duration-300
                    hover:scale-110 shadow-lg"
       >
         <Instagram className="w-5 h-5" />
+      </a>
+
+      {/* LinkedIn */}
+      <a
+        href="https://www.linkedin.com/company/csc-travels/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="CSC Travels on LinkedIn"
+        className="w-10 h-10 rounded-lg flex items-center justify-center
+                   bg-[#0A66C2]/90 hover:bg-[#0A66C2]
+                   text-white transition-all duration-300
+                   hover:scale-110 shadow-lg"
+      >
+        <Linkedin className="w-5 h-5" />
       </a>
 
     </div>

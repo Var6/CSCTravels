@@ -30,10 +30,10 @@ const partners = [
         description:
             "Community-first daily essentials and wellness-focused offerings designed to support healthier, quality living.",
         line: "Fresh choices, trusted network, better lifestyle for cooperative families.",
-        url: "",
-        logo: "/Citilogo.png",
+        url: "https://citizenjaivik.com",
+        logo: "/citizenjaivik-logo.png",
         address: "Citizen ecosystem support center, Patna, Bihar",
-        contact: "Website update in progress",
+        contact: "Jaivik@citizenagriculture.in",
         accent: "from-emerald-500 to-green-600",
     },
     {
@@ -41,10 +41,10 @@ const partners = [
         description:
             "Financial and support services focused on convenience, guidance, and strong member relationships.",
         line: "Reliable support for day-to-day financial planning and service needs.",
-        url: "",
-        logo: "/Citilogo.png",
+        url: "https://citizenimf.com",
+        logo: "/citizenimf-logo.png",
         address: "Citizen ecosystem support center, Patna, Bihar",
-        contact: "Digital profile update in progress",
+        contact: "+91 90310 07097 • hello@citizenimf.com",
         accent: "from-violet-500 to-purple-600",
     },
 ];

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, Facebook, Instagram, Linkedin } from 'lucide-react';
+import XLogo from '../XLogo';
 
 const Topribbion = () => {
   return (
@@ -32,41 +33,41 @@ const Topribbion = () => {
           {/* Social Media Links - Right */}
           <div className="flex items-center gap-4">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/18LUspKNQu/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:scale-110 transition-transform duration-200"
-              aria-label="Facebook"
+              aria-label="CSC Travels on Facebook"
             >
               <Facebook size={20} />
             </a>
-            
+
             <a
-              href="https://twitter.com"
+              href="https://x.com/CscTravels43283"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:scale-110 transition-transform duration-200"
-              aria-label="Twitter"
+              aria-label="CSC Travels on X"
             >
-              <Twitter size={20} />
+              <XLogo className="w-[18px] h-[18px]" />
             </a>
-            
+
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/csc.travel"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:scale-110 transition-transform duration-200"
-              aria-label="Instagram"
+              aria-label="CSC Travels on Instagram"
             >
               <Instagram size={20} />
             </a>
-            
+
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/csc-travels/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:scale-110 transition-transform duration-200"
-              aria-label="LinkedIn"
+              aria-label="CSC Travels on LinkedIn"
             >
               <Linkedin size={20} />
             </a>
