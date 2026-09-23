@@ -245,7 +245,7 @@ const CSCTravelsLanding = () => {
           transform: translateY(-8px) scale(1.02);
           box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
         }
-        .animate-on-scroll { opacity: 0; }
+       .animate-on-scroll { opacity: 0; } 
       `}</style>
 
    
@@ -384,11 +384,22 @@ const CSCTravelsLanding = () => {
                 className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.334rem)] bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
-                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">{service.title}</h3>
-                <p className="text-gray-600 mb-6">{service.desc}</p>
+                <div
+  className={`w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 transition-all duration-300 ${
+    service.title !== "Assistive Services"
+      ? "group-hover:scale-110 group-hover:rotate-6"
+      : ""
+  }`}
+>
+  {service.icon}
+</div>
+
+<h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">
+  {service.title}
+</h3>
+
+<p className="text-gray-600 mb-6">{service.desc}</p>
+                
                 <ul className="space-y-3">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center text-gray-700">
