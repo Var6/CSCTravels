@@ -379,8 +379,16 @@ const CSCTravelsLanding = () => {
 
           <div className="flex flex-wrap justify-center gap-8 text-orange-500">
             {services.map((service, idx) => (
-              <div
+             
+              <Link
                 key={idx}
+                href={
+                  service.title === "Car Rental" ? "/car-rental" :
+                  service.title === "Bike Rental" ? "/bike-rental" :
+                  service.title === "Cab Service" ? "/cab-service" :
+                  service.title === "Taxi Service" ? "/taxi-service" :
+                  "/assistive-services"
+                }
                 className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.334rem)] bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
@@ -408,7 +416,7 @@ const CSCTravelsLanding = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Link>
             ))}
           </div>
           
