@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, Loader2, Phone, Mail, Lock, User, ArrowRight, Car, Users } from 'lucide-react'
+import { Eye, EyeOff, Loader2, Mail, Lock, User, ArrowRight, Car, Users } from 'lucide-react'
 import { useAuth } from '@/lib/useAuth'
+import CountryPhoneInput from '@/components/CountryPhoneInput'
 
 type Role = 'user' | 'driver'
 
@@ -37,9 +38,9 @@ export default function RegisterPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, role }),
       })
-      const data = await res.json()
-      if (!data.success) {
-        setError(data.message || 'Registration failed')
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data?.success) {
+        setError(data?.message || `Registration failed (HTTP ${res.status}).`)
         return
       }
       login(data.token, data.user)
@@ -93,11 +94,15 @@ export default function RegisterPage() {
         {/* Phone */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
-          <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"><Phone size={15} /></span>
-            <input type="tel" value={form.phone} onChange={set('phone')}
-              placeholder="9873101537" required maxLength={10}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400/30 focus:border-orange-400 transition" />
+          <div>
+            <CountryPhoneInput
+              name="phone"
+              value={form.phone}
+              onChange={(phone) => setForm((current) => ({ ...current, phone }))}
+              placeholder="Phone number"
+              required
+              inputClassName="py-3"
+            />
           </div>
         </div>
 

@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, ChevronRight, Clock, MapPin, Phone, ShieldCheck, Users } from "lucide-react";
+import MemberContactFields from "@/components/MemberContactFields";
+import { useAuth } from "@/lib/useAuth";
 
 export type ServiceLandingConfig = {
   title: string;
@@ -17,6 +19,7 @@ export type ServiceLandingConfig = {
 };
 
 export default function ServiceLandingPage({ config }: { config: ServiceLandingConfig }) {
+  const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,10 +76,9 @@ export default function ServiceLandingPage({ config }: { config: ServiceLandingC
       <section id="booking" className="bg-gradient-to-br from-orange-50 to-white px-6 py-24">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2">
           <div><span className="font-semibold uppercase tracking-wider text-orange-600">Plan your trip</span><h2 className="mt-3 text-3xl font-bold md:text-4xl">Request {config.bookingType}</h2><p className="mt-5 leading-relaxed text-gray-600">Send your trip details and our team will call to confirm availability and fare.</p><div className="mt-8 space-y-5 text-gray-700"><p className="flex items-center gap-3"><Phone className="h-5 w-5 text-orange-500" />+91 98731 01537</p><p className="flex items-center gap-3"><MapPin className="h-5 w-5 text-orange-500" />Patna and surrounding areas</p><p className="flex items-center gap-3"><Clock className="h-5 w-5 text-orange-500" />Advance bookings welcome</p></div><p className="mt-8 flex items-center gap-2 text-sm text-gray-500"><ShieldCheck className="h-5 w-5 text-green-600" />Your request is handled by the CSC Travels team.</p></div>
-          <form onSubmit={handleSubmit} className="rounded-3xl border border-orange-100 bg-white p-6 shadow-xl md:p-8">
+          <form key={user?._id ?? "guest"} onSubmit={handleSubmit} className="rounded-3xl border border-orange-100 bg-white p-6 shadow-xl md:p-8">
             <div className="grid gap-5 sm:grid-cols-2">
-              <label className="text-sm font-semibold text-gray-700">Name *<input required name="name" autoComplete="name" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 font-normal outline-none focus:border-orange-500" placeholder="Passenger name" /></label>
-              <label className="text-sm font-semibold text-gray-700">Phone *<input required name="phone" type="tel" autoComplete="tel" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 font-normal outline-none focus:border-orange-500" placeholder="+91 XXXXX XXXXX" /></label>
+              <MemberContactFields user={user} />
               <label className="text-sm font-semibold text-gray-700 sm:col-span-2">Pickup location *<input required name="pickup" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 font-normal outline-none focus:border-orange-500" placeholder="Pickup address" /></label>
               <label className="text-sm font-semibold text-gray-700 sm:col-span-2">Destination *<input required name="destination" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 font-normal outline-none focus:border-orange-500" placeholder="Where are you going?" /></label>
               <label className="text-sm font-semibold text-gray-700">Travel date<input name="date" type="date" className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 font-normal outline-none focus:border-orange-500" /></label>

@@ -16,9 +16,12 @@ export async function POST(req: NextRequest) {
     const raw = String(body.identifier ?? body.email ?? body.phone ?? '').trim()
     if (!raw || !password) return errorResponse('Identifier and password are required')
 
+    const phone = raw.replace(/[\s()-]/g, '')
+    // Existing Indian customer records store the national 10-digit number.
+    const normalizedPhone = phone.replace(/^\+91(?=[6-9]\d{9}$)/, '')
     const query = /@/.test(raw)
       ? { email: raw.toLowerCase() }
-      : { phone: raw.replace(/\s+/g, '') }
+      : { phone: normalizedPhone }
 
     const customer = await Customer.findOne(query).select('+passwordHash')
     if (!customer || !customer.passwordHash) return errorResponse('Invalid credentials', 401)

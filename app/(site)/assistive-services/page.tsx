@@ -16,9 +16,12 @@ import {
 } from "lucide-react";
 
 import { FormEvent, useState } from "react";
+import MemberContactFields from "@/components/MemberContactFields";
+import { useAuth } from "@/lib/useAuth";
 
 
 export default function AssistiveServicesPage() {
+  const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -424,45 +427,12 @@ export default function AssistiveServicesPage() {
             {/* Form */}
             <div className="lg:col-span-3">
               <form
+                key={user?._id ?? "guest"}
                 onSubmit={handleSubmit}
                 className="bg-white rounded-3xl shadow-xl border border-orange-100 p-6 md:p-8"
               >
                 <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Passenger Name *
-                    </label>
-
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      placeholder="Enter passenger name"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Phone Number *
-                    </label>
-
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      placeholder="+91 XXXXX XXXXX"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition"
-                    />
-                  </div>
+                  <MemberContactFields user={user} inputClassName="w-full rounded-xl border border-gray-200 px-4 py-3 font-normal focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition" />
 
                   <div>
                     <label
