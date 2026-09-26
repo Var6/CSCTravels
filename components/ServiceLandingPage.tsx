@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, CheckCircle, ChevronRight, Clock, MapPin, Phone, ShieldCheck, Users } from "lucide-react";
 import MemberContactFields from "@/components/MemberContactFields";
 import { useAuth } from "@/lib/useAuth";
@@ -13,7 +14,8 @@ export type ServiceLandingConfig = {
   details: string;
   icon: React.ReactNode;
   benefits: string[];
-  options: { title: string; description: string }[];
+  options: { title: string; description: string; features?: string[]; image?: string }[];
+  optionsHeading?: string;
   bookingLabel: string;
   bookingType: string;
 };
@@ -64,8 +66,8 @@ export default function ServiceLandingPage({ config }: { config: ServiceLandingC
 
       <section className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-14 max-w-3xl text-center"><span className="text-sm font-bold uppercase tracking-wider text-orange-600">Our Services</span><h2 className="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">Choose what works for your trip</h2><p className="mt-4 text-lg text-gray-600">{config.description}</p></div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">{config.options.map((option) => <article key={option.title} className="rounded-3xl border border-orange-100 bg-white p-8 shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"><div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-500 text-white [&>svg]:h-9 [&>svg]:w-9">{config.icon}</div><h3 className="text-2xl font-bold text-gray-900">{option.title}</h3><p className="mt-3 leading-relaxed text-gray-600">{option.description}</p><div className="mt-6 space-y-3">{config.benefits.slice(0, 3).map((benefit) => <div key={benefit} className="flex items-center gap-3 text-gray-700"><CheckCircle className="h-5 w-5 shrink-0 text-green-500" /><span>{benefit}</span></div>)}</div></article>)}</div>
+          <div className="mx-auto mb-14 max-w-3xl text-center"><span className="text-sm font-bold uppercase tracking-wider text-orange-600">{config.optionsHeading ? "Our Fleet" : "Our Services"}</span><h2 className="mt-3 text-3xl font-bold text-gray-900 md:text-4xl">{config.optionsHeading ?? "Choose what works for your trip"}</h2><p className="mt-4 text-lg text-gray-600">{config.description}</p></div>
+          <div className={`grid gap-5 sm:grid-cols-2 ${config.options.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>{config.options.map((option) => <article key={option.title} className="overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl">{option.image ? <div className="relative h-36 bg-white"><Image src={option.image} alt={`${option.title} rental bike`} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-contain p-1 transition-transform duration-300 hover:scale-105" /></div> : <div className="m-6 mb-0 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500 text-white [&>svg]:h-8 [&>svg]:w-8">{config.icon}</div>}<div className="p-6"><h3 className="text-xl font-bold text-gray-900">{option.title}</h3><p className="mt-2 leading-relaxed text-gray-600">{option.description}</p><div className="mt-5 space-y-2">{(option.features ?? config.benefits.slice(0, 3)).map((feature) => <div key={feature} className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-green-500" /><span>{feature}</span></div>)}</div></div></article>)}</div>
         </div>
       </section>
 
