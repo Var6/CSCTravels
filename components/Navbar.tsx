@@ -101,13 +101,6 @@ const Navbar = () => {
               </Link>
             )}
 
-            <Link
-              href={isLoggedIn ? "/booking" : "/?login=1"}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transition-all"
-            >
-              Book Now
-            </Link>
-
             {/* CITI LOGO */}
             <a
               href="https://citizencooperative.in/"
@@ -171,13 +164,6 @@ const Navbar = () => {
               </Link>
             )}
 
-            <Link
-              href={isLoggedIn ? "/booking" : "/?login=1"}
-              onClick={() => setIsMenuOpen(false)}
-              className="block bg-orange-500 text-white px-6 py-3 rounded-full text-center font-medium shadow-lg"
-            >
-              Book Now
-            </Link>
           </div>
         </div>
       )}
