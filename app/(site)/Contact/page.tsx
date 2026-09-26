@@ -1,8 +1,10 @@
 "use client"
 
 import { Mail, Phone, MapPin, Clock } from "lucide-react"
+import { useAuth } from "@/lib/useAuth"
 
 export default function ContactPage() {
+  const { user } = useAuth()
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-16 flex items-center justify-center">
       <div className="max-w-5xl w-full bg-white border border-gray-200 rounded-2xl shadow-md p-6 md:p-12 space-y-12">
@@ -67,29 +69,36 @@ export default function ContactPage() {
           </div>
 
           {/* RIGHT - FORM */}
-          <form className="space-y-5">
+          <form key={user?._id ?? "guest"} className="space-y-5">
 
-            <div>
+            {user?.name && <input type="hidden" name="name" value={user.name} />}
+            {user?.email && <input type="hidden" name="email" value={user.email} />}
+
+            {!user?.name && <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Full Name
               </label>
               <input
                 type="text"
+                name="name"
+                defaultValue={user?.name ?? ""}
                 placeholder="Enter your full name"
                 className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
               />
-            </div>
+            </div>}
 
-            <div>
+            {!user?.email && <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Email Address
               </label>
               <input
                 type="email"
+                name="email"
+                defaultValue={user?.email ?? ""}
                 placeholder="Enter your email"
                 className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
               />
-            </div>
+            </div>}
 
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">

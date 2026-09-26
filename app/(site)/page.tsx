@@ -1,16 +1,27 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Menu, X, Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, Accessibility, CarTaxiFront, Navigation } from 'lucide-react';
+import { Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, Accessibility, CarTaxiFront, Navigation, Lock, Eye, EyeOff, Loader2, X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/useAuth';
 import Floating from '@/components/floating';
 import CarModel from '@/components/carmodel';
 import Partners from './Partners/page';
 import Stats from '@/components/Stats';
+import CountryPhoneInput from '@/components/CountryPhoneInput';
 
 
 const CSCTravelsLanding = () => {
+  const router = useRouter();
+  const { user, login, isLoggedIn, loading: authLoading } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
   
   const [scrollY, setScrollY] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -32,6 +43,50 @@ const CSCTravelsLanding = () => {
   const [rentalModal, setRentalModal] = useState<'car' | 'bike' | null>(null);
   const [rentalForm, setRentalForm] = useState({ mobile: '', email: '' });
   const [rentalStatus, setRentalStatus] = useState<'' | 'sending' | 'success' | 'error'>('');
+
+  useEffect(() => {
+    if (!user) return;
+    setFormData((current) => ({ ...current, name: current.name || user.name, email: current.email || user.email || '', phone: current.phone || user.phone }));
+    setRentalForm((current) => ({ mobile: current.mobile || user.phone, email: current.email || user.email || '' }));
+  }, [user]);
+
+  useEffect(() => {
+    if (authLoading || new URLSearchParams(window.location.search).get('login') !== '1') return;
+    if (isLoggedIn) router.replace('/booking');
+    else setLoginOpen(true);
+  }, [authLoading, isLoggedIn, router]);
+
+  const openBooking = () => {
+    if (isLoggedIn) router.push('/booking');
+    else if (!authLoading) {
+      setLoginError('');
+      setLoginOpen(true);
+    }
+  };
+
+  const handleHomeLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoginError('');
+    setLoginLoading(true);
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier: loginIdentifier.trim(), password: loginPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        setLoginError(data.message || 'Login failed. Please check your details.');
+        return;
+      }
+      login(data.token, data.user);
+      router.push('/booking');
+    } catch {
+      setLoginError('Could not connect. Please try again.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -101,6 +156,8 @@ const CSCTravelsLanding = () => {
     setRentalStatus('sending');
 
     const kind = rentalModal === 'bike' ? 'Bike' : 'Car';
+    const mobile = (rentalForm.mobile || user?.phone || '').trim();
+    const email = (rentalForm.email || user?.email || '').trim();
     try {
       // Delivered through the same EmailJS template as the contact form, so
       // rental requests land in the same inbox as "Send Us a Message".
@@ -109,12 +166,12 @@ const CSCTravelsLanding = () => {
         'template_a5l253f',
         {
           name: `${kind} rental request`,
-          email: rentalForm.email || 'Not provided',
-          phone: rentalForm.mobile,
+          email,
+          phone: mobile,
           message:
             `New ${kind.toLowerCase()} rental request from the website.\n` +
-            `Mobile: ${rentalForm.mobile}` +
-            (rentalForm.email ? `\nEmail: ${rentalForm.email}` : '\nEmail: (not provided)'),
+            `Mobile: ${mobile}` +
+            (email ? `\nEmail: ${email}` : '\nEmail: (not provided)'),
         },
         '8SKteo8GEKvXbMwvp'
       );
@@ -127,7 +184,11 @@ const CSCTravelsLanding = () => {
         setRentalModal(null);
       }, 3500);
     } catch (error) {
-      console.error('Rental EmailJS Error:', error);
+      const emailJsError = error as { status?: number; text?: string; message?: string };
+      console.error('Rental EmailJS Error:', {
+        status: emailJsError?.status,
+        message: emailJsError?.text || emailJsError?.message || String(error),
+      });
       setRentalStatus('error');
       setTimeout(() => setRentalStatus(''), 4000);
     }
@@ -279,10 +340,10 @@ const CSCTravelsLanding = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 animate-on-scroll animate-fade-left delay-3">
-                <Link href="/booking" className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center justify-center group w-full sm:w-auto">
+                <button type="button" onClick={openBooking} className="gradient-hover text-white px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl flex items-center justify-center group w-full sm:w-auto">
                   Book a Ride
                   <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </button>
                 <a href="tel:+919873101537" className="bg-white border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-full font-semibold hover:bg-orange-50 shadow-lg transition-all flex items-center justify-center group w-full sm:w-auto">
                   <Phone className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                   Call Now
@@ -561,7 +622,7 @@ const CSCTravelsLanding = () => {
               <div className="bg-white rounded-3xl p-8 shadow-2xl">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-6 text-black">
-                  <div>
+                  {!user?.name && <div>
                     <input
                       type="text"
                       placeholder="Your Name"
@@ -570,8 +631,8 @@ const CSCTravelsLanding = () => {
                       required
                       className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all text-black"
                     />
-                  </div>
-                  <div>
+                  </div>}
+                  {!user?.email && <div>
                     <input
                       type="email"
                       placeholder="Your Email"
@@ -580,17 +641,18 @@ const CSCTravelsLanding = () => {
                       required
                       className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all"
                     />
-                  </div>
-                  <div>
-                    <input
-                      type="tel"
-                      placeholder="Your Phone"
+                  </div>}
+                  {!user?.phone && <div>
+                    <CountryPhoneInput
+                      name="phone"
+                      placeholder="Your phone number"
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={(phone) => setFormData((current) => ({ ...current, phone }))}
                       required
-                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all"
+                      containerClassName="border-2"
+                      inputClassName="px-4 py-4 text-base"
                     />
-                  </div>
+                  </div>}
                   <div>
                     <textarea
                       placeholder="Your Message"
@@ -656,22 +718,22 @@ const CSCTravelsLanding = () => {
             </div>
 
             <form onSubmit={handleRentalSubmit} className="space-y-4">
-              <div>
+              {!user?.phone && <div>
                 <label htmlFor="rental-mobile" className="block text-sm font-medium text-gray-700 mb-1">
                   Mobile Number
                 </label>
-                <input
+                <CountryPhoneInput
                   id="rental-mobile"
-                  type="tel"
+                  name="mobile"
                   value={rentalForm.mobile}
-                  onChange={(e) => setRentalForm({ ...rentalForm, mobile: e.target.value })}
+                  onChange={(mobile) => setRentalForm((current) => ({ ...current, mobile }))}
                   placeholder="Enter mobile number"
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none"
+                  inputClassName="py-3"
                 />
-              </div>
+              </div>}
 
-              <div>
+              {!user?.email && <div>
                 <label htmlFor="rental-email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email ID <span className="text-gray-400 font-normal">(optional)</span>
                 </label>
@@ -683,7 +745,7 @@ const CSCTravelsLanding = () => {
                   placeholder="Enter email address (optional)"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none"
                 />
-              </div>
+              </div>}
 
               <button
                 type="submit"
@@ -718,6 +780,39 @@ const CSCTravelsLanding = () => {
               </a>
             </div>
           </div>
+        </div>
+      )}
+
+      {loginOpen && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onMouseDown={(e) => { if (e.target === e.currentTarget) setLoginOpen(false); }}>
+          <section role="dialog" aria-modal="true" aria-labelledby="home-login-title" className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+            <button type="button" onClick={() => setLoginOpen(false)} aria-label="Close login" className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><X size={20} /></button>
+            <div className="mb-6 pr-8">
+              <p className="text-sm font-bold uppercase tracking-wide text-orange-600">CSC Travels</p>
+              <h2 id="home-login-title" className="mt-1 text-2xl font-black text-gray-900">Sign in to book</h2>
+              <p className="mt-1 text-sm text-gray-500">Use your registered email or phone number.</p>
+            </div>
+            <form onSubmit={handleHomeLogin} className="space-y-4">
+              <div>
+                <label htmlFor="home-login-identifier" className="mb-1.5 block text-sm font-semibold text-gray-700">Email or phone</label>
+                <input id="home-login-identifier" type="text" autoComplete="username" value={loginIdentifier} onChange={(e) => setLoginIdentifier(e.target.value)} required placeholder="Email or phone number" className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100" />
+              </div>
+              <div>
+                <label htmlFor="home-login-password" className="mb-1.5 block text-sm font-semibold text-gray-700">Password</label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input id="home-login-password" type={showLoginPassword ? 'text' : 'password'} autoComplete="current-password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required placeholder="Your password" className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-12 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100" />
+                  <button type="button" aria-label={showLoginPassword ? 'Hide password' : 'Show password'} onClick={() => setShowLoginPassword((show) => !show)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">{showLoginPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+                </div>
+              </div>
+              {loginError && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{loginError}</p>}
+              <button type="submit" disabled={loginLoading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-3.5 font-bold text-white shadow-lg shadow-orange-200 transition hover:bg-orange-600 disabled:opacity-60">
+                {loginLoading ? <Loader2 size={18} className="animate-spin" /> : <>Sign In <ChevronRight size={17} /></>}
+              </button>
+            </form>
+            <p className="mt-4 text-center text-sm text-gray-500">New here? <Link href="/register" className="font-bold text-orange-600 hover:text-orange-700">Create an account</Link></p>
+            <button type="button" onClick={() => setLoginOpen(false)} className="mt-3 w-full rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50">Skip for now</button>
+          </section>
         </div>
       )}
 

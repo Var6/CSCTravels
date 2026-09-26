@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
+import Footer from '@/components/Footer'
+import CountryPhoneInput from '@/components/CountryPhoneInput'
 import {
   MapPin, Navigation, Loader2, CheckCircle2, Clock,
   Car, LogOut, IndianRupee, Wallet, CreditCard,
@@ -164,6 +166,13 @@ export default function BookingPage() {
 
   /* tab */
   const [tab, setTab] = useState<AppTab>('book')
+  const [profilePopupOpen, setProfilePopupOpen] = useState(false)
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('tab') === 'account') {
+      setTab('account')
+    }
+  }, [])
 
   /* account edit state */
   const [editName,    setEditName]    = useState(false)
@@ -352,7 +361,7 @@ export default function BookingPage() {
      RENDER
   ════════════════════════════════════════ */
   return (
-    <div className="fixed inset-0 flex flex-col bg-white overflow-hidden">
+    <div className={tab === 'account' ? 'min-h-screen flex flex-col bg-gray-50' : 'fixed inset-0 flex flex-col bg-white overflow-hidden'}>
 
       {/* ══ TOP NAVBAR ══════════════════════════════════════════════ */}
       <header className="h-14 shrink-0 flex items-center px-4 border-b border-gray-100 bg-white z-20 gap-4">
@@ -385,14 +394,31 @@ export default function BookingPage() {
         </nav>
 
         {/* User chip */}
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="hidden sm:flex flex-col items-end leading-tight">
-            <span className="text-xs font-bold text-gray-800">{user?.name}</span>
-            <span className="text-[10px] text-gray-400 capitalize">{user?.role}</span>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-black text-xs shrink-0">
-            {initials}
-          </div>
+        <div className="relative flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => setProfilePopupOpen((open) => !open)}
+            aria-label="Open customer profile"
+            aria-expanded={profilePopupOpen}
+            className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-2.5 py-1.5 shadow-sm transition hover:border-orange-300 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-black text-white">{initials}</span>
+            <span className="hidden text-left leading-tight sm:flex sm:flex-col">
+              <span className="max-w-28 truncate text-xs font-bold text-gray-800">{user?.name}</span>
+              <span className="text-[10px] capitalize text-gray-400">{user?.role}</span>
+            </span>
+          </button>
+          {profilePopupOpen && (
+            <div className="absolute right-0 top-full z-50 mt-2 w-72 rounded-2xl border border-gray-100 bg-white p-5 shadow-xl">
+              <p className="text-xs font-bold uppercase tracking-wide text-orange-600">Customer profile</p>
+              <p className="mt-2 truncate font-bold text-gray-900">{user?.name}</p>
+              <p className="mt-1 truncate text-sm text-gray-600">{user?.email || 'Email not added'}</p>
+              <p className="mt-1 text-sm text-gray-600">{user?.phone || 'Phone not added'}</p>
+              <button type="button" onClick={() => { setProfilePopupOpen(false); setTab('account') }} className="mt-4 w-full rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600">
+                View complete profile
+              </button>
+            </div>
+          )}
           <button onClick={() => { logout(); router.push('/') }} title="Sign out"
             className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition">
             <LogOut size={15} />
@@ -401,11 +427,11 @@ export default function BookingPage() {
       </header>
 
       {/* ══ BODY ══════════════════════════════════════════════════ */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className={`flex-1 ${tab === 'account' ? 'bg-gray-50' : 'flex overflow-hidden'}`}>
 
         {/* ── SIDEBAR ─────────────────────────────── */}
-        <aside className="w-[400px] shrink-0 flex flex-col h-full bg-white border-r border-gray-100 shadow-xl z-10 overflow-hidden">
-          <div className="flex-1 overflow-y-auto">
+        <aside className={`${tab === 'account' ? 'w-full bg-gray-50' : 'w-[400px] bg-white border-r border-gray-100 shadow-xl'} shrink-0 flex flex-col ${tab === 'account' ? '' : 'h-full overflow-hidden'} z-10`}>
+          <div className={tab === 'account' ? 'w-full' : 'flex-1 overflow-y-auto'}>
 
             {/* ════ BOOK ════ */}
             {tab === 'book' && (
@@ -749,8 +775,11 @@ export default function BookingPage() {
 
             {/* ════ ACCOUNT ════ */}
             {tab === 'account' && (
-              <div className="p-5 space-y-4">
-                <h2 className="text-xl font-black text-gray-900">Account</h2>
+              <div className="w-full max-w-6xl mx-auto p-5 md:p-8 space-y-5">
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-black text-gray-900">Customer Account</h1>
+                  <p className="mt-1 text-sm text-gray-500">Manage your profile and account settings.</p>
+                </div>
 
                 {/* Avatar card */}
                 <div className="flex items-center gap-4 p-4 bg-orange-50 border border-orange-100 rounded-2xl">
@@ -772,6 +801,9 @@ export default function BookingPage() {
                   <StatCard label="Done"  value={rides.filter(r => r.status === 'completed').length} />
                   <StatCard label="Active" value={rides.filter(r => ['pending','accepted','in_progress'].includes(r.status)).length} />
                 </div>
+
+                <div className="grid items-start gap-5 lg:grid-cols-2">
+                  <div className="space-y-5">
 
                 {/* ── Edit Name ── */}
                 <Section icon={<User size={15}/>} title="Full Name">
@@ -817,10 +849,12 @@ export default function BookingPage() {
                 <Section icon={<Phone size={15}/>} title="Phone Number">
                   {editPhone ? (
                     <div className="space-y-2">
-                      <input
-                        type="tel" value={phoneVal} onChange={e => setPhoneVal(e.target.value)}
-                        placeholder="10-digit mobile number" maxLength={10}
-                        className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400/30 focus:border-orange-400 transition"
+                      <CountryPhoneInput
+                        name="phone"
+                        value={phoneVal}
+                        onChange={setPhoneVal}
+                        placeholder="Phone number"
+                        inputClassName="py-2.5"
                       />
                       {phoneMsg && <p className={`text-xs ${phoneMsg.includes('!') ? 'text-green-600' : 'text-red-500'}`}>{phoneMsg}</p>}
                       <div className="flex gap-2">
@@ -844,6 +878,9 @@ export default function BookingPage() {
                     </div>
                   )}
                 </Section>
+
+                  </div>
+                  <div className="space-y-5">
 
                 {/* ── Change Password ── */}
                 <Section icon={<Lock size={15}/>} title="Password">
@@ -898,16 +935,21 @@ export default function BookingPage() {
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-red-100 text-red-500 font-bold text-sm hover:bg-red-50 transition">
                   <LogOut size={15}/> Sign Out
                 </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </aside>
 
         {/* ── MAP ─────────────────────────────────── */}
-        <div className="flex-1 h-full">
-          <RideMap pickup={pickup} dropoff={dropoff} routeCoords={routeGeo} />
-        </div>
+        {tab !== 'account' && (
+          <div className="flex-1 h-full">
+            <RideMap pickup={pickup} dropoff={dropoff} routeCoords={routeGeo} />
+          </div>
+        )}
       </div>
+      {tab === 'account' && <Footer />}
     </div>
   )
 }
