@@ -3,8 +3,9 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, Loader2, Phone, Mail, Lock, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from 'lucide-react'
 import { useAuth } from '@/lib/useAuth'
+import CountryPhoneInput from '@/components/CountryPhoneInput'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -16,7 +17,7 @@ export default function LoginPage() {
   const [loading,    setLoading]    = useState(false)
   const [error,      setError]      = useState('')
 
-  const isPhone = /^\d/.test(identifier)
+  const isPhone = /^\+?\d/.test(identifier)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -50,14 +51,23 @@ export default function LoginPage() {
         {/* Identifier */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email or Phone</label>
-          <div className="relative">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
-              {isPhone ? <Phone size={15} /> : <Mail size={15} />}
-            </span>
-            <input type="text" value={identifier} onChange={e => setIdentifier(e.target.value)}
-              placeholder="email@example.com or 9873101537" required
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400/30 focus:border-orange-400 transition" />
-          </div>
+          {isPhone ? (
+            <CountryPhoneInput
+              name="identifier"
+              value={identifier}
+              onChange={setIdentifier}
+              placeholder="Phone number"
+              required
+              inputClassName="py-3"
+            />
+          ) : (
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"><Mail size={15} /></span>
+              <input type="text" value={identifier} onChange={e => setIdentifier(e.target.value)}
+                placeholder="Email or phone number" required
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400/30 focus:border-orange-400 transition" />
+            </div>
+          )}
         </div>
 
         {/* Password */}

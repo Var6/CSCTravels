@@ -1,6 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
+import MemberContactFields from "@/components/MemberContactFields";
+import { useAuth } from "@/lib/useAuth";
 import {
   ArrowRight,
   CalendarDays,
@@ -10,10 +13,10 @@ import {
   MapPin,
   Phone,
   ShieldCheck,
-  UserRound,
 } from "lucide-react";
 
 export default function CarRentalPage() {
+  const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -28,6 +31,7 @@ export default function CarRentalPage() {
   const cars = [
     {
       name: "Hyundai Aura",
+      image: "/Aura.png",
       type: "Compact Sedan",
       description: "Comfortable and economical car for city travel.",
       features: [
@@ -39,6 +43,7 @@ export default function CarRentalPage() {
     },
     {
       name: "Maruti WagonR",
+      image: "/WagonR.png",
       type: "Hatchback",
       description: "Affordable and practical for everyday city journeys.",
       features: [
@@ -49,14 +54,27 @@ export default function CarRentalPage() {
       ],
     },
     {
-      name: "Sedan / Premium Car",
-      type: "Premium Travel",
-      description: "A comfortable option for airport and long-distance trips.",
+      name: "Maruti Swift Dzire",
+      image: "/Dzire.png",
+      type: "Compact Sedan",
+      description: "A comfortable sedan for airport transfers, city travel and outstation journeys.",
       features: [
         "4+1 Seating",
-        "AC",
-        "Professional Driver",
-        "Outstation Available",
+        "Air conditioning",
+        "Comfortable luggage space",
+        "With driver",
+      ],
+    },
+    {
+      name: "Maruti Eeco",
+      image: "/Eeco.png",
+      type: "Family Van",
+      description: "A roomier option for families and small groups travelling together.",
+      features: [
+        "5- or 7-seat options",
+        "Air conditioning, subject to variant",
+        "Extra room for passengers",
+        "With driver",
       ],
     },
   ];
@@ -250,51 +268,67 @@ export default function CarRentalPage() {
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {cars.map((car) => (
               <div
                 key={car.name}
-                className="group overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="flex h-52 items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white">
-                  <Car className="h-28 w-28 transition-transform duration-300 group-hover:scale-110" />
+                <div className="relative h-36 bg-white">
+                  <Image
+                    src={car.image}
+                    alt={`${car.name} rental car`}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-contain p-1 transition-transform duration-300 group-hover:scale-105"
+                  />
                 </div>
 
-                <div className="p-7">
-                  <span className="text-sm font-semibold text-orange-600">
+                <div className="p-4">
+                  <span className="text-xs font-semibold text-orange-600">
                     {car.type}
                   </span>
 
-                  <h3 className="mt-2 text-2xl font-bold text-gray-900">
+                  <h3 className="mt-1 text-lg font-bold leading-tight text-gray-900">
                     {car.name}
                   </h3>
 
-                  <p className="mt-3 text-gray-600">
+                  <p className="mt-2 text-sm leading-5 text-gray-600">
                     {car.description}
                   </p>
 
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-4 space-y-2">
                     {car.features.map((feature) => (
                       <div
                         key={feature}
-                        className="flex items-center gap-3 text-gray-700"
+                        className="flex items-start gap-2 text-xs leading-4 text-gray-700"
                       >
-                        <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
+                        <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <a
-                    href="#booking"
-                    className="mt-7 inline-flex items-center gap-2 font-semibold text-orange-600 hover:text-orange-700"
-                  >
-                    Book this category
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-orange-100 bg-white p-8 text-center shadow-lg md:p-10">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100 text-orange-600">
+              <CalendarDays className="h-7 w-7" />
+            </div>
+            <h3 className="mt-4 text-2xl font-bold text-gray-900">Ready to book a car?</h3>
+            <p className="mx-auto mt-2 max-w-xl text-gray-600">
+              Pick the car that suits your trip, then send your details through one simple booking form.
+            </p>
+            <a
+              href="#booking"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 px-7 py-3.5 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-xl"
+            >
+              Go to Booking Form
+              <ArrowRight className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </section>
@@ -478,42 +512,11 @@ export default function CarRentalPage() {
               </div>
             ) : (
               <form
+                key={user?._id ?? "guest"}
                 onSubmit={handleSubmit}
                 className="grid gap-6 md:grid-cols-2"
               >
-                <div>
-                  <label className="mb-2 block font-medium text-gray-700">
-                    Full Name
-                  </label>
-
-                  <div className="relative">
-                    <UserRound className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-
-                    <input
-                      required
-                      type="text"
-                      placeholder="Your name"
-                      className="w-full rounded-xl border border-gray-200 py-3.5 pl-12 pr-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-2 block font-medium text-gray-700">
-                    Phone Number
-                  </label>
-
-                  <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-
-                    <input
-                      required
-                      type="tel"
-                      placeholder="+91 XXXXX XXXXX"
-                      className="w-full rounded-xl border border-gray-200 py-3.5 pl-12 pr-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                    />
-                  </div>
-                </div>
+                <MemberContactFields user={user} inputClassName="w-full rounded-xl border border-gray-200 px-4 py-3.5 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100" />
 
                 <div>
                   <label className="mb-2 block font-medium text-gray-700">
@@ -590,7 +593,8 @@ export default function CarRentalPage() {
                     <option value="">Select vehicle</option>
                     <option>Hyundai Aura</option>
                     <option>Maruti WagonR</option>
-                    <option>Premium Sedan</option>
+                    <option>Maruti Swift Dzire</option>
+                    <option>Maruti Eeco</option>
                     <option>Any Available Car</option>
                   </select>
                 </div>

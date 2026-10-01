@@ -6,10 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import TopRibbon from "./topheader";
 import Topribbion from "./ui/topribbion";
+import { useAuth } from "@/lib/useAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const { user, isLoggedIn, loading: authLoading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -35,7 +38,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
 
           {/* LOGO AREA */}
-          <div className="flex items-center space-x-3">
+          <Link href="/" aria-label="CSC Travels home" className="flex items-center space-x-3">
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-orange-500">
               <Image
                 src="/logo2.png"
@@ -52,7 +55,7 @@ const Navbar = () => {
               </h1>
               <p className="text-xs text-gray-600">Premium Travel Services</p>
             </div>
-          </div>
+          </Link>
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center space-x-8">
@@ -72,12 +75,31 @@ const Navbar = () => {
               Contact<span className={underline}></span>
             </Link>
 
-            <Link
-              href="/booking"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-medium shadow-lg transition-all"
-            >
-              Book Now
-            </Link>
+            {!authLoading && isLoggedIn ? (
+              <div className="relative">
+                <button type="button" onClick={() => setProfileOpen((open) => !open)} aria-expanded={profileOpen} className="rounded-full border border-orange-500 px-5 py-2 text-sm font-semibold text-orange-600 transition hover:bg-orange-50">
+                  My Profile
+                </button>
+                {profileOpen && (
+                  <div className="absolute right-0 top-full z-[120] mt-3 w-72 rounded-2xl border border-gray-100 bg-white p-5 shadow-xl">
+                    <p className="text-xs font-bold uppercase tracking-wide text-orange-600">Customer profile</p>
+                    <p className="mt-2 truncate font-bold text-gray-900">{user?.name}</p>
+                    <p className="mt-1 truncate text-sm text-gray-600">{user?.email || "Email not added"}</p>
+                    <p className="mt-1 text-sm text-gray-600">{user?.phone || "Phone not added"}</p>
+                    <Link href="/booking?tab=account" onClick={() => setProfileOpen(false)} className="mt-4 flex w-full items-center justify-center rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600">
+                      View complete profile
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : !authLoading && (
+              <Link
+                href="/login?next=%2Fbooking"
+                className="rounded-full border border-orange-500 px-5 py-2 text-sm font-semibold text-orange-600 transition hover:bg-orange-50"
+              >
+                Log In
+              </Link>
+            )}
 
             {/* CITI LOGO */}
             <a
@@ -115,13 +137,33 @@ const Navbar = () => {
             <Link href="/Partners" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Partners</Link>
             <Link href="/Contact" onClick={() => setIsMenuOpen(false)} className="block py-2 text-gray-700 hover:text-orange-600">Contact</Link>
 
-            <Link
-              href="/booking"
-              onClick={() => setIsMenuOpen(false)}
-              className="block bg-orange-500 text-white px-6 py-3 rounded-full text-center font-medium shadow-lg"
-            >
-              Book Now
-            </Link>
+            {!authLoading && isLoggedIn ? (
+              <div>
+                <button type="button" onClick={() => setProfileOpen((open) => !open)} aria-expanded={profileOpen} className="block w-full rounded-full border border-orange-500 px-6 py-3 text-center font-semibold text-orange-600 hover:bg-orange-50">
+                  My Profile
+                </button>
+                {profileOpen && (
+                  <div className="mt-2 rounded-2xl border border-gray-100 bg-white p-5 shadow-lg">
+                    <p className="text-xs font-bold uppercase tracking-wide text-orange-600">Customer profile</p>
+                    <p className="mt-2 truncate font-bold text-gray-900">{user?.name}</p>
+                    <p className="mt-1 truncate text-sm text-gray-600">{user?.email || "Email not added"}</p>
+                    <p className="mt-1 text-sm text-gray-600">{user?.phone || "Phone not added"}</p>
+                    <Link href="/booking?tab=account" onClick={() => { setProfileOpen(false); setIsMenuOpen(false); }} className="mt-4 flex w-full items-center justify-center rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600">
+                      View complete profile
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : !authLoading && (
+              <Link
+                href="/login?next=%2Fbooking"
+                onClick={() => setIsMenuOpen(false)}
+                className="block rounded-full border border-orange-500 px-6 py-3 text-center font-semibold text-orange-600 hover:bg-orange-50"
+              >
+                Log In
+              </Link>
+            )}
+
           </div>
         </div>
       )}
