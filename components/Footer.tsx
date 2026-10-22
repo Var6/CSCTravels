@@ -110,7 +110,6 @@ const Footer = () => {
               <li>Bike Rental</li>
               <li>Cab Service</li>
               <li>Taxi Service</li>
-              <li>Assistive Services</li>
             </ul>
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, Accessibility, CarTaxiFront, Navigation, Lock, Eye, EyeOff, Loader2, X } from 'lucide-react';
+import { Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, CarTaxiFront, Navigation, Lock, Eye, EyeOff, Loader2, X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -212,7 +212,6 @@ const CSCTravelsLanding = () => {
     { icon: <Bike className="w-10 h-10" />, title: 'Bike Rental', desc: 'Honda Splendor and commuter bikes for quick, affordable local travel', features: ['Daily & weekly plans', 'Helmet support available', 'Great for city errands', 'Perfect for solo riders'] },
     { icon: <CarTaxiFront className="w-10 h-10" />, title: 'Cab Service', desc: 'On-demand city cabs across Patna, booked in minutes', features: ['Doorstep pickup', 'Airport & railway runs', 'Salaried, verified drivers', 'No surge pricing'] },
     { icon: <Navigation className="w-10 h-10" />, title: 'Taxi Service', desc: 'Point-to-point and outstation taxis for longer journeys', features: ['Ranchi, Gaya, Jehanabad & more', 'One-way & round trips', 'Fixed ₹12/km outstation', 'Toll & parking billed clearly'] },
-    { icon: <Accessibility className="w-10 h-10" />, title: 'Assistive Services', desc: 'Accessible, door-to-door travel for elderly and differently-abled riders', features: ['Wheelchair-friendly vehicles', 'Hospital & medical trips', 'Trained, patient drivers', 'Door-to-door assistance'] },
   ];
 
   const features = [
@@ -438,7 +437,7 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 text-orange-500">
+          <div className="grid grid-cols-1 gap-6 text-orange-500 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service, idx) => (
              
               <Link
@@ -447,21 +446,14 @@ const CSCTravelsLanding = () => {
                   service.title === "Car Rental" ? "/car-rental" :
                   service.title === "Bike Rental" ? "/bike-rental" :
                   service.title === "Cab Service" ? "/cab-service" :
-                  service.title === "Taxi Service" ? "/taxi-service" :
-                  "/assistive-services"
+                  "/taxi-service"
                 }
-                className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.334rem)] bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
+                className="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
-                <div
-  className={`w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 transition-all duration-300 ${
-    service.title !== "Assistive Services"
-      ? "group-hover:scale-110 group-hover:rotate-6"
-      : ""
-  }`}
->
-  {service.icon}
-</div>
+                <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                  {service.icon}
+                </div>
 
 <h3 className="text-2xl font-bold mb-3 group-hover:text-orange-600 transition-colors">
   {service.title}
