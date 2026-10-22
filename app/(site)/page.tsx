@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef, JSX } from 'react';
-import { Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, CarTaxiFront, Navigation, Lock, Eye, EyeOff, Loader2, X } from 'lucide-react';
+import { Phone, Mail, MapPin, Car, Shield, Clock, ChevronRight, Send, Star, Award, CheckCircle, IndianRupee, Bike, Accessibility, CarTaxiFront, Navigation, Lock, Eye, EyeOff, Loader2, X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/useAuth';
@@ -200,18 +199,12 @@ const CSCTravelsLanding = () => {
    * offerings but come through partner operators, and saying so plainly beats
    * implying a coach yard we do not have.
    */
-  const vehicles = [
-    { name: 'CNG Cars — Our Fleet', icon: <Image src='/aura.avif' alt='CNG sedan' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Our own well-maintained CNG hatchbacks and sedans — WagonR and Aura class — driven daily across Patna', seats: '4+1', color: 'from-orange-500 to-orange-600' },
-    { name: 'Bike Rentals', icon: <Image src='/bike.png' alt='Honda Splendor bike rental' height={180} width={260} className='object-contain max-h-40 w-auto drop-shadow-xl' />, desc: 'Daily and long-term bike rentals for local commute, quick errands, and affordable city travel', seats: '1-2', color: 'from-slate-700 to-slate-900' },
-    { name: 'Traveller Rentals', icon: <Image src='/new.png' alt='Traveller rental van' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'For family trips and small groups — arranged on request through trusted partner operators', seats: '8-14', color: 'from-orange-600 to-orange-500' },
-    { name: 'Buses & Coaches', icon: <Image src='/bus.png' alt='Bus for group travel' height={160} width={220} className='object-contain max-h-40 w-auto' />, desc: 'Group tours, weddings and corporate movements — booked through partner operators, managed by us end to end', seats: '20-50', color: 'from-orange-500 to-orange-600' },
-  ];
-
   const services = [
     { icon: <Car className="w-10 h-10" />, title: 'Car Rental', desc: 'Well-maintained CNG hatchbacks and sedans for city rides and self-drive packages', features: ['Hyundai Aura & WagonR class', 'Hourly, daily & weekly plans', 'With driver or self-drive', 'Transparent per-km fares'] },
     { icon: <Bike className="w-10 h-10" />, title: 'Bike Rental', desc: 'Honda Splendor and commuter bikes for quick, affordable local travel', features: ['Daily & weekly plans', 'Helmet support available', 'Great for city errands', 'Perfect for solo riders'] },
     { icon: <CarTaxiFront className="w-10 h-10" />, title: 'Cab Service', desc: 'On-demand city cabs across Patna, booked in minutes', features: ['Doorstep pickup', 'Airport & railway runs', 'Salaried, verified drivers', 'No surge pricing'] },
-    { icon: <Navigation className="w-10 h-10" />, title: 'Taxi Service', desc: 'Point-to-point and outstation taxis for longer journeys', features: ['Ranchi, Gaya, Jehanabad & more', 'One-way & round trips', 'Fixed ₹12/km outstation', 'Toll & parking billed clearly'] },
+    { icon: <Navigation className="w-10 h-10" />, title: 'Outstation Taxi Service', desc: 'Reliable outstation taxis for comfortable long-distance journeys', features: ['Ranchi, Gaya, Jehanabad & more', 'One-way & round trips', 'Fare confirmed before booking', 'Toll & parking billed clearly'] },
+    { icon: <Accessibility className="w-10 h-10" />, title: 'Assisted Services', desc: 'Dedicated travel assistance exclusively for senior citizens, with caring door-to-door support', features: ['Trained Volunteers Available', 'Hospital & medical trips', 'Trained, patient drivers', 'Door-to-door assistance'] },
   ];
 
   const features = [
@@ -420,9 +413,6 @@ const CSCTravelsLanding = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-    <Stats/>
-
       {/* Services Section */}
       <section id="services" className="py-24 bg-linear-to-b from-white to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -437,7 +427,7 @@ const CSCTravelsLanding = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 text-orange-500 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 text-orange-500 sm:grid-cols-2 lg:grid-cols-6">
             {services.map((service, idx) => (
              
               <Link
@@ -446,9 +436,10 @@ const CSCTravelsLanding = () => {
                   service.title === "Car Rental" ? "/car-rental" :
                   service.title === "Bike Rental" ? "/bike-rental" :
                   service.title === "Cab Service" ? "/cab-service" :
-                  "/taxi-service"
+                  service.title === "Outstation Taxi Service" ? "/taxi-service" :
+                  "/assisted-services"
                 }
-                className="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200"
+                className={`bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border-2 border-transparent hover:border-orange-200 lg:col-span-2 ${idx === 3 ? 'lg:col-start-2' : idx === 4 ? 'lg:col-start-4' : ''}`}
                 style={{animationDelay: `${idx * 0.2}s`}}
               >
                 <div className="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center text-white mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
@@ -493,90 +484,49 @@ const CSCTravelsLanding = () => {
         
       </section>
 
-      {/* Fleet Section */}
-      <section id="fleet" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-on-scroll">
-            <span className="text-orange-600 font-semibold text-sm uppercase tracking-wider">Our Fleet</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4">
-              <span className='text-outline'>Well-Maintained </span>
-              <span className="gradient-text">Vehicles</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Choose from our diverse fleet of premium vehicles
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
-            {vehicles.map((vehicle, idx) => (
-              <div
-                key={idx}
-                className="h-full bg-linear-to-br from-white to-orange-50 rounded-3xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 card-hover group animate-on-scroll border border-orange-100"
-                style={{animationDelay: `${idx * 0.15}s`}}
-              >
-                <div className={`w-full h-44 sm:h-48 bg-linear-to-br ${vehicle.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform duration-300 shadow-lg overflow-hidden p-4`}>
-                  {vehicle.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-2 group-hover:text-orange-600 text-orange-500 transition-colors">{vehicle.name}</h3>
-                <p className="text-gray-600 mb-4">{vehicle.desc}</p>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <span className="text-sm text-gray-500">Capacity</span>
-                  <span className="font-semibold text-orange-600">{vehicle.seats} Seats</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-
-        </div>
-      </section>
+      <Stats />
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 gradient-bg relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-float"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
-        </div>
-
+      <section id="contact" className="pt-4 pb-24 bg-orange-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16 text-white animate-on-scroll">
-            <span className="font-semibold text-sm uppercase tracking-wider opacity-90">Get In Touch</span>
+          <div className="text-center mb-16 text-gray-900 animate-on-scroll">
+            <span className="font-semibold text-sm uppercase tracking-wider text-orange-600">Get In Touch</span>
             <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4">
               Let's Start Your Journey
             </h2>
-            <p className="text-xl opacity-90 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
               Book your ride now or send us your queries
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-12">
             <div className="space-y-6 md:space-y-8 animate-on-scroll animate-fade-left">
-              <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
+              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-200">
                 <h3 className="text-2xl font-bold text-black mb-6">Contact Information</h3>
                 
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <Phone className="w-6 h-6" />
                     </div>
                     <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Phone</h4>
-                      <a href="tel:+919873101537" className="hover:text-orange-200 transition text-lg">+91 98731 01537</a>
+                      <a href="tel:+919873101537" className="hover:text-orange-600 transition text-lg">+91 98731 01537</a>
                     </div>
                   </div>
                   
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <Mail className="w-6 h-6" />
                     </div>
                     <div className="text-black">
                       <h4 className="font-semibold text-lg mb-1">Email</h4>
-                      <a href="mailto:booking@csctravels.com" className="hover:text-orange-200 transition">booking@csctravels.com</a>
+                      <a href="mailto:booking@csctravels.com" className="hover:text-orange-600 transition">booking@csctravels.com</a>
                     </div>
                   </div>
                   
                   <div className="flex items-start space-x-4 group cursor-pointer">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                       <MapPin className="w-6 h-6" />
                     </div>
                     <div className="text-black">
@@ -587,7 +537,7 @@ const CSCTravelsLanding = () => {
                 </div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-200">
                 <h3 className="text-2xl font-bold text-black mb-4">Why Choose Us?</h3>
                 <ul className="space-y-3 text-black">
                   <li className="flex items-center">
