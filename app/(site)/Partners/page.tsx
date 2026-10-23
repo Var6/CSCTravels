@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Building2, MapPin, Phone, Mail } from "lucide-react";
+import { ArrowRight, Building2, MapPin } from "lucide-react";
 import Image from "next/image";
 
 const partners = [
@@ -52,51 +52,13 @@ const partners = [
 export default function Partners() {
     return (
         <main className="min-h-screen bg-linear-to-b from-orange-50 via-white to-orange-50">
-            <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <section className="pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-center mb-14">
                     <p className="text-sm font-semibold tracking-[0.2em] uppercase text-orange-600 mb-3">Partner Network</p>
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">Trusted Institutions Powering CSC Travels</h1>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                         We collaborate with reputed Citizen-group organizations to deliver dependable travel, housing, and member-focused support services.
                     </p>
-                </div>
-
-                <div className="bg-white border border-orange-100 rounded-3xl shadow-xl p-6 md:p-8 mb-12">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center overflow-hidden">
-                                <Image src="/finalcitilogo.png" alt="Citizen Cooperative Logo" width={72} height={72} className="object-contain" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Citizen Savings & Credit Cooperative Society</h2>
-                                <p className="text-gray-600 mt-1">Cooperative made easy, more secure, and more personal.</p>
-                            </div>
-                        </div>
-
-                        <Link
-                            href="https://citizencooperative.in"
-                            target="_blank"
-                            className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
-                        >
-                            Visit Main Cooperative
-                            <ArrowRight size={18} />
-                        </Link>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-4 mt-6 text-sm">
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><MapPin size={16} className="text-orange-600" />Address</p>
-                            <p className="text-gray-600 mt-1">1st Floor, Shanti Devi Nivas, Near Sichai Bhavan, Patna</p>
-                        </div>
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><Phone size={16} className="text-orange-600" />Contact</p>
-                            <p className="text-gray-600 mt-1">0612-2255447</p>
-                        </div>
-                        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                            <p className="font-semibold text-gray-900 flex items-center gap-2"><Mail size={16} className="text-orange-600" />Email</p>
-                            <p className="text-gray-600 mt-1">info@citizencooperative.in</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-2">

@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import {
-  Accessibility,
   ArrowRight,
   CheckCircle,
   ChevronRight,
@@ -20,7 +19,7 @@ import MemberContactFields from "@/components/MemberContactFields";
 import { useAuth } from "@/lib/useAuth";
 
 
-export default function AssistiveServicesPage() {
+export default function AssistedServicesPage() {
   const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
 
@@ -35,13 +34,13 @@ export default function AssistiveServicesPage() {
 
   const services = [
     {
-      icon: <Accessibility className="w-9 h-9" />,
-      title: "Wheelchair-Friendly Travel",
+      icon: <Users className="w-9 h-9" />,
+      title: "Volunteer Assistance",
       description:
-        "Comfortable and accessible vehicles for passengers who require wheelchair support during their journey.",
+        "Dedicated travel assistance for senior citizens, with trained volunteers available to support them throughout their journey.",
       features: [
-        "Wheelchair-friendly vehicles",
-        "Easy boarding assistance",
+        "Trained Volunteers Available",
+        "Support with boarding",
         "Door-to-door support",
       ],
     },
@@ -97,7 +96,7 @@ export default function AssistiveServicesPage() {
     },
     {
       number: "03",
-      icon: <Accessibility className="w-7 h-7" />,
+      icon: <Users className="w-7 h-7" />,
       title: "Assisted Pickup",
       description:
         "Our driver reaches your pickup point and provides the required boarding assistance.",
@@ -126,7 +125,7 @@ export default function AssistiveServicesPage() {
             {/* Hero text */}
             <div className="text-white">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 border border-white/20 backdrop-blur-sm mb-6">
-                <Accessibility className="w-5 h-5" />
+                <Users className="w-5 h-5" />
                 <span className="text-sm font-semibold">
                   Accessible Travel Services
                 </span>
@@ -168,7 +167,7 @@ export default function AssistiveServicesPage() {
             <div className="lg:flex justify-end">
               <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl">
                 <div className="w-20 h-20 bg-orange-500 rounded-2xl flex items-center justify-center text-white mb-6">
-                  <Accessibility className="w-10 h-10" />
+                  <Users className="w-10 h-10" />
                 </div>
 
                 <h2 className="text-2xl font-bold text-gray-900">
@@ -186,7 +185,7 @@ export default function AssistiveServicesPage() {
                     "Verified & trained drivers",
                     "Door-to-door assistance",
                     "Hospital & medical trips",
-                    "Wheelchair-friendly options",
+                    "Trained Volunteers Available",
                   ].map((item) => (
                     <div
                       key={item}
@@ -214,9 +213,9 @@ export default function AssistiveServicesPage() {
                 text: "Trained & verified",
               },
               {
-                icon: <Accessibility className="w-6 h-6" />,
-                title: "Accessible",
-                text: "Passenger-friendly",
+                icon: <Users className="w-6 h-6" />,
+                title: "Volunteer Support",
+                text: "Trained volunteers available",
               },
               {
                 icon: <Clock className="w-6 h-6" />,
@@ -522,8 +521,8 @@ export default function AssistiveServicesPage() {
                       <option value="" disabled>
                         Select assistance type
                       </option>
-                      <option value="accessibility">
-                        Wheelchair Assistance
+                      <option value="volunteer-support">
+                        Trained Volunteers Available
                       </option>
                       <option value="elderly">Elderly Passenger</option>
                       <option value="medical">Hospital / Medical Trip</option>
@@ -589,7 +588,7 @@ export default function AssistiveServicesPage() {
       <section className="px-6 pb-24">
         <div className="max-w-6xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-r from-orange-500 to-orange-600">
           <div className="px-6 py-14 md:px-12 text-center text-white">
-            <Accessibility className="w-12 h-12 mx-auto mb-5" />
+            <Users className="w-12 h-12 mx-auto mb-5" />
 
             <h2 className="text-3xl md:text-4xl font-bold">
               Everyone Deserves a Comfortable Journey
